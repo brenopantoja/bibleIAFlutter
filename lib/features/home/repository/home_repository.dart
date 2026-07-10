@@ -1,7 +1,11 @@
-import '../../../core/config/app_properties.dart';
 import 'package:dio/dio.dart';
 
+import '../../../core/config/app_properties.dart';
+import '../models/health_response.dart';
+
 class HomeRepository {
+  HomeRepository();
+
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: AppProperties.baseUrl,
@@ -10,15 +14,17 @@ class HomeRepository {
     ),
   );
 
-  Future<bool> health() async {
+  Future<HealthResponse?> health() async {
     try {
       final response = await _dio.get(
         AppProperties.health,
       );
 
-      return response.statusCode == 200;
+      return HealthResponse.fromJson(response.data);
+    } on DioException {
+      return null;
     } catch (_) {
-      return false;
+      return null;
     }
   }
 }

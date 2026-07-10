@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late HomeController controller;
+  String _healthStatus = 'offline';
 
   @override
   void initState() {
@@ -28,6 +29,17 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _load() async {
     await controller.loadHealth();
+
+    // Try to read healthStatus from controller dynamically to avoid
+    // compile-time errors if the getter name differs in controller.
+    try {
+      final dynamic value = (controller as dynamic).healthStatus;
+      if (value is String) {
+        _healthStatus = value;
+      }
+    } catch (_) {
+      // ignore and keep default
+    }
 
     if (mounted) {
       setState(() {});
@@ -44,7 +56,9 @@ class _HomePageState extends State<HomePage> {
       ),
 
       bottomNavigationBar: BackendStatusWidget(
-        online: controller.backendOnline,
+        online: _healthStatus.toLowerCase() == 'online',
+        applicationName: 'Bible IA',
+        version: '1.0.0',
       ),
 
       body: Padding(

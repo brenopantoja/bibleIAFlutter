@@ -1,13 +1,47 @@
+import '../models/health_response.dart';
 import '../repository/home_repository.dart';
 
 class HomeController {
-  final HomeRepository repository;
-
   HomeController(this.repository);
 
-  bool backendOnline = false;
+  final HomeRepository repository;
+
+  HealthResponse? health;
+
+  bool loading = false;
 
   Future<void> loadHealth() async {
-    backendOnline = await repository.health();
+    loading = true;
+
+    health = await repository.health();
+
+    loading = false;
+  }
+
+  bool get backendOnline {
+    // HealthResponse doesn't expose an `online` boolean; use status string instead.
+    final status = health?.status;
+    if (status == null) return false;
+    return status.toUpperCase() == 'ONLINE';
+  }
+
+  String get backendStatus {
+    return health?.status ?? 'OFFLINE';
+  }
+
+  String get applicationName {
+    return health?.application ?? 'Backend Offline';
+  }
+
+  String get version {
+    return health?.version ?? '--';
+  }
+
+  String get timestamp {
+    if (health?.timestamp == null) {
+      return '--';
+    }
+
+    return health!.timestamp.toString();
   }
 }

@@ -88,7 +88,75 @@ O aplicativo utiliza um backend em Spring Boot.
 Endpoint de teste
 
 ```
-GET /actuator/health
+# API Endpoints
+
+## AI Chat
+
+```
+POST /api/chat
+```
+
+---
+
+## Bible Search
+
+```
+GET /api/search
+```
+
+---
+
+## Bible Chapters
+
+```
+GET /api/bible/{book}/{chapter}
+```
+
+---
+
+## Daily Verse
+
+```
+GET /api/verse
+```
+
+---
+
+## Health Check
+
+```
+GET /api/health
+```
+
+---
+
+## Administrative Login
+
+```
+POST /api/auth/admin
+```
+
+---
+
+## Application Logs
+
+```
+GET /api/admin/logs
+```
+
+Requires authentication.
+
+---
+
+## Cache Management
+
+```
+DELETE /api/admin/cache
+```
+
+Requires authentication.
+
+---
 ```
 
 ---
@@ -98,8 +166,8 @@ GET /actuator/health
 MIT License
 
 ---
-Developed by Breno Ramos Pantoja
+**Developed by Breno Ramos Pantoja**
 
-Computer Engineer
-Master's Degree in Electrical Engineering
-Full Stack Software Developer
+- Computer Engineer
+- Master's Degree in Electrical Engineering
+- Full Stack Software Developer
