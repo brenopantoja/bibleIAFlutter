@@ -85,8 +85,8 @@ class _SplashPageState extends State<SplashPage> {
 
                 Image.asset(
                   'assets/icons/app_icon.png',
-                  width: 180,
-                  height: 180,
+                  width: 120,
+                  height: 120,
                 ),
 
                 const SizedBox(height: 28),

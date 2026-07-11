@@ -1,7 +1,7 @@
-import 'package:biblia_ia/features/splash/pages/splash_page.dart';
+import 'package:biblia_ia/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'features/home/pages/home_page.dart';
+import 'features/splash/pages/splash_page.dart';
 
 void main() {
   runApp(const BibleIAApp());
@@ -13,12 +13,16 @@ class BibleIAApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bible IA',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
-      ),
+
+      title: 'Bible IA',
+
+      theme: AppTheme.light(),
+
+      darkTheme: AppTheme.dark(),
+
+      themeMode: ThemeMode.system,
+
       home: const SplashPage(),
     );
   }

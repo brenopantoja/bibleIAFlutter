@@ -1,5 +1,5 @@
+import 'package:biblia_ia/shared/widgets/%20app_drawer.dart';
 import 'package:flutter/material.dart';
-
 import '../controllers/home_controller.dart';
 import '../repository/home_repository.dart';
 import '../widgets/backend_status_widget.dart';
@@ -8,13 +8,11 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() =>
-      _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late HomeController controller;
-  String _healthStatus = 'offline';
+  late final HomeController controller;
 
   @override
   void initState() {
@@ -30,17 +28,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _load() async {
     await controller.loadHealth();
 
-    // Try to read healthStatus from controller dynamically to avoid
-    // compile-time errors if the getter name differs in controller.
-    try {
-      final dynamic value = (controller as dynamic).healthStatus;
-      if (value is String) {
-        _healthStatus = value;
-      }
-    } catch (_) {
-      // ignore and keep default
-    }
-
     if (mounted) {
       setState(() {});
     }
@@ -49,82 +36,176 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
-
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Bible IA'),
       ),
 
       bottomNavigationBar: BackendStatusWidget(
-        online: _healthStatus.toLowerCase() == 'online',
-        applicationName: 'Bible IA',
-        version: '1.0.0',
+        online: controller.backendStatus.toUpperCase() == 'UP',
+        applicationName: controller.applicationName,
+        version: controller.version,
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 16,
+          ),
           children: [
-
-            const Spacer(),
-
-        Image.asset(
-        'assets/icons/app_icon.png',
-        width: 110,
-      ),
-
-            const SizedBox(height: 24),
-
-            const Text(
-              'Pesquise aqui um tema bíblico e encontre respostas nas Sagradas Escrituras.',
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 24),
-
-            TextField(
-              decoration: InputDecoration(
-                hintText:
-                    'Ex.: Perdão, Fé, Amor...',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Perguntar à IA',
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            SegmentedButton<String>(
-              segments: const [
-                ButtonSegment(
-                  value: 'pt',
-                  label: Text('Português'),
-                ),
-                ButtonSegment(
-                  value: 'en',
-                  label: Text('English'),
-                ),
-              ],
-              selected: const {'pt'},
-              onSelectionChanged: (_) {},
-            ),
-
-            const Spacer(),
-
-          ],
+      // Logo
+      Center(
+        child: Image.asset(
+          'assets/icons/app_icon.png',
+          width: 140,
+          height: 140,
         ),
       ),
-    );
+
+      const SizedBox(height: 24),
+      // Título
+      const Text(
+        'Bem-vindo ao Bible IA',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+
+      const SizedBox(height: 12),
+
+      const Text(
+        'Pergunte qualquer assunto bíblico e receba respostas baseadas nas Escrituras.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 17,
+          color: Colors.black54,
+        ),
+      ),
+
+      const SizedBox(height: 30),
+      // Pesquisa
+      TextField(
+        decoration: InputDecoration(
+          hintText: 'Pesquisar...',
+          prefixIcon: const Icon(Icons.search),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      ),
+
+      const SizedBox(height: 20),
+      // Botão IA
+      SizedBox(
+        height: 55,
+        child: ElevatedButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.auto_awesome),
+          label: const Text(
+            'Perguntar à IA',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+      ),
+
+      const SizedBox(height: 25),
+      // Idioma
+      Center(
+        child: SegmentedButton<String>(
+          segments: const [
+
+            ButtonSegment(
+              value: 'pt',
+              icon: Icon(Icons.check),
+              label: Text('Português'),
+            ),
+
+            ButtonSegment(
+              value: 'en',
+              label: Text('English'),
+            ),
+          ],
+          selected: const {'pt'},
+          onSelectionChanged: (_) {},
+        ),
+      ),
+
+      const SizedBox(height: 40),
+      // Acesso rápido
+      const Text(
+        'Acesso rápido',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+
+      const SizedBox(height: 18),
+
+      Card(
+        child: ListTile(
+          leading: const Icon(Icons.menu_book),
+          title: const Text('Ler Bíblia'),
+          subtitle: const Text(
+            'Leia qualquer livro da Bíblia.',
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {},
+        ),
+      ),
+
+      const SizedBox(height: 10),
+
+      Card(
+        child: ListTile(
+          leading: const Icon(Icons.auto_awesome),
+          title: const Text('Conversar com IA'),
+          subtitle: const Text(
+            'Faça perguntas utilizando Inteligência Artificial.',
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {},
+        ),
+      ),
+
+      const SizedBox(height: 10),
+
+      Card(
+        child: ListTile(
+          leading: const Icon(Icons.favorite),
+          title: const Text('Favoritos'),
+          subtitle: const Text(
+            'Versículos e pesquisas salvas.',
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {},
+        ),
+      ),
+
+      const SizedBox(height: 10),
+
+      Card(
+        child: ListTile(
+          leading: const Icon(Icons.today),
+          title: const Text('Versículo do Dia'),
+          subtitle: const Text(
+            'Receba inspiração diariamente.',
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {},
+        ),
+      ),
+
+      const SizedBox(height: 40),
+    ],
+  ),
+),   );
   }
 }
