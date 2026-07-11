@@ -1,4 +1,5 @@
-import 'package:biblia_ia/shared/widgets/%20app_drawer.dart';
+import 'package:biblia_ia/core/routes/app_routes.dart';
+import 'package:biblia_ia/shared/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import '../controllers/home_controller.dart';
 import '../repository/home_repository.dart';
@@ -157,7 +158,12 @@ class _HomePageState extends State<HomePage> {
             'Leia qualquer livro da Bíblia.',
           ),
           trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.books,
+            );
+          },
         ),
       ),
 

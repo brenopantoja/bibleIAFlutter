@@ -1,3 +1,4 @@
+import 'package:biblia_ia/core/routes/app_pages.dart';
 import 'package:biblia_ia/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -14,14 +15,13 @@ class BibleIAApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       title: 'Bible IA',
 
       theme: AppTheme.light(),
-
       darkTheme: AppTheme.dark(),
-
       themeMode: ThemeMode.system,
+
+      routes: AppPages.routes,
 
       home: const SplashPage(),
     );

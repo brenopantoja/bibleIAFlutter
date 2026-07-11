@@ -1,5 +1,5 @@
-import 'package:biblia_ia/features/bible/controllers/%20bible_controller.dart';
-import 'package:biblia_ia/features/bible/datasource/%20bible_local_datasource.dart';
+import 'package:biblia_ia/features/bible/controllers/bible_controller.dart';
+import 'package:biblia_ia/features/bible/datasource/bible_local_datasource.dart';
 import 'package:flutter/material.dart';
 
 import '../repository/bible_repository.dart';
@@ -28,21 +28,12 @@ class _BooksPageState extends State<BooksPage> {
   }
 
   Future<void> _load() async {
-  print('Iniciando carga...');
-
-  try {
     await controller.loadBooks();
-    print('Carga concluída');
-    print('Quantidade: ${controller.books.length}');
-  } catch (e, s) {
-    print('ERRO: $e');
-    print(s);
-  }
 
-  if (mounted) {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -56,23 +47,18 @@ class _BooksPageState extends State<BooksPage> {
             )
           : ListView.builder(
               itemCount: controller.books.length,
-              itemBuilder: (_, index) {
+              itemBuilder: (context, index) {
                 final book = controller.books[index];
 
                 return ListTile(
-                  leading: const Icon(
-                    Icons.menu_book,
-                  ),
+                  leading: const Icon(Icons.menu_book),
                   title: Text(book.name),
                   subtitle: Text(
                     '${book.chapters.length} capítulos',
                   ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios,
-                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                    // Próximo passo:
-                    // abrir ChapterPage
+                    // Próxima etapa: abrir os capítulos
                   },
                 );
               },
