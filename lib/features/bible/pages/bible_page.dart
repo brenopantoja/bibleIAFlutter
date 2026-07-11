@@ -1,90 +1,119 @@
-import 'package:biblia_ia/core/cache/bible_cache.dart';
-import 'package:biblia_ia/features/bible/controllers/bible_controller.dart';
-import 'package:biblia_ia/features/bible/datasource/bible_local_datasource.dart';
-import 'package:biblia_ia/features/bible/pages/chapter_page.dart';
+import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
-import '../repository/bible_repository.dart';
+import 'chapter_page.dart';
 
 class BooksPage extends StatefulWidget {
-  const BooksPage({super.key});
+  const BooksPage({
+    super.key,
+  });
 
   @override
-  State<BooksPage> createState() => _BooksPageState();
+  State<BooksPage> createState() =>
+      _BooksPageState();
 }
 
-class _BooksPageState extends State<BooksPage> {
-  late final BibleController controller;
+class _BooksPageState
+    extends State<BooksPage> {
 
   @override
   void initState() {
     super.initState();
 
-     controller = BibleController(
-    repository: BibleRepository(
-      datasource: const BibleLocalDatasource(),
-    ),
-  );
-
-  controller.books = BibleCache.books;
+    BibleProvider.instance.addListener(
+      _reload,
+    );
   }
 
-  Future<void> _load() async {
-  print('Iniciando carga...');
-
-  try {
-    await controller.loadBooks();
-    print('Carga concluída');
-    print('Quantidade: ${controller.books.length}');
-  } catch (e, s) {
-    print('ERRO: $e');
-    print(s);
+  void _reload() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
-  if (mounted) {
-    setState(() {});
+  @override
+  void dispose() {
+
+    BibleProvider.instance.removeListener(
+      _reload,
+    );
+
+    super.dispose();
   }
-}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Livros da Bíblia'),
-      ),
-      body: controller.loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: controller.books.length,
-              itemBuilder: (_, index) {
-                final book = controller.books[index];
 
-                return ListTile(
-                  leading: const Icon(
-                    Icons.menu_book,
-                  ),
-                  title: Text(book.name),
-                  subtitle: Text(
-                    '${book.chapters.length} capítulos',
-                  ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios,
-                  ),
-                  onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ChapterPage(
-                        book: controller.books[index],
-                      ),
-                    ),
-                  );
-                },
-                );
-              },
+    final books =
+        BibleProvider.instance.books;
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: const Text(
+          'Livros da Bíblia',
+        ),
+      ),
+
+      body: ListView.separated(
+
+        itemCount: books.length,
+
+        separatorBuilder: (_, __) =>
+            const Divider(height: 1),
+
+        itemBuilder: (_, index) {
+
+          final book = books[index];
+
+          return ListTile(
+
+            leading: CircleAvatar(
+              child: Text(
+                '${index + 1}',
+              ),
             ),
+
+            title: Text(
+              book.name,
+            ),
+
+            subtitle: Text(
+              '${book.chapters.length} capítulos',
+            ),
+
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+
+            onTap: () {
+
+              Navigator.push(
+
+                context,
+
+                MaterialPageRoute(
+
+                  builder: (_) => ChapterPage(
+
+                    bookIndex: index,
+
+                  ),
+
+                ),
+
+              );
+
+            },
+
+          );
+
+        },
+
+      ),
+
     );
+
   }
+
 }

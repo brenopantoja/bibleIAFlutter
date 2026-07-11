@@ -60,14 +60,14 @@ class _BooksPageState extends State<BooksPage> {
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     // abrir os capítulos
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ChapterPage(
-                          book: controller.books[index],
-                        ),
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ChapterPage(
+                        bookIndex: index,
                       ),
-                    );
+                    ),
+                  );
                   },
                 );
               },
