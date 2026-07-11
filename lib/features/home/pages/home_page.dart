@@ -1,3 +1,4 @@
+import 'package:biblia_ia/core/localization/app_strings.dart';
 import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:biblia_ia/core/routes/app_routes.dart';
 import 'package:biblia_ia/features/bible/controllers/language_controller.dart';
@@ -99,8 +100,8 @@ class _HomePageState
               height: 24,
             ),
 
-            const Text(
-              'Bem-vindo ao Bible IA',
+            Text(
+              AppStrings.welcome,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30,
@@ -113,10 +114,10 @@ class _HomePageState
               height: 12,
             ),
 
-            const Text(
-              'Pergunte qualquer assunto bíblico e receba respostas baseadas nas Escrituras.',
+            Text(
+              AppStrings.subtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 17,
                 color: Colors.black54,
               ),
@@ -199,7 +200,7 @@ class _HomePageState
 
                   ),
 
-                  child: const Row(
+                  child: Row(
 
                     children: [
 
@@ -212,10 +213,9 @@ class _HomePageState
                       Expanded(
 
                         child: Text(
-                          'Pesquisar na Bíblia...',
-                          style: TextStyle(
-                            color:
-                                Colors.grey,
+                          AppStrings.search,
+                          style: const TextStyle(
+                            color: Colors.grey,
                             fontSize: 16,
                           ),
                         ),
@@ -259,9 +259,9 @@ class _HomePageState
                   Icons.auto_awesome,
                 ),
 
-                label: const Text(
-                  'Perguntar à IA',
-                  style: TextStyle(
+                label: Text(
+                  AppStrings.askAI,
+                  style: const TextStyle(
                     fontSize: 18,
                   ),
                 ),
@@ -349,157 +349,138 @@ class _HomePageState
               ),
 
             ),
-
-            const SizedBox(
-              height: 40,
-            ),
-
+ 
             //--------------------------------
             // Acesso rápido
             //--------------------------------
+ 
+ 
 
-            const Text(
+          const SizedBox(
+          height: 40,
+        ),
 
-              'Acesso rápido',
+ 
+Text(
+  AppStrings.quickAccess,
+  style: const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+const SizedBox(
+  height: 18,
+),
 
-            ),
+//--------------------------------
+// Ler Bíblia
+//--------------------------------
 
-            const SizedBox(
-              height: 18,
-            ),
+Card(
+  child: ListTile(
+    leading: const Icon(
+      Icons.menu_book,
+    ),
+    title: Text(
+      AppStrings.readBible,
+    ),
+    subtitle: Text(
+      AppStrings.readBibleSubtitle,
+    ),
+    trailing: const Icon(
+      Icons.arrow_forward_ios,
+    ),
+    onTap: () {
+      Navigator.pushNamed(
+        context,
+        AppRoutes.books,
+      );
+    },
+  ),
+),
 
-            Card(
+const SizedBox(
+  height: 10,
+),
 
-              child: ListTile(
+//--------------------------------
+// Conversar com IA
+//--------------------------------
 
-                leading: const Icon(
-                  Icons.menu_book,
-                ),
+Card(
+  child: ListTile(
+    leading: const Icon(
+      Icons.auto_awesome,
+    ),
+    title: Text(
+      AppStrings.aiChat,
+    ),
+    subtitle: Text(
+      AppStrings.aiChatSubtitle,
+    ),
+    trailing: const Icon(
+      Icons.arrow_forward_ios,
+    ),
+    onTap: () {},
+  ),
+),
 
-                title: const Text(
-                  'Ler Bíblia',
-                ),
+const SizedBox(
+  height: 10,
+),
 
-                subtitle: const Text(
-                  'Leia qualquer livro da Bíblia.',
-                ),
+//--------------------------------
+// Favoritos
+//--------------------------------
 
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
+Card(
+  child: ListTile(
+    leading: const Icon(
+      Icons.favorite,
+    ),
+    title: Text(
+      AppStrings.favorites,
+    ),
+    subtitle: Text(
+      AppStrings.favoritesSubtitle,
+    ),
+    trailing: const Icon(
+      Icons.arrow_forward_ios,
+    ),
+    onTap: () {},
+  ),
+),
 
-                onTap: () {
+const SizedBox(
+  height: 10,
+),
 
-                  Navigator.pushNamed(
+//--------------------------------
+// Versículo do Dia
+//--------------------------------
 
-                    context,
+Card(
+  child: ListTile(
+    leading: const Icon(
+      Icons.today,
+    ),
+    title: Text(
+      AppStrings.verseOfDay,
+    ),
+    subtitle: Text(
+      AppStrings.verseOfDaySubtitle,
+    ),
+    trailing: const Icon(
+      Icons.arrow_forward_ios,
+    ),
+    onTap: () {},
+  ),
+),
 
-                    AppRoutes.books,
-
-                  );
-
-                },
-
-              ),
-
-            ),
-
-            const SizedBox(
-              height: 10,
-            ),
-
-            Card(
-
-              child: ListTile(
-
-                leading: const Icon(
-                  Icons.auto_awesome,
-                ),
-
-                title: const Text(
-                  'Conversar com IA',
-                ),
-
-                subtitle: const Text(
-                  'Faça perguntas utilizando Inteligência Artificial.',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {},
-
-              ),
-
-            ),
-
-            const SizedBox(
-              height: 10,
-            ),
-
-            Card(
-
-              child: ListTile(
-
-                leading: const Icon(
-                  Icons.favorite,
-                ),
-
-                title: const Text(
-                  'Favoritos',
-                ),
-
-                subtitle: const Text(
-                  'Versículos e pesquisas salvas.',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {},
-
-              ),
-
-            ),
-
-            const SizedBox(
-              height: 10,
-            ),
-
-            Card(
-
-              child: ListTile(
-
-                leading: const Icon(
-                  Icons.today,
-                ),
-
-                title: const Text(
-                  'Versículo do Dia',
-                ),
-
-                subtitle: const Text(
-                  'Receba inspiração diariamente.',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {},
-
-              ),
-
-            ),
-
+const SizedBox(
+  height: 40,
+),
             const SizedBox(
               height: 40,
             ),

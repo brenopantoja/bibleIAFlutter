@@ -1,3 +1,4 @@
+import 'package:biblia_ia/core/localization/app_strings.dart';
 import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -74,12 +75,12 @@ class _ChapterPageState
             ),
 
             title: Text(
-              'Capítulo ${index + 1}',
-            ),
+            '${AppStrings.chapter} ${index + 1}',
+          ),
 
-            subtitle: Text(
-              '${book.chapters[index].length} versículos',
-            ),
+        subtitle: Text(
+        '${book.chapters[index].length} ${AppStrings.verses}',
+      ),
 
             trailing: const Icon(
               Icons.arrow_forward_ios,

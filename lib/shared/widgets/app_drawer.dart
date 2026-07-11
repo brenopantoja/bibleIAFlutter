@@ -1,6 +1,6 @@
+import 'package:biblia_ia/core/localization/app_strings.dart';
 import 'package:biblia_ia/core/routes/app_routes.dart';
 import 'package:biblia_ia/features/search/pages/search_page.dart';
-import 'package:biblia_ia/core/cache/bible_cache.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -17,14 +17,12 @@ class AppDrawer extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(24),
               color: Colors.blue.shade700,
               child: Column(
                 children: [
-
                   Image.asset(
                     'assets/icons/app_icon.png',
                     width: 90,
@@ -44,10 +42,10 @@ class AppDrawer extends StatelessWidget {
 
                   const SizedBox(height: 6),
 
-                  const Text(
-                    'A Bíblia com Inteligência Artificial',
+                  Text(
+                    AppStrings.drawerSubtitle,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white70,
                     ),
                   ),
@@ -57,12 +55,10 @@ class AppDrawer extends StatelessWidget {
 
             Expanded(
               child: ListView(
-
                 children: [
-
                   ListTile(
                     leading: const Icon(Icons.home),
-                    title: const Text('Home'),
+                    title: Text(AppStrings.home),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -70,7 +66,7 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.menu_book),
-                    title: const Text('Ler Bíblia'),
+                    title: Text(AppStrings.readBible),
                     onTap: () {
                       Navigator.pop(context);
 
@@ -83,16 +79,15 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.search),
-                    title: const Text('Pesquisar na Bíblia'),
+                    title: Text(AppStrings.search),
                     onTap: () {
                       Navigator.pop(context);
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => SearchPage(
-                            books: BibleCache.books,
-                          ),
+                          builder: (_) =>
+                              const SearchPage(books: [],),
                         ),
                       );
                     },
@@ -100,37 +95,37 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.auto_awesome),
-                    title: const Text('Conversar com IA'),
+                    title: Text(AppStrings.aiChat),
                     onTap: () {},
                   ),
 
                   ListTile(
                     leading: const Icon(Icons.favorite),
-                    title: const Text('Favoritos'),
+                    title: Text(AppStrings.favorites),
                     onTap: () {},
                   ),
 
                   ListTile(
                     leading: const Icon(Icons.today),
-                    title: const Text('Versículo do Dia'),
+                    title: Text(AppStrings.verseOfDay),
                     onTap: () {},
                   ),
 
                   ListTile(
                     leading: const Icon(Icons.settings),
-                    title: const Text('Configurações'),
+                    title: Text(AppStrings.settings),
                     onTap: () {},
                   ),
 
                   ListTile(
                     leading: const Icon(Icons.language),
-                    title: const Text('Idioma'),
+                    title: Text(AppStrings.language),
                     onTap: () {},
                   ),
 
                   ListTile(
                     leading: const Icon(Icons.info_outline),
-                    title: const Text('Sobre'),
+                    title: Text(AppStrings.about),
                     onTap: () {},
                   ),
                 ],
@@ -143,7 +138,6 @@ class AppDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-
                   const Text(
                     'Bible IA',
                     style: TextStyle(
@@ -154,7 +148,7 @@ class AppDrawer extends StatelessWidget {
                   const SizedBox(height: 4),
 
                   Text(
-                    'Versão $version',
+                    '${AppStrings.version} $version',
                     style: const TextStyle(
                       color: Colors.grey,
                     ),
