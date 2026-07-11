@@ -68,10 +68,10 @@ class _HomePageState extends State<HomePage> {
 
             const Spacer(),
 
-            const Icon(
-              Icons.menu_book,
-              size: 80,
-            ),
+        Image.asset(
+        'assets/icons/app_icon.png',
+        width: 110,
+      ),
 
             const SizedBox(height: 24),
 

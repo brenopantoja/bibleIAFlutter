@@ -1,3 +1,4 @@
+import 'package:biblia_ia/features/splash/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
 import 'features/home/pages/home_page.dart';
@@ -18,7 +19,7 @@ class BibleIAApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.indigo,
       ),
-      home: const HomePage(),
+      home: const SplashPage(),
     );
   }
 }

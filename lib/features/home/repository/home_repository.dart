@@ -21,8 +21,6 @@ class HomeRepository {
       );
 
       return HealthResponse.fromJson(response.data);
-    } on DioException {
-      return null;
     } catch (_) {
       return null;
     }

@@ -8,9 +8,9 @@ class AppProperties {
   static const String baseUrl = 'http://192.168.100.6:8080/api';
 
   /// Timeout
-  static const Duration connectTimeout = Duration(seconds: 15);
+  static const Duration connectTimeout = Duration(seconds: 4);
 
-  static const Duration receiveTimeout = Duration(seconds: 30);
+  static const Duration receiveTimeout = Duration(seconds: 4);
 
   /// API
 
