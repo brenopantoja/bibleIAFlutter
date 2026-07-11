@@ -1,5 +1,7 @@
-import 'package:biblia_ia/features/bible/controllers/%20bible_controller.dart';
-import 'package:biblia_ia/features/bible/datasource/%20bible_local_datasource.dart';
+import 'package:biblia_ia/core/cache/bible_cache.dart';
+import 'package:biblia_ia/features/bible/controllers/bible_controller.dart';
+import 'package:biblia_ia/features/bible/datasource/bible_local_datasource.dart';
+import 'package:biblia_ia/features/bible/pages/chapter_page.dart';
 import 'package:flutter/material.dart';
 
 import '../repository/bible_repository.dart';
@@ -18,13 +20,13 @@ class _BooksPageState extends State<BooksPage> {
   void initState() {
     super.initState();
 
-    controller = BibleController(
-      repository: BibleRepository(
-        datasource: const BibleLocalDatasource(),
-      ),
-    );
+     controller = BibleController(
+    repository: BibleRepository(
+      datasource: const BibleLocalDatasource(),
+    ),
+  );
 
-    _load();
+  controller.books = BibleCache.books;
   }
 
   Future<void> _load() async {
@@ -71,9 +73,15 @@ class _BooksPageState extends State<BooksPage> {
                     Icons.arrow_forward_ios,
                   ),
                   onTap: () {
-                    // Próximo passo:
-                    // abrir ChapterPage
-                  },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ChapterPage(
+                        book: controller.books[index],
+                      ),
+                    ),
+                  );
+                },
                 );
               },
             ),

@@ -1,10 +1,14 @@
-import 'package:biblia_ia/shared/models/drawer_item.dart';
+import 'package:biblia_ia/core/routes/app_routes.dart';
+import 'package:biblia_ia/features/search/pages/search_page.dart';
+import 'package:biblia_ia/core/cache/bible_cache.dart';
 import 'package:flutter/material.dart';
 
- 
 class AppDrawer extends StatelessWidget {
+  final String version;
+
   const AppDrawer({
     super.key,
+    required this.version,
   });
 
   @override
@@ -52,52 +56,106 @@ class AppDrawer extends StatelessWidget {
             ),
 
             Expanded(
-              child: ListView.builder(
-                itemCount: DrawerItems.items.length,
-                itemBuilder: (context, index) {
-                  final item = DrawerItems.items[index];
+              child: ListView(
 
-                  return ListTile(
-                    leading: Icon(item.icon),
-                    title: Text(item.title),
-                    trailing: const Icon(
-                      Icons.chevron_right,
-                    ),
+                children: [
+
+                  ListTile(
+                    leading: const Icon(Icons.home),
+                    title: const Text('Home'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.menu_book),
+                    title: const Text('Ler Bíblia'),
                     onTap: () {
                       Navigator.pop(context);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${item.title} (em desenvolvimento)',
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.books,
+                      );
+                    },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.search),
+                    title: const Text('Pesquisar na Bíblia'),
+                    onTap: () {
+                      Navigator.pop(context);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SearchPage(
+                            books: BibleCache.books,
                           ),
                         ),
                       );
                     },
-                  );
-                },
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.auto_awesome),
+                    title: const Text('Conversar com IA'),
+                    onTap: () {},
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.favorite),
+                    title: const Text('Favoritos'),
+                    onTap: () {},
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.today),
+                    title: const Text('Versículo do Dia'),
+                    onTap: () {},
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text('Configurações'),
+                    onTap: () {},
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.language),
+                    title: const Text('Idioma'),
+                    onTap: () {},
+                  ),
+
+                  ListTile(
+                    leading: const Icon(Icons.info_outline),
+                    title: const Text('Sobre'),
+                    onTap: () {},
+                  ),
+                ],
               ),
             ),
 
             const Divider(),
 
-            const Padding(
-              padding: EdgeInsets.all(16),
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
 
-                  Text(
+                  const Text(
                     'Bible IA',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
 
                   Text(
-                    'Versão 1.0.0',
-                    style: TextStyle(
+                    'Versão $version',
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),

@@ -11,7 +11,7 @@ class AppPages {
 
   static final routes = <String, WidgetBuilder>{
     AppRoutes.books: (_) => const BooksPage(),
-    AppRoutes.chapters: (_) => const ChapterPage(),
-    AppRoutes.verses: (_) => const VersesPage(),
+    //AppRoutes.chapters: (_) => const ChapterPage(),
+    //AppRoutes.verses: (_) => const VersesPage(),
   };
 }

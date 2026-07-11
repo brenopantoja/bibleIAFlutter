@@ -1,8 +1,8 @@
-import 'package:biblia_ia/features/bible/controllers/bible_search_controller.dart';
 import 'package:flutter/material.dart';
 
-import '../../bible/models/bible_book.dart';
- 
+import '../controllers/bible_search_controller.dart';
+import '../models/bible_book.dart';
+
 class SearchPage extends StatefulWidget {
   final List<BibleBook> books;
 
@@ -16,7 +16,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late final BibleSearchController controller;
+  late BibleSearchController controller;
 
   @override
   void initState() {
@@ -25,9 +25,7 @@ class _SearchPageState extends State<SearchPage> {
     controller = BibleSearchController(widget.books);
 
     controller.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
+      setState(() {});
     });
   }
 
@@ -41,23 +39,20 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pesquisar Bíblia'),
+        title: const Text("Pesquisar"),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
             child: TextField(
-              autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'Digite uma palavra...',
+                hintText: "Digite uma palavra...",
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
               ),
               onChanged: controller.search,
             ),
           ),
-
           Expanded(
             child: ListView.builder(
               itemCount: controller.results.length,
@@ -70,9 +65,8 @@ class _SearchPageState extends State<SearchPage> {
                     vertical: 6,
                   ),
                   child: ListTile(
-                    leading: const Icon(Icons.menu_book),
                     title: Text(
-                      '${item.book} ${item.chapter}:${item.verse}',
+                      "${item.book} ${item.chapter}:${item.verse}",
                     ),
                     subtitle: Text(item.text),
                   ),

@@ -1,10 +1,13 @@
-import 'package:biblia_ia/features/splash/models/%20splash_step.dart';
-import 'package:biblia_ia/features/splash/states/%20splash_state.dart';
+import 'package:biblia_ia/features/splash/models/splash_step.dart';
+import 'package:biblia_ia/features/splash/states/splash_state.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../home/repository/home_repository.dart';
- import '../services/splash_service.dart';
- 
+import '../services/splash_service.dart';
+import '../../../core/cache/bible_cache.dart';
+import '../../bible/datasource/bible_local_datasource.dart';
+import '../../bible/repository/bible_repository.dart';
+
 class SplashController extends ChangeNotifier {
   SplashController({
     required this.homeRepository,
@@ -19,7 +22,25 @@ class SplashController extends ChangeNotifier {
   Future<void> initialize() async {
     // Tempo mínimo da Splash
     await service.initialize();
+    await _update(
+      SplashStep.loadingPortugueseBible,
+      0.75,
+      'Carregando Bíblia...',
+    );
 
+    final repository = BibleRepository(
+      datasource: const BibleLocalDatasource(),
+    );
+
+    BibleCache.books = await repository.getBooks(
+      english: BibleCache.english,
+    );
+    
+    await _update(
+    SplashStep.preparingAI,
+    0.97,
+    'Preparando aplicação...',
+  );
     await _update(
       SplashStep.loadingTheme,
       0.10,

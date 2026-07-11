@@ -1,5 +1,6 @@
 import 'package:biblia_ia/features/bible/controllers/bible_controller.dart';
 import 'package:biblia_ia/features/bible/datasource/bible_local_datasource.dart';
+import 'package:biblia_ia/features/bible/pages/chapter_page.dart';
 import 'package:flutter/material.dart';
 
 import '../repository/bible_repository.dart';
@@ -58,7 +59,15 @@ class _BooksPageState extends State<BooksPage> {
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                    // Próxima etapa: abrir os capítulos
+                    // abrir os capítulos
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ChapterPage(
+                          book: controller.books[index],
+                        ),
+                      ),
+                    );
                   },
                 );
               },

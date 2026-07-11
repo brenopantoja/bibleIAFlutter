@@ -19,11 +19,11 @@ class HomeController {
   }
 
   bool get backendOnline {
-    // HealthResponse doesn't expose an `online` boolean; use status string instead.
-    final status = health?.status;
-    if (status == null) return false;
-    return status.toUpperCase() == 'ONLINE';
-  }
+  final status = health?.status;
+  if (status == null) return false;
+
+  return status.toUpperCase() == 'UP';
+}
 
   String get backendStatus {
     return health?.status ?? 'OFFLINE';
