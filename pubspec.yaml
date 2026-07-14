@@ -39,6 +39,9 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+  
+  # Pacote adicionado para habilitar a geração automática de ícones
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -47,3 +50,10 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/json/
+
+# Configuração do gerador de ícones
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  remove_alpha_ios: true

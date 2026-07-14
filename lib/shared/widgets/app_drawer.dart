@@ -144,17 +144,9 @@ class AppDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text(
-                    'Bible IA',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
                   const SizedBox(height: 4),
-
                   Text(
-                    '${AppStrings.version} $version',
+                    '${AppStrings.version} $version T',
                     style: const TextStyle(
                       color: Colors.grey,
                     ),
