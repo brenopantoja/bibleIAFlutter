@@ -243,17 +243,19 @@ class _HomePageState
               height: 20,
             ),
 
-            //--------------------------------
             // IA
-            //--------------------------------
-
             SizedBox(
 
               height: 55,
 
               child: ElevatedButton.icon(
 
-                onPressed: () {},
+               onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.aiChat,
+                );
+              },
 
                 icon: const Icon(
                   Icons.auto_awesome,
@@ -274,10 +276,7 @@ class _HomePageState
               height: 25,
             ),
 
-            //--------------------------------
             // Idioma
-            //--------------------------------
-
             Center(
 
               child: SegmentedButton<
@@ -350,11 +349,7 @@ class _HomePageState
 
             ),
  
-            //--------------------------------
             // Acesso rápido
-            //--------------------------------
- 
- 
 
           const SizedBox(
           height: 40,
@@ -373,9 +368,7 @@ const SizedBox(
   height: 18,
 ),
 
-//--------------------------------
 // Ler Bíblia
-//--------------------------------
 
 Card(
   child: ListTile(
@@ -404,9 +397,7 @@ const SizedBox(
   height: 10,
 ),
 
-//--------------------------------
 // Conversar com IA
-//--------------------------------
 
 Card(
   child: ListTile(
@@ -422,7 +413,12 @@ Card(
     trailing: const Icon(
       Icons.arrow_forward_ios,
     ),
-    onTap: () {},
+   onTap: () {
+  Navigator.pushNamed(
+    context,
+    AppRoutes.aiChat,
+  );
+            }
   ),
 ),
 

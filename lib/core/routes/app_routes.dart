@@ -7,7 +7,8 @@ class AppRoutes {
   static const verses = '/verses';
 
   static const search = '/search';
-  static const ai = '/ai';
+  static const aiChat = '/ai-chat';
+  
   static const favorites = '/favorites';
   static const settings = '/settings';
   static const about = '/about';

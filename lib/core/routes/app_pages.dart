@@ -1,3 +1,4 @@
+import 'package:biblia_ia/features/ai_chat/pages/ai_chat_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/bible/pages/books_page.dart';
@@ -9,7 +10,7 @@ class AppPages {
 
   static final routes = <String, WidgetBuilder>{
     AppRoutes.books: (_) => const BooksPage(),
-    //AppRoutes.chapters: (_) => const ChapterPage(),
-    //AppRoutes.verses: (_) => const VersesPage(),
+    AppRoutes.aiChat: (_) => const AiChatPage(),
+     
   };
 }

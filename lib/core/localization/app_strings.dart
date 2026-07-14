@@ -113,4 +113,34 @@ class AppStrings {
       english
           ? 'verses'
           : 'versículos';
-}
+
+          static String get askAnything =>
+    english
+        ? 'Ask anything about the Bible...'
+        : 'Pergunte qualquer assunto bíblico...';
+
+    static String get aiTyping =>
+        english
+            ? 'Bible IA is typing...'
+            : 'Bible IA está digitando...';
+
+    static String get suggestion1 =>
+        english
+            ? 'Who was King David?'
+            : 'Quem foi o rei Davi?';
+
+    static String get suggestion2 =>
+        english
+            ? 'Explain John 3:16.'
+            : 'Explique João 3:16.';
+
+    static String get suggestion3 =>
+        english
+            ? 'Summarize the Book of Genesis.'
+            : 'Resuma o livro de Gênesis.';
+
+    static String get suggestion4 =>
+        english
+            ? 'Show verses about faith.'
+            : 'Mostre versículos sobre fé.';
+    }

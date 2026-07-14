@@ -96,7 +96,13 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.auto_awesome),
                     title: Text(AppStrings.aiChat),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.aiChat,
+                      );
+                    },
                   ),
 
                   ListTile(
