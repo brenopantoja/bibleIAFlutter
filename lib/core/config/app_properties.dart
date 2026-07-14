@@ -10,7 +10,7 @@ class AppProperties {
   /// Timeout
   static const Duration connectTimeout = Duration(seconds: 4);
 
-  static const Duration receiveTimeout = Duration(seconds: 4);
+  static const Duration receiveTimeout = Duration(seconds: 120);
 
   /// API
 

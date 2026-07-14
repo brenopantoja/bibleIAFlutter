@@ -1,3 +1,4 @@
+import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
 class InputBar extends StatelessWidget {
@@ -64,9 +65,10 @@ class InputBar extends StatelessWidget {
                     decoration:
                         InputDecoration(
 
-                      hintText:
-                          'Pergunte qualquer coisa...',
-
+                     hintText: BibleProvider.instance.english
+                        ? 'Ask me anything...'
+                        : 'Pergunte qualquer coisa...',
+                        
                       border:
                           OutlineInputBorder(
 

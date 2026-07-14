@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/bible_book.dart';
 import '../repository/bible_repository.dart';
 
 class BibleController extends ChangeNotifier {
@@ -10,7 +9,7 @@ class BibleController extends ChangeNotifier {
 
   final BibleRepository repository;
 
-  List<BibleBook> books = [];
+  List books = [];
 
   bool loading = false;
 

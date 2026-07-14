@@ -87,7 +87,7 @@ class AppDrawer extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              const SearchPage(books: [],),
+                              const SearchPage(),
                         ),
                       );
                     },

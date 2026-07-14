@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/chat_message.dart';
 import '../models/chat_request.dart';
 import '../repository/ai_repository.dart';
+import '../../../core/providers/bible_provider.dart';
 
 class AiChatController extends ChangeNotifier {
 
@@ -14,6 +15,15 @@ class AiChatController extends ChangeNotifier {
   final AiRepository repository;
 
   final List<ChatMessage> messages = [];
+
+  final language =
+
+    BibleProvider.instance.english
+
+        ? 'EN_US'
+
+        : 'PT_BR';
+  
 
   bool loading = false;
 
@@ -69,6 +79,7 @@ class AiChatController extends ChangeNotifier {
 
         ChatRequest(
           message: question,
+          language: language,
         ),
 
       );
@@ -82,14 +93,39 @@ class AiChatController extends ChangeNotifier {
       );
 
       debugPrint(
-        response.answer,
+        '''
+          ${response.theme}
+
+          ${response.reflection}
+          ''',
       );
 
       debugPrint(
         '=====================================',
       );
+          messages.add(
 
-      messages.add(
+            ChatMessage(
+
+              id: DateTime.now()
+                  .millisecondsSinceEpoch
+                  .toString(),
+
+              text:
+
+          '''📖 ${response.theme}
+
+          ${response.reflection}
+          ''',
+
+              sender: Sender.assistant,
+
+              createdAt: DateTime.now(),
+
+            ),
+
+          );
+      /*messages.add(
 
         ChatMessage(
 
@@ -97,7 +133,7 @@ class AiChatController extends ChangeNotifier {
               .millisecondsSinceEpoch
               .toString(),
 
-          text: response.answer,
+          text: response.reflection,
 
           sender: Sender.assistant,
 
@@ -105,7 +141,7 @@ class AiChatController extends ChangeNotifier {
 
         ),
 
-      );
+      ); */
 
     } catch (e) {
 

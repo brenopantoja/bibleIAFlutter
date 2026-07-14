@@ -1,5 +1,4 @@
 import 'package:biblia_ia/core/localization/app_strings.dart';
-import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:biblia_ia/core/routes/app_routes.dart';
 import 'package:biblia_ia/features/bible/controllers/language_controller.dart';
 import 'package:biblia_ia/features/search/pages/search_page.dart';
@@ -142,21 +141,12 @@ class _HomePageState
                 ),
 
                 onTap: () {
-
                   Navigator.push(
-
-                    context,
-
-                    MaterialPageRoute(
-
-                      builder: (_) => SearchPage(
-                        books: BibleProvider.instance.books,
-                      ),
-
-                    ),
-
-                  );
-
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SearchPage(),
+              ),
+                );
                 },
 
                 child: Container(

@@ -2,6 +2,7 @@ import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
+
   const SearchPage({
     super.key,
   });
@@ -29,19 +30,21 @@ class _SearchPageState
   }
 
   void _reload() {
-    if (mounted) {
-      _search(
-        controller.text,
-      );
-    }
+  if (!mounted) {
+    return;
   }
+
+  _search(controller.text);
+
+  setState(() {});
+}
 
   @override
   void dispose() {
 
-    BibleProvider.instance.removeListener(
-      _reload,
-    );
+    //BibleProvider.instance.removeListener(
+     // _reload,
+    //);
 
     controller.dispose();
 
@@ -54,10 +57,13 @@ class _SearchPageState
 
     results.clear();
 
-    if (value.trim().isEmpty) {
-      setState(() {});
-      return;
-    }
+  if (value.trim().isEmpty) {
+    results.clear();
+
+    setState(() {});
+
+    return;
+}
 
     final query =
         value.toLowerCase();
@@ -65,7 +71,9 @@ class _SearchPageState
     final books =
         BibleProvider.instance.books;
 
-    for (int b = 0; b < books.length; b++) {
+    for (int b = 0;
+        b < books.length;
+        b++) {
 
       final book = books[b];
 
@@ -79,11 +87,31 @@ class _SearchPageState
         for (int v = 0;
             v < verses.length;
             v++) {
+        
+        final verse =
+            verses[v].text.toLowerCase();
 
-          final verse =
-              verses[v]
-                  .toString();
+        if (verse.contains(query)) {
 
+            results.add(
+
+              _SearchResult(
+
+                bookIndex: b,
+
+                chapter: c + 1,
+
+                verse: verses[v].number,
+
+                bookName: book.name,
+
+                text: verses[v].text,
+
+              ),
+
+            );
+
+        }
           if (verse
               .toLowerCase()
               .contains(query)) {
@@ -119,13 +147,24 @@ class _SearchPageState
 
   @override
   Widget build(BuildContext context) {
+debugPrint(
+  'SEARCH PAGE -> ${BibleProvider.instance.english}',
+);
+    final english =
+        BibleProvider.instance.english;
 
     return Scaffold(
 
       appBar: AppBar(
-        title: const Text(
-          'Pesquisar',
+
+        title: Text(
+
+          english
+              ? 'Search Bible'
+              : 'Pesquisar Bíblia',
+
         ),
+
       ),
 
       body: Column(
@@ -146,8 +185,9 @@ class _SearchPageState
               decoration:
                   InputDecoration(
 
-                hintText:
-                    'Pesquisar na Bíblia',
+                hintText: english
+                    ? 'Type a word...'
+                    : 'Digite uma palavra...',
 
                 prefixIcon:
                     const Icon(
@@ -156,10 +196,12 @@ class _SearchPageState
 
                 border:
                     OutlineInputBorder(
+
                   borderRadius:
                       BorderRadius.circular(
                     16,
                   ),
+
                 ),
 
               ),
@@ -174,10 +216,33 @@ class _SearchPageState
 
             child: results.isEmpty
 
-                ? const Center(
+                ? Center(
+
                     child: Text(
-                      'Nenhum resultado.',
+
+                      controller.text
+                              .trim()
+                              .isEmpty
+
+                          ? (english
+
+                              ? 'Type a word...'
+
+                              : 'Digite uma palavra...')
+
+                          : (english
+
+                              ? 'No results found.'
+
+                              : 'Nenhum resultado encontrado.'),
+
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+
                     ),
+
                   )
 
                 : ListView.builder(
@@ -254,5 +319,7 @@ class _SearchResult {
     required this.bookName,
 
     required this.text,
+
   });
+
 }

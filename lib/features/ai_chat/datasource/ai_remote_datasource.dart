@@ -21,34 +21,47 @@ class AiRemoteDatasource {
   Future<Map<String, dynamic>> ask(
     ChatRequest request,
   ) async {
+
     try {
+
+      print('=================================');
+      print('ENVIANDO PARA O BACKEND');
+      print(
+        'POST ${AppProperties.baseUrl}${AppProperties.chat}',
+      );
+      print(request.toJson());
+      print('=================================');
+
       final response = await _dio.post(
         AppProperties.chat,
         data: request.toJson(),
-        
       );
 
-      print(
-    'POST ${AppProperties.baseUrl}${AppProperties.chat}',
-      );
+      print('=================================');
+      print('RESPOSTA DO BACKEND');
+      print(response.data);
+      print('=================================');
 
-      print(
-  request.toJson().toString(),
-);
       return Map<String, dynamic>.from(
         response.data,
       );
-    } on DioException catch (e) {
-      if (e.response != null) {
-        throw Exception(
-          e.response?.data['message'] ??
-              'Erro ao consultar a IA.',
-        );
-      }
 
-      throw Exception(
-        'Não foi possível conectar ao servidor.',
-      );
+    }  on DioException catch (e) {
+
+  print('==============================');
+  print('DIO ERROR');
+  print('type: ${e.type}');
+  print('message: ${e.message}');
+  print('error: ${e.error}');
+  print('response: ${e.response}');
+  print('statusCode: ${e.response?.statusCode}');
+  print('body: ${e.response?.data}');
+  print('==============================');
+
+  throw Exception(
+    e.message,
+  );
+
     }
-  }
+}
 }

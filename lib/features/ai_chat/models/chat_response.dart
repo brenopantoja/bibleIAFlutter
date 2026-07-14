@@ -1,17 +1,35 @@
 class ChatResponse {
-  final String answer;
+
+  final String theme;
+
+  final String reflection;
+
+  final List<dynamic> references;
 
   const ChatResponse({
-    required this.answer,
+
+    required this.theme,
+
+    required this.reflection,
+
+    required this.references,
+
   });
 
   factory ChatResponse.fromJson(
     Map<String, dynamic> json,
   ) {
+
     return ChatResponse(
-      answer: json['answer'] ?? '',
+
+      theme: json['theme'] ?? '',
+
+      reflection: json['reflection'] ?? '',
+
+      references: json['references'] ?? [],
+
     );
+
   }
 
-  bool get isEmpty => answer.trim().isEmpty;
 }
