@@ -1,4 +1,4 @@
-import 'package:biblia_ia/features/ai_chat/models/chat_message.dart';
+import 'package:bibliaia/features/ai_chat/models/chat_message.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble

@@ -1,4 +1,3 @@
-import 'package:biblia_ia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
 class InputBar extends StatelessWidget {
@@ -8,142 +7,168 @@ class InputBar extends StatelessWidget {
 
   final bool sending;
 
+  final String hintText;
+
   const InputBar({
     super.key,
     required this.controller,
     required this.onSend,
     required this.sending,
+    required this.hintText,
   });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.fromLTRB(
           12,
           8,
           12,
           12,
         ),
-        child: ValueListenableBuilder<TextEditingValue>(
-          valueListenable: controller,
-          builder: (context, value, _) {
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey.shade300,
+            ),
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.end,
+          children: [
+            Expanded(
+              child:
+                  ValueListenableBuilder<TextEditingValue>(
+                valueListenable: controller,
+                builder: (
+                  context,
+                  value,
+                  _,
+                ) {
+                  final hasText =
+                      value.text.trim().isNotEmpty;
 
-            final hasText =
-                value.text.trim().isNotEmpty;
-
-            return Row(
-
-              crossAxisAlignment:
-                  CrossAxisAlignment.end,
-
-              children: [
-
-                Expanded(
-
-                  child: TextField(
-
+                  return TextField(
                     controller: controller,
-
                     minLines: 1,
-
                     maxLines: 6,
-
+                    keyboardType:
+                        TextInputType.multiline,
+                    textCapitalization:
+                        TextCapitalization.sentences,
                     textInputAction:
                         TextInputAction.send,
+                    enabled: !sending,
 
                     onSubmitted: (_) {
-
-                      if (hasText &&
-                          !sending) {
+                      if (hasText) {
                         onSend();
                       }
-
                     },
 
-                    decoration:
-                        InputDecoration(
+                    decoration: InputDecoration(
+                      hintText: hintText,
 
-                     hintText: BibleProvider.instance.english
-                        ? 'Ask me anything...'
-                        : 'Pergunte qualquer coisa...',
-                        
-                      border:
-                          OutlineInputBorder(
+                      filled: true,
 
-                        borderRadius:
-                            BorderRadius.circular(
-                          20,
-                        ),
-
-                      ),
+                      fillColor:
+                          Colors.grey.shade100,
 
                       contentPadding:
                           const EdgeInsets.symmetric(
-                        horizontal: 16,
+                        horizontal: 18,
                         vertical: 14,
                       ),
 
+                      border:
+                          OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          28,
+                        ),
+                        borderSide:
+                            BorderSide.none,
+                      ),
+
+                      enabledBorder:
+                          OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          28,
+                        ),
+                        borderSide:
+                            BorderSide.none,
+                      ),
+
+                      focusedBorder:
+                          OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          28,
+                        ),
+                        borderSide:
+                            BorderSide(
+                          color:
+                              Theme.of(context)
+                                  .primaryColor,
+                        ),
+                      ),
                     ),
+                  );
+                },
+              ),
+            ),
 
-                  ),
+            const SizedBox(
+              width: 8,
+            ),
 
-                ),
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: controller,
+              builder: (
+                context,
+                value,
+                _,
+              ) {
+                final hasText =
+                    value.text.trim().isNotEmpty;
 
-                const SizedBox(
-                  width: 8,
-                ),
-
-                AnimatedContainer(
-
-                  duration:
-                      const Duration(
+                return AnimatedContainer(
+                  duration: const Duration(
                     milliseconds: 180,
                   ),
 
                   width: 56,
-
                   height: 56,
 
                   decoration: BoxDecoration(
-
                     color: hasText
                         ? Theme.of(context)
                             .primaryColor
                         : Colors.grey.shade300,
-
                     shape: BoxShape.circle,
-
                   ),
 
                   child: sending
 
                       ? const Padding(
-
                           padding:
-                              EdgeInsets.all(14),
-
+                              EdgeInsets.all(16),
                           child:
                               CircularProgressIndicator(
-
                             strokeWidth: 2,
-
                             color: Colors.white,
-
                           ),
-
                         )
 
                       : IconButton(
-
-                          onPressed:
-                              hasText
-                                  ? onSend
-                                  : null,
+                          splashRadius: 26,
 
                           icon: Icon(
-
                             hasText
                                 ? Icons.send_rounded
                                 : Icons.mic,
@@ -151,25 +176,19 @@ class InputBar extends StatelessWidget {
                             color: hasText
                                 ? Colors.white
                                 : Colors.black54,
-
                           ),
 
+                          onPressed:
+                              hasText
+                                  ? onSend
+                                  : null,
                         ),
-
-                ),
-
-              ],
-
-            );
-
-          },
-
+                );
+              },
+            ),
+          ],
         ),
-
       ),
-
     );
-
   }
-
 }

@@ -1,5 +1,5 @@
-import 'package:biblia_ia/core/localization/app_strings.dart';
-import 'package:biblia_ia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'verses_page.dart';

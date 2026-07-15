@@ -1,4 +1,4 @@
-import 'package:biblia_ia/features/bible/datasource/bible_local_datasource.dart';
+import 'package:bibliaia/features/bible/datasource/bible_local_datasource.dart';
 
 import '../models/bible_book.dart';
 

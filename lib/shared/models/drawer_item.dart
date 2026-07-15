@@ -1,5 +1,5 @@
-import 'package:biblia_ia/core/localization/app_strings.dart';
-import 'package:biblia_ia/shared/data/%20drawer_items.dart';
+import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/shared/data/%20drawer_items.dart';
  
 import 'package:flutter/material.dart';
 

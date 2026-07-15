@@ -1,4 +1,4 @@
-import 'package:biblia_ia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {

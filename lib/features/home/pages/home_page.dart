@@ -1,8 +1,8 @@
-import 'package:biblia_ia/core/localization/app_strings.dart';
-import 'package:biblia_ia/core/routes/app_routes.dart';
-import 'package:biblia_ia/features/bible/controllers/language_controller.dart';
-import 'package:biblia_ia/features/search/pages/search_page.dart';
-import 'package:biblia_ia/shared/widgets/app_drawer.dart';
+import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/core/routes/app_routes.dart';
+import 'package:bibliaia/features/bible/controllers/language_controller.dart';
+import 'package:bibliaia/features/search/pages/search_page.dart';
+import 'package:bibliaia/shared/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/home_controller.dart';

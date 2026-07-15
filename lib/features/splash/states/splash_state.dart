@@ -1,5 +1,5 @@
 // ignore: file_names
-import 'package:biblia_ia/features/splash/models/splash_step.dart';
+import 'package:bibliaia/features/splash/models/splash_step.dart';
 
  
 class SplashState {

@@ -1,4 +1,4 @@
-import 'package:biblia_ia/features/ai_chat/datasource/ai_remote_datasource.dart';
+import 'package:bibliaia/features/ai_chat/datasource/ai_remote_datasource.dart';
 
 import '../models/chat_request.dart';
 import '../models/chat_response.dart';
