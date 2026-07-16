@@ -1,3 +1,4 @@
+import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:intl/intl.dart';
 
 class AppDateUtils {
@@ -6,9 +7,19 @@ class AppDateUtils {
   static String format(
     DateTime date,
   ) {
+    final locale =
+        BibleProvider.instance.english
+            ? 'en_US'
+            : 'pt_BR';
+
+    final pattern =
+        BibleProvider.instance.english
+            ? 'MM/dd/yyyy hh:mm:ss a'
+            : 'dd/MM/yyyy HH:mm:ss';
+
     return DateFormat(
-      'dd/MM/yyyy HH:mm:ss',
-      'pt_BR',
+      pattern,
+      locale,
     ).format(date);
   }
 

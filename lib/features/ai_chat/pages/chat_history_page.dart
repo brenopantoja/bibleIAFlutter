@@ -1,3 +1,5 @@
+import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/features/ai_chat/pages/ai_chat_page.dart';
 import 'package:bibliaia/features/ai_chat/repository/chart_history/conversation_repository.dart';
 import 'package:bibliaia/util/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +41,9 @@ class _ChatHistoryPageState
     return Scaffold(
 
       appBar: AppBar(
-
-        title: const Text(
-          'Histórico',
+        title: Text(
+          AppStrings.history,
         ),
-
       ),
 
       body: FutureBuilder<List<Map<String, dynamic>>>(
@@ -91,7 +91,9 @@ class _ChatHistoryPageState
                     color: Colors.grey,
                   ),
 
-                  SizedBox(height: 16),
+                  SizedBox(
+                    height: 16,
+                  ),
 
                   Text(
                     'Nenhuma conversa encontrada.',
@@ -113,7 +115,9 @@ class _ChatHistoryPageState
             itemCount: conversations.length,
 
             separatorBuilder: (_, __) =>
-                const Divider(height: 1),
+                const Divider(
+              height: 1,
+            ),
 
             itemBuilder: (context, index) {
 
@@ -159,23 +163,23 @@ class _ChatHistoryPageState
 
                 ),
 
-                trailing: PopupMenuButton(
+                trailing:
+                    PopupMenuButton<int>(
 
                   itemBuilder: (_) => [
 
-                    const PopupMenuItem(
-
+                    PopupMenuItem<int>(
                       value: 1,
-
                       child: Text(
-                        'Excluir',
-                      ),
+                        AppStrings.delete,
 
+                      ),
                     ),
 
                   ],
 
-                  onSelected: (value) async {
+                  onSelected:
+                      (value) async {
 
                     if (value == 1) {
 
@@ -183,7 +187,7 @@ class _ChatHistoryPageState
                         item['id'],
                       );
 
-                      _reload();
+                      await _reload();
 
                     }
 
@@ -191,12 +195,26 @@ class _ChatHistoryPageState
 
                 ),
 
-                onTap: () {
+                onTap: () async {
 
-                  Navigator.pop(
+                  await Navigator.push(
+
                     context,
-                    item['id'],
+
+                    MaterialPageRoute(
+
+                      builder: (_) => AiChatPage(
+
+                        conversationId:
+                            item['id'] as int,
+
+                      ),
+
+                    ),
+
                   );
+
+                  await _reload();
 
                 },
 

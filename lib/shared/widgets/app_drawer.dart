@@ -117,8 +117,8 @@ class AppDrawer extends StatelessWidget {
                   Icons.history,
                 ),
 
-                title: const Text(
-                  'Histórico',
+                title: Text(
+                AppStrings.history,
                 ),
 
                 onTap: (){

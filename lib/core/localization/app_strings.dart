@@ -143,4 +143,28 @@ class AppStrings {
         english
             ? 'Show verses about faith.'
             : 'Mostre versículos sobre fé.';
+
+    static String get history =>
+    english ? 'History' : 'Histórico';
+
+    static String get noHistory =>
+        english
+            ? 'No conversations found.'
+            : 'Nenhuma conversa encontrada.';
+
+    static String get delete =>
+        english ? 'Delete' : 'Excluir';
+
+    static String get conversation =>
+        english ? 'Conversation' : 'Conversa';
+
+    static String get clearConversation =>
+        english
+            ? 'Clear conversation'
+            : 'Limpar conversa';
+
+    static String get historyEmptyDescription =>
+        english
+            ? 'Start a conversation with Bible IA.'
+        : 'Inicie uma conversa com o Bible IA.';
     }
