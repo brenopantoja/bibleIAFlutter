@@ -1,10 +1,15 @@
 import 'package:bibliaia/core/routes/app_pages.dart';
 import 'package:bibliaia/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'features/splash/pages/splash_page.dart';
 
-void main() {
+Future<void> main() async {
+    await initializeDateFormatting(
+    'pt_BR',
+    null,
+  );
   runApp(const BibleIAApp());
 }
 
