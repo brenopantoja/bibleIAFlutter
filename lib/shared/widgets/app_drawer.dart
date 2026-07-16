@@ -61,6 +61,12 @@ class AppDrawer extends StatelessWidget {
                     title: Text(AppStrings.home),
                     onTap: () {
                       Navigator.pop(context);
+
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.home,
+                        (route) => false,
+                      );
                     },
                   ),
 
