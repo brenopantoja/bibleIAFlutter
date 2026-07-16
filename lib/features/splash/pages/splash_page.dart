@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 
-import '../../home/pages/home_page.dart';
-import '../../home/repository/home_repository.dart';
+import 'package:bibliaia/features/home/controllers/home_controller.dart';
+import 'package:bibliaia/features/home/pages/home_page.dart';
+import 'package:bibliaia/features/home/repository/home_repository.dart';
 
 import '../controllers/splash_controller.dart';
 import '../services/splash_service.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  const SplashPage({
+    super.key,
+  });
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  State<SplashPage> createState() =>
+      _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState
+    extends State<SplashPage> {
+
   late final SplashController controller;
+
+  late final HomeController homeController;
 
   @override
   void initState() {
+
     super.initState();
 
     controller = SplashController(
@@ -25,21 +34,33 @@ class _SplashPageState extends State<SplashPage> {
       service: const SplashService(),
     );
 
-    controller.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    homeController = HomeController(
+      HomeRepository(),
+    );
+
+    controller.addListener(_refresh);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initialize();
     });
   }
 
-  Future<void> _initialize() async {
-    await controller.initialize();
+  void _refresh() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
-    if (!mounted) return;
+  Future<void> _initialize() async {
+
+    await Future.wait([
+      controller.initialize(),
+      homeController.loadHealth(),
+    ]);
+
+    if (!mounted) {
+      return;
+    }
 
     Navigator.pushReplacement(
       context,
@@ -51,34 +72,58 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void dispose() {
+
+    controller.removeListener(
+      _refresh,
+    );
+
     controller.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+
     final state = controller.state;
 
     return Scaffold(
+
       body: Container(
+
         width: double.infinity,
+
         decoration: const BoxDecoration(
+
           gradient: LinearGradient(
+
             begin: Alignment.topCenter,
+
             end: Alignment.bottomCenter,
+
             colors: [
+
               Color(0xFF0D47A1),
+
               Color(0xFF1565C0),
+
             ],
+
           ),
+
         ),
+
         child: SafeArea(
+
           child: Padding(
+
             padding: const EdgeInsets.symmetric(
               horizontal: 32,
               vertical: 40,
             ),
+
             child: Column(
+
               children: [
 
                 const Spacer(),
@@ -89,7 +134,9 @@ class _SplashPageState extends State<SplashPage> {
                   height: 120,
                 ),
 
-                const SizedBox(height: 28),
+                const SizedBox(
+                  height: 28,
+                ),
 
                 const Text(
                   'Bible IA',
@@ -100,7 +147,9 @@ class _SplashPageState extends State<SplashPage> {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 const Text(
                   'A Bíblia com Inteligência Artificial',
@@ -118,12 +167,15 @@ class _SplashPageState extends State<SplashPage> {
                   minHeight: 8,
                   borderRadius: BorderRadius.circular(20),
                   backgroundColor: Colors.white24,
-                  valueColor: const AlwaysStoppedAnimation(
+                  valueColor:
+                      const AlwaysStoppedAnimation(
                     Colors.white,
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(
+                  height: 20,
+                ),
 
                 Text(
                   state.message,
@@ -134,21 +186,28 @@ class _SplashPageState extends State<SplashPage> {
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(
+                  height: 30,
+                ),
 
-                const Text(
-                  'Version 1.0.0',
-                  style: TextStyle(
-                    color: Colors.white60,
-                    fontSize: 13,
+                Text(
+                  'Versão ${homeController.version} T',
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
                   ),
                 ),
 
               ],
+
             ),
+
           ),
+
         ),
+
       ),
+
     );
   }
 }

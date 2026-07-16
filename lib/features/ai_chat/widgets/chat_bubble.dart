@@ -1,6 +1,8 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
-import 'package:bibliaia/features/ai_chat/models/chat_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+
+import '../models/chat_message.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessage message;
@@ -28,26 +30,21 @@ class ChatBubble extends StatelessWidget {
             : Alignment.centerLeft,
         child: ConstrainedBox(
           constraints: const BoxConstraints(
-            maxWidth: 360,
+            maxWidth: 340,
           ),
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: user
                   ? Theme.of(context).primaryColor
-                  : Colors.grey.shade200,
-              borderRadius:
-                  BorderRadius.only(
-                topLeft:
-                    const Radius.circular(18),
-                topRight:
-                    const Radius.circular(18),
-                bottomLeft:
-                    Radius.circular(
+                  : Colors.grey.shade100,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(18),
+                topRight: const Radius.circular(18),
+                bottomLeft: Radius.circular(
                   user ? 18 : 4,
                 ),
-                bottomRight:
-                    Radius.circular(
+                bottomRight: Radius.circular(
                   user ? 4 : 18,
                 ),
               ),
@@ -56,10 +53,8 @@ class ChatBubble extends StatelessWidget {
               crossAxisAlignment:
                   CrossAxisAlignment.start,
               children: [
-
                 Row(
                   children: [
-
                     CircleAvatar(
                       radius: 14,
                       backgroundColor: user
@@ -76,16 +71,12 @@ class ChatBubble extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
 
                     Expanded(
                       child: Text(
                         user
-                            ? (english
-                                ? 'You'
-                                : 'Você')
+                            ? (english ? 'You' : 'Você')
                             : 'Bible IA',
                         style: TextStyle(
                           fontWeight:
@@ -96,28 +87,64 @@ class ChatBubble extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   ],
                 ),
 
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 12),
 
-                SelectableText(
-                  message.text,
-                  style: TextStyle(
-                    fontSize: 15,
-                    height: 1.55,
-                    color: user
-                        ? Colors.white
-                        : Colors.black87,
-                  ),
-                ),
+                user
+                    ? SelectableText(
+                        message.text,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          height: 1.5,
+                          color: Colors.white,
+                        ),
+                      )
+                    : MarkdownBody(
+                        selectable: true,
+                        data: message.text,
+                        styleSheet:
+                            MarkdownStyleSheet(
+                          p: const TextStyle(
+                            fontSize: 15,
+                            height: 1.55,
+                            color: Colors.black87,
+                          ),
+                          h1: const TextStyle(
+                            fontSize: 24,
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                          h2: const TextStyle(
+                            fontSize: 20,
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                          h3: const TextStyle(
+                            fontSize: 18,
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                          strong:
+                              const TextStyle(
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                          blockquote:
+                              const TextStyle(
+                            color: Colors.blueGrey,
+                            fontStyle:
+                                FontStyle.italic,
+                          ),
+                          listBullet:
+                              const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
 
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 10),
 
                 Align(
                   alignment:
@@ -134,7 +161,6 @@ class ChatBubble extends StatelessWidget {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -146,11 +172,13 @@ class ChatBubble extends StatelessWidget {
   String _formatTime(
     DateTime date,
   ) {
-    final hour =
-        date.hour.toString().padLeft(2, '0');
+    final hour = date.hour
+        .toString()
+        .padLeft(2, '0');
 
-    final minute =
-        date.minute.toString().padLeft(2, '0');
+    final minute = date.minute
+        .toString()
+        .padLeft(2, '0');
 
     return '$hour:$minute';
   }

@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  flutter_markdown: ^0.7.7
 
   cupertino_icons: ^1.0.8
 
@@ -52,8 +54,9 @@ flutter:
     - assets/json/
 
 # Configuração do gerador de ícones
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icons/app_icon.png"
+  image_path: assets/icons/app_icon.png
   remove_alpha_ios: true
+  #git push origin develop:main --force   
