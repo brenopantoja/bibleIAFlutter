@@ -13,7 +13,7 @@ class DatabaseService {
   static const String databaseName =
       'bible_ia.db';
 
-  static const int databaseVersion = 1;
+  static const int databaseVersion = 2;
 
   // Retorna a instância do banco
   Future<Database> get database async {
@@ -229,26 +229,34 @@ CREATE TABLE message (
 )
 ''');
   }
-  Future<void> _createFavoriteTable(
+  
+  // Favorite
+Future<void> _createFavoriteTable(
   Database db,
 ) async {
 
   await db.execute('''
-CREATE TABLE favorite_verse (
+CREATE TABLE favorite (
 
   id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-  book TEXT NOT NULL,
+  type TEXT NOT NULL,
 
-  chapter INTEGER NOT NULL,
+  title TEXT NOT NULL,
 
-  verse INTEGER NOT NULL,
+  description TEXT NOT NULL,
 
-  reference TEXT NOT NULL,
-
-  text TEXT NOT NULL,
+  text TEXT,
 
   language TEXT NOT NULL,
+
+  book TEXT,
+
+  chapter INTEGER,
+
+  verse INTEGER,
+
+  search TEXT,
 
   created_at TEXT NOT NULL
 

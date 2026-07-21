@@ -1,5 +1,6 @@
 import 'package:bibliaia/core/data_base/database_service.dart';
-import '../models/favorite_verse.dart';
+
+import '../models/favorite_item.dart';
 
 class FavoriteDatasource {
 
@@ -7,28 +8,28 @@ class FavoriteDatasource {
       DatabaseService.instance;
 
   Future<int> save(
-    FavoriteVerse verse,
+    FavoriteItem item,
   ) async {
 
     final db = await _database.database;
 
     return db.insert(
-      'favorite_verse',
-      verse.toMap(),
+      'favorite',
+      item.toMap(),
     );
   }
 
-  Future<List<FavoriteVerse>> findAll() async {
+  Future<List<FavoriteItem>> findAll() async {
 
     final db = await _database.database;
 
     final result = await db.query(
-      'favorite_verse',
+      'favorite',
       orderBy: 'created_at DESC',
     );
 
     return result
-        .map(FavoriteVerse.fromMap)
+        .map(FavoriteItem.fromMap)
         .toList();
   }
 
@@ -39,38 +40,48 @@ class FavoriteDatasource {
     final db = await _database.database;
 
     await db.delete(
-      'favorite_verse',
+      'favorite',
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
   Future<bool> exists(
-    String reference,
+    FavoriteItem item,
   ) async {
 
     final db = await _database.database;
 
     final result = await db.query(
-      'favorite_verse',
-      where: 'reference = ?',
-      whereArgs: [reference],
+      'favorite',
+      where:
+          'type = ? AND title = ? AND language = ?',
+      whereArgs: [
+        item.type.name,
+        item.title,
+        item.language,
+      ],
       limit: 1,
     );
 
     return result.isNotEmpty;
   }
 
-  Future<void> deleteByReference(
-    String reference,
+  Future<void> deleteItem(
+    FavoriteItem item,
   ) async {
 
     final db = await _database.database;
 
     await db.delete(
-      'favorite_verse',
-      where: 'reference = ?',
-      whereArgs: [reference],
+      'favorite',
+      where:
+          'type = ? AND title = ? AND language = ?',
+      whereArgs: [
+        item.type.name,
+        item.title,
+        item.language,
+      ],
     );
   }
 
@@ -79,7 +90,7 @@ class FavoriteDatasource {
     final db = await _database.database;
 
     final result = await db.rawQuery(
-      'SELECT COUNT(*) FROM favorite_verse',
+      'SELECT COUNT(*) FROM favorite',
     );
 
     return result.first.values.first as int;
@@ -90,7 +101,7 @@ class FavoriteDatasource {
     final db = await _database.database;
 
     await db.delete(
-      'favorite_verse',
+      'favorite',
     );
   }
 }

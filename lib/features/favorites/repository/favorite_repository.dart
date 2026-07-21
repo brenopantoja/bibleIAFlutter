@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 import '../datasource/favorite_datasource.dart';
-import '../models/favorite_verse.dart';
+import '../models/favorite_item.dart';
 
 class FavoriteRepository {
   FavoriteRepository({
@@ -12,88 +10,142 @@ class FavoriteRepository {
 
   final FavoriteDatasource _datasource;
 
-  /// Salva um versículo como favorito
+  /// Salvar favorito
   Future<void> save(
-    FavoriteVerse verse,
+    FavoriteItem item,
   ) async {
-    /*final exists =
+    final exists =
         await _datasource.exists(
-      verse.reference,
-    );*/
-debugPrint('==============================');
-  debugPrint('SALVANDO FAVORITO');
-  debugPrint('reference: ${verse.reference}');
-  debugPrint('createdAt: ${verse.createdAt}');
-  debugPrint('==============================');
-/*
+      item,
+    );
+
     if (exists) {
       return;
-    } */
+    }
 
     await _datasource.save(
-      verse,
+      item,
     );
   }
 
-  /// Remove um favorito pelo id
+  /// Remove por id
   Future<void> delete(
     int id,
   ) async {
     await _datasource.delete(id);
   }
 
-  /// Remove pela referência
-  Future<void> deleteByReference(
-    String reference,
+  /// Remove um favorito
+  Future<void> deleteItem(
+    FavoriteItem item,
   ) async {
-    await _datasource
-        .deleteByReference(
-      reference,
+    await _datasource.deleteItem(
+      item,
     );
   }
 
-  /// Lista todos os favoritos
-  Future<List<FavoriteVerse>>
+  /// Lista todos
+  Future<List<FavoriteItem>>
       findAll() async {
     return _datasource.findAll();
   }
 
-  /// Verifica se já é favorito
+  /// Verifica se existe
   Future<bool> isFavorite(
-    String reference,
+    FavoriteItem item,
   ) async {
     return _datasource.exists(
-      reference,
+      item,
     );
   }
 
   /// Alterna favorito
   Future<void> toggleFavorite(
-    FavoriteVerse verse,
+    FavoriteItem item,
   ) async {
     final favorite =
         await isFavorite(
-      verse.reference,
+      item,
     );
 
     if (favorite) {
-      await deleteByReference(
-        verse.reference,
+      await deleteItem(
+        item,
       );
     } else {
       await save(
-        verse,
+        item,
       );
     }
   }
 
-  /// Quantidade de favoritos
+  /// Quantidade
   Future<int> count() async {
     return _datasource.count();
   }
 
-  /// Remove todos os favoritos
+  /// Limpar tudo
   Future<void> clear() async {
     await _datasource.clear();
+  }
+  // Filtros
+  Future<List<FavoriteItem>>
+      getVerses() async {
+    final list = await findAll();
+
+    return list
+        .where(
+          (e) =>
+              e.type.name == 'verse',
+        )
+        .toList();
+  }
+
+  Future<List<FavoriteItem>>
+      getBooks() async {
+    final list = await findAll();
+
+    return list
+        .where(
+          (e) =>
+              e.type.name == 'book',
+        )
+        .toList();
+  }
+
+  Future<List<FavoriteItem>>
+      getChapters() async {
+    final list = await findAll();
+
+    return list
+        .where(
+          (e) =>
+              e.type.name == 'chapter',
+        )
+        .toList();
+  }
+
+  Future<List<FavoriteItem>>
+      getSearches() async {
+    final list = await findAll();
+
+    return list
+        .where(
+          (e) =>
+              e.type.name == 'search',
+        )
+        .toList();
+  }
+
+  Future<List<FavoriteItem>>
+      getAIAnswers() async {
+    final list = await findAll();
+
+    return list
+        .where(
+          (e) =>
+              e.type.name == 'ai',
+        )
+        .toList();
   }
 }

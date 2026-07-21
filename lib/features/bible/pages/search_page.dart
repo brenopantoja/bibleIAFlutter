@@ -1,11 +1,14 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/features/favorites/models/favorite_item.dart';
+import 'package:bibliaia/features/favorites/models/favorite_type.dart';
+import 'package:bibliaia/features/favorites/repository/favorite_repository.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
 
-  const SearchPage({
-    super.key,
-  });
+const SearchPage({
+  super.key,
+});
 
   @override
   State<SearchPage> createState() =>
@@ -19,6 +22,11 @@ class _SearchPageState
       TextEditingController();
 
   List<_SearchResult> results = [];
+  
+ final Set<String> _favorites = {};
+ 
+final FavoriteRepository _repository =
+    FavoriteRepository();
 
   @override
   void initState() {
@@ -27,123 +35,71 @@ class _SearchPageState
     BibleProvider.instance.addListener(
       _reload,
     );
+    _loadFavorites();
   }
 
-  void _reload() {
+void _reload() {
   if (!mounted) {
     return;
   }
 
+  _loadFavorites();
   _search(controller.text);
-
-  setState(() {});
 }
-
   @override
   void dispose() {
 
-    //BibleProvider.instance.removeListener(
-     // _reload,
-    //);
+    BibleProvider.instance.removeListener(
+     _reload,
+    );
 
     controller.dispose();
 
     super.dispose();
   }
 
-  void _search(
-    String value,
-  ) {
-
-    results.clear();
+void _search(
+  String value,
+) {
+  results.clear();
 
   if (value.trim().isEmpty) {
-    results.clear();
-
     setState(() {});
-
     return;
-}
-
-    final query =
-        value.toLowerCase();
-
-    final books =
-        BibleProvider.instance.books;
-
-    for (int b = 0;
-        b < books.length;
-        b++) {
-
-      final book = books[b];
-
-      for (int c = 0;
-          c < book.chapters.length;
-          c++) {
-
-        final verses =
-            book.chapters[c];
-
-        for (int v = 0;
-            v < verses.length;
-            v++) {
-        
-        final verse =
-            verses[v].text.toLowerCase();
-
-        if (verse.contains(query)) {
-
-            results.add(
-
-              _SearchResult(
-
-                bookIndex: b,
-
-                chapter: c + 1,
-
-                verse: verses[v].number,
-
-                bookName: book.name,
-
-                text: verses[v].text,
-
-              ),
-
-            );
-
-        }
-          if (verse
-              .toLowerCase()
-              .contains(query)) {
-
-            results.add(
-
-              _SearchResult(
-
-                bookIndex: b,
-
-                chapter: c + 1,
-
-                verse: v + 1,
-
-                bookName: book.name,
-
-                text: verse,
-
-              ),
-
-            );
-
-          }
-
-        }
-
-      }
-
-    }
-
-    setState(() {});
   }
+
+  final query = value.toLowerCase();
+
+  final books = BibleProvider.instance.books;
+
+  for (int b = 0; b < books.length; b++) {
+    final book = books[b];
+
+    for (int c = 0; c < book.chapters.length; c++) {
+      final verses = book.chapters[c];
+
+      for (int v = 0; v < verses.length; v++) {
+        final verseText = verses[v].text;
+
+        if (verseText
+            .toLowerCase()
+            .contains(query)) {
+          results.add(
+            _SearchResult(
+              bookIndex: b,
+              chapter: c + 1,
+              verse: verses[v].number,
+              bookName: book.name,
+              text: verseText,
+            ),
+          );
+        }
+      }
+    }
+  }
+
+  setState(() {});
+}
 
   @override
   Widget build(BuildContext context) {
@@ -245,40 +201,96 @@ debugPrint(
 
                   )
 
-                : ListView.builder(
+               : ListView.builder(
+                itemCount: results.length,
+                itemBuilder: (_, index) {
+                  final item = results[index];
+debugPrint(
+  'Renderizando ${item.bookName} ${item.chapter}:${item.verse}',
+);
+                  final key = _favoriteKey(
+                    item.bookName,
+                    item.chapter,
+                    item.verse,
+                  );
 
-                    itemCount:
-                        results.length,
+                  final isFavorite =
+                      _favorites.contains(key);
 
-                    itemBuilder:
-                        (_, index) {
+                  return ListTile(
+                    leading: const Icon(
+                      Icons.menu_book,
+                    ),
 
-                      final item =
-                          results[index];
+                    title: Text(
+                      item.text,
+                    ),
 
-                      return ListTile(
+                    subtitle: Text(
+                      '${item.bookName} ${item.chapter}:${item.verse}',
+                    ),
 
-                        leading: const Icon(
-                          Icons.menu_book,
-                        ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: Colors.red,
+                      ),
+                      onPressed: () async {
+                        final favorite = FavoriteItem(
+                          type: FavoriteType.verse,
+                          title:
+                              '${item.bookName} ${item.chapter}:${item.verse}',
+                          description: item.text,
+                          text: item.text,
+                          language:
+                              BibleProvider.instance.english
+                                  ? 'en'
+                                  : 'pt',
+                          book: item.bookName,
+                          chapter: item.chapter,
+                          verse: item.verse,
+                          createdAt: DateTime.now(),
+                        );
 
-                        title: Text(
-                          item.text,
-                        ),
+                        await _repository.toggleFavorite(
+                          favorite,
+                        );
 
-                        subtitle: Text(
-                          '${item.bookName} ${item.chapter}:${item.verse}',
-                        ),
+                        setState(() {
+                          if (isFavorite) {
+                            _favorites.remove(key);
+                          } else {
+                            _favorites.add(key);
+                          }
+                        });
 
-                        onTap: () {
+                        if (!context.mounted) {
+                          return;
+                        }
 
-                          Navigator.pop(
-                            context,
-                          );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(seconds: 1),
+                          content: Text(
+                          isFavorite
+                              ? (english
+                                  ? 'Removed from favorites.'
+                                  : 'Favorito removido.')
+                              : (english
+                                  ? 'Added to favorites.'
+                                  : 'Favorito adicionado.'),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
 
-                        },
-
-                      );
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  );
 
                     },
 
@@ -293,7 +305,35 @@ debugPrint(
     );
 
   }
+  
+String _favoriteKey(
+  String book,
+  int chapter,
+  int verse,
+) {
+  return '$book-$chapter-$verse';
+}
 
+Future<void> _loadFavorites() async {
+  final items =
+      await _repository.getVerses();
+
+  _favorites
+    ..clear()
+    ..addAll(
+      items.map(
+        (e) => _favoriteKey(
+          e.book!,
+          e.chapter!,
+          e.verse!,
+        ),
+      ),
+    );
+
+  if (mounted) {
+    setState(() {});
+  }
+}
 }
 
 class _SearchResult {
@@ -321,5 +361,4 @@ class _SearchResult {
     required this.text,
 
   });
-
 }

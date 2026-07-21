@@ -1,10 +1,11 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/features/favorites/models/favorite_item.dart';
+import 'package:bibliaia/features/favorites/models/favorite_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../favorites/models/favorite_verse.dart';
 import '../../favorites/repository/favorite_repository.dart';
 import '../models/chat_message.dart';
 
@@ -148,41 +149,41 @@ class _ChatBubbleState extends State<ChatBubble> {
                       color: Colors.red,
                     ),
                   onPressed: () async {
-                    try {
-                      final repository = FavoriteRepository();
+                try {
+                  final repository = FavoriteRepository();
 
-                      final lines = message.text.split('\n');
+                  final lines = message.text.split('\n');
 
-                      final title = lines.first.trim().isEmpty
-                          ? (english ? 'AI Answer' : 'Resposta da IA')
-                          : lines.first.trim();
+                  final title = lines.first.trim().isEmpty
+                      ? (english ? 'AI Answer' : 'Resposta da IA')
+                      : lines.first.trim();
 
-                      if (!favorite) {
-                        await repository.save(
-                          FavoriteVerse(
-                            book: '',
-                            chapter: 0,
-                            verse: 0,
-                            reference: title,
-                            text: message.text,
-                            language: english ? 'en' : 'pt',
-                            createdAt: DateTime.now(),
-                          ),
-                        );
-                      } else {
-                        await repository.deleteByReference(title);
-                      }
+                  final item = FavoriteItem(
+                    type: FavoriteType.ai,
+                    title: title,
+                    description: message.text.length > 120
+                        ? '${message.text.substring(0, 120)}...'
+                        : message.text,
+                    text: message.text,
+                    language: english ? 'en' : 'pt',
+                    createdAt: DateTime.now(),
+                  );
 
-                      debugPrint('Favorito salvo com sucesso');
+                  await repository.toggleFavorite(item);
 
-                      setState(() {
-                        favorite = !favorite;
-                      });
-                    } catch (e, s) {
-                      debugPrint(e.toString());
-                      debugPrint(s.toString());
-                    }
+                  final isFavorite =
+                      await repository.isFavorite(item);
+
+                  if (mounted) {
+                    setState(() {
+                      favorite = isFavorite;
+                    });
                   }
+                } catch (e, s) {
+                  debugPrint(e.toString());
+                  debugPrint(s.toString());
+                }
+                },
                   ),
 
                       IconButton(

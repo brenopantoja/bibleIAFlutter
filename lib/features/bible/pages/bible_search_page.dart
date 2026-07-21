@@ -30,7 +30,7 @@ class _BibleSearchPageState
             TextField(
               controller: controller,
               decoration: const InputDecoration(
-                hintText: 'Digite uma palavra...',
+                hintText: 'Digite uma palavra..Oi.',
                 prefixIcon: Icon(Icons.search),
               ),
             ),
