@@ -1,5 +1,6 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/features/bible/pages/verses_page.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/favorite_controller.dart';
@@ -131,9 +132,35 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             await _controller.remove(item);
                           },
                         ),
-                        onTap: () {
-                          _showDetails(item);
-                        },
+                         onTap: () {
+                        if (item.type == FavoriteType.verse &&
+                            item.book != null &&
+                            item.chapter != null &&
+                            item.verse != null) {
+                          final books = BibleProvider.instance.books;
+
+                          final bookIndex = books.indexWhere(
+                            (b) => b.name == item.book,
+                          );
+
+                          if (bookIndex != -1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => VersesPage(
+                                  bookIndex: bookIndex,
+                                  chapterIndex: item.chapter! - 1,
+                                  highlightedVerse: item.verse,
+                                ),
+                              ),
+                            );
+
+                            return;
+                          }
+                        }
+
+                      _showDetails(item);
+                      },
                       ),
                     );
                   },

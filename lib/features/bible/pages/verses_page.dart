@@ -1,3 +1,4 @@
+import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
@@ -8,11 +9,14 @@ class VersesPage extends StatefulWidget {
   final int bookIndex;
   final int chapterIndex;
 
-  const VersesPage({
-    super.key,
-    required this.bookIndex,
-    required this.chapterIndex,
-  });
+final int? highlightedVerse;
+
+const VersesPage({
+  super.key,
+  required this.bookIndex,
+  required this.chapterIndex,
+  this.highlightedVerse,
+});
 
   @override
   State<VersesPage> createState() => _VersesPageState();
@@ -102,14 +106,13 @@ class _VersesPageState extends State<VersesPage> {
 
           final isFavorite =
               _favorites.contains(key);
+          final selected =
+    widget.highlightedVerse == index + 1;
 
           return ListTile(
-            leading: CircleAvatar(
-              radius: 16,
-              child: Text(
-                '${index + 1}',
-              ),
-            ),
+             tileColor: selected
+          ? Colors.amber.withOpacity(0.20)
+          : null,
             title: Text(
               verses[index].toString(),
               style: const TextStyle(
@@ -137,6 +140,7 @@ class _VersesPageState extends State<VersesPage> {
                           ? 'en'
                           : 'pt',
                   book: book.name,
+                  bookIndex: widget.bookIndex,
                   chapter:
                       widget.chapterIndex + 1,
                   verse: index + 1,
@@ -165,9 +169,9 @@ class _VersesPageState extends State<VersesPage> {
                       seconds: 1,
                     ),
                     content: Text(
-                      isFavorite
-                          ? 'Favorito removido.'
-                          : 'Favorito adicionado.',
+                 isFavorite
+                  ? AppStrings.favoriteRemoved
+                  : AppStrings.favoriteAdded,
                     ),
                   ),
                 );

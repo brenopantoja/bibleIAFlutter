@@ -1,5 +1,6 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:bibliaia/features/bible/controllers/bible_search_controller.dart';
+import 'package:bibliaia/features/bible/pages/verses_page.dart';
 import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
 import 'package:bibliaia/features/favorites/repository/favorite_repository.dart';
@@ -182,7 +183,18 @@ final Set<String> _favorites = {};
                           subtitle: Text(
                             item.text,
                           ),
-
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => VersesPage(
+                                  bookIndex: item.bookIndex,
+                                  chapterIndex: item.chapter - 1,
+                                  highlightedVerse: item.verse,
+                                ),
+                              ),
+                            );
+                          },
                           trailing: IconButton(
                             icon: Icon(
                               isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -196,6 +208,7 @@ final Set<String> _favorites = {};
                                 text: item.text,
                                 language: BibleProvider.instance.english ? 'en' : 'pt',
                                 book: item.book,
+                                bookIndex: item.bookIndex,
                                 chapter: item.chapter,
                                 verse: item.verse,
                                 createdAt: DateTime.now(),

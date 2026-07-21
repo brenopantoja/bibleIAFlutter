@@ -3,6 +3,9 @@ import 'favorite_type.dart';
 class FavoriteItem {
   final int? id;
 
+/// Índice do livro
+  final int? bookIndex;
+  
   /// Tipo do favorito
   final FavoriteType type;
 
@@ -35,6 +38,7 @@ class FavoriteItem {
 
   const FavoriteItem({
     this.id,
+    this.bookIndex,
     required this.type,
     required this.title,
     required this.description,
@@ -50,6 +54,7 @@ class FavoriteItem {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'book_index': bookIndex,
       'type': type.name,
       'title': title,
       'description': description,
@@ -76,6 +81,7 @@ class FavoriteItem {
       text: map['text'],
       language: map['language'],
       book: map['book'],
+      bookIndex: map['book_index'],
       chapter: map['chapter'],
       verse: map['verse'],
       search: map['search'],
@@ -93,6 +99,7 @@ class FavoriteItem {
     String? text,
     String? language,
     String? book,
+    int? bookIndex,
     int? chapter,
     int? verse,
     String? search,
@@ -106,6 +113,7 @@ class FavoriteItem {
       text: text ?? this.text,
       language: language ?? this.language,
       book: book ?? this.book,
+      bookIndex: bookIndex ?? this.bookIndex,
       chapter: chapter ?? this.chapter,
       verse: verse ?? this.verse,
       search: search ?? this.search,
@@ -123,6 +131,7 @@ FavoriteItem(
   description: $description,
   language: $language,
   book: $book,
+  bookIndex: $bookIndex,
   chapter: $chapter,
   verse: $verse,
   search: $search,

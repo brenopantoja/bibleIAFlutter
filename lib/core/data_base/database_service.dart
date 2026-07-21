@@ -230,11 +230,10 @@ CREATE TABLE message (
 ''');
   }
   
-  // Favorite
-Future<void> _createFavoriteTable(
+  // Favorite 
+ Future<void> _createFavoriteTable(
   Database db,
 ) async {
-
   await db.execute('''
 CREATE TABLE favorite (
 
@@ -251,6 +250,8 @@ CREATE TABLE favorite (
   language TEXT NOT NULL,
 
   book TEXT,
+
+  book_index INTEGER,
 
   chapter INTEGER,
 

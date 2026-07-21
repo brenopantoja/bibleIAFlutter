@@ -207,4 +207,14 @@ class AppStrings {
     english
     ? 'Save verses you like to access them quickly.'
     : 'Salve versículos para acessá-los rapidamente.';
+
+    static String get favoriteAdded =>
+    english
+        ? 'Added to favorites.'
+        : 'Favorito adicionado.';
+
+    static String get favoriteRemoved =>
+    english
+        ? 'Removed from favorites.'
+        : 'Favorito removido.';
     }

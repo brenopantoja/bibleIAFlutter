@@ -20,7 +20,8 @@ class BibleSearchController extends ChangeNotifier {
 
     final query = text.toLowerCase();
 
-    for (final book in books) {
+    for (int b = 0; b < books.length; b++) {
+      final book = books[b];
       for (int c = 0; c < book.chapters.length; c++) {
         final chapter = book.chapters[c] as List;
 
@@ -30,11 +31,12 @@ class BibleSearchController extends ChangeNotifier {
           if (verse.toLowerCase().contains(query)) {
             results.add(
               SearchResult(
-                book: book.name,
-                chapter: c + 1,
-                verse: v + 1,
-                text: verse,
-              ),
+              bookIndex: b,
+              book: book.name,
+              chapter: c + 1,
+              verse: v + 1,
+              text: verse,
+            ),
             );
           }
         }
