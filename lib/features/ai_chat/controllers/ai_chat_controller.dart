@@ -37,24 +37,17 @@ class AiChatController extends ChangeNotifier {
       return;
     }
 
-    if (conversationId == null) {
-
-      conversationId =
-          await conversationRepository.createConversation(
+    conversationId ??= await conversationRepository.createConversation(
         question,
       );
-
-    }
 
     final language =
         BibleProvider.instance.english
             ? 'EN_US'
             : 'PT_BR';
 
-    //------------------------------------
-    // Mensagem do usuário
-    //------------------------------------
 
+    // Mensagem do usuário
     final userMessage = ChatMessage(
       id: DateTime.now()
           .millisecondsSinceEpoch
@@ -92,27 +85,82 @@ class AiChatController extends ChangeNotifier {
       debugPrint(
           '=====================================');
 
-      final response =
-          await repository.ask(
-        ChatRequest(
-          message: question,
-          language: language,
-        ),
-      );
+// Monta o contexto da conversa
+  final history =
+      await messageRepository.findByConversation(
+    conversationId!,
+  );
 
-      debugPrint(
-          '=====================================');
-      debugPrint('RESPOSTA DO BACKEND');
-      debugPrint(
-          'Tema: ${response.theme}');
-      debugPrint(
-          response.reflection);
-      debugPrint(
-          '=====================================');
+  final buffer = StringBuffer();
 
-      //------------------------------------
-      // Resposta da IA
-      //------------------------------------
+  if (history.isNotEmpty) {
+
+    buffer.writeln(
+        '=========================================');
+
+    buffer.writeln(
+        'HISTÓRICO DA CONVERSA');
+
+    buffer.writeln();
+
+    for (final item in history) {
+
+      if (item.role == 'user') {
+
+        buffer.writeln('Usuário:');
+
+      } else {
+
+        buffer.writeln('Bible IA:');
+
+      }
+
+      buffer.writeln(item.content);
+
+      buffer.writeln();
+
+    }
+
+    buffer.writeln(
+        '=========================================');
+
+    buffer.writeln();
+
+  }
+
+  buffer.writeln(
+      'PERGUNTA ATUAL');
+
+  buffer.writeln();
+
+  buffer.writeln(question);
+
+  buffer.writeln();
+
+  buffer.writeln(
+      '=========================================');
+
+  buffer.writeln(
+      'Utilize o histórico apenas como contexto.');
+
+  buffer.writeln(
+      'Responda somente à pergunta atual.');
+
+  buffer.writeln(
+      'Caso o histórico não seja relevante, ignore-o.');
+
+  final prompt =
+      buffer.toString();
+
+  final response =
+      await repository.ask(
+    ChatRequest(
+      message: prompt,
+      language: language,
+    ),
+  );
+
+// Resposta da IA
 
       final assistantMessage =
           ChatMessage(

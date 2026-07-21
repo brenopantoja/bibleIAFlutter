@@ -4,6 +4,7 @@ import 'package:bibliaia/features/bible/controllers/language_controller.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
 import 'package:bibliaia/shared/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
 
 import '../controllers/home_controller.dart';
 import '../repository/home_repository.dart';
@@ -82,11 +83,7 @@ class _HomePageState
           ),
 
           children: [
-
-            //--------------------------------
             // Logo
-            //--------------------------------
-
             Center(
               child: Image.asset(
                 'assets/icons/app_icon.png',
@@ -126,11 +123,8 @@ class _HomePageState
               height: 30,
             ),
 
-            //--------------------------------
             // Pesquisa
-            //--------------------------------
-
-            Material(
+             Material(
               color: Colors.transparent,
 
               child: InkWell(
@@ -346,137 +340,143 @@ class _HomePageState
         ),
 
  
-Text(
-  AppStrings.quickAccess,
-  style: const TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-  ),
-),
+          Text(
+          AppStrings.quickAccess,
+          style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          ),
+          ),
 
-const SizedBox(
-  height: 18,
-),
+          const SizedBox(
+          height: 18,
+          ),
 
-// Ler Bíblia
+        // Ler Bíblia
+          Card(
+          child: ListTile(
+          leading: const Icon(
+          Icons.menu_book,
+          ),
+          title: Text(
+          AppStrings.readBible,
+          ),
+          subtitle: Text(
+          AppStrings.readBibleSubtitle,
+          ),
+          trailing: const Icon(
+          Icons.arrow_forward_ios,
+          ),
+          onTap: () {
+          Navigator.pushNamed(
+            context,
+            AppRoutes.books,
+          );
+          },
+          ),
+          ),
 
-Card(
-  child: ListTile(
-    leading: const Icon(
-      Icons.menu_book,
-    ),
-    title: Text(
-      AppStrings.readBible,
-    ),
-    subtitle: Text(
-      AppStrings.readBibleSubtitle,
-    ),
-    trailing: const Icon(
-      Icons.arrow_forward_ios,
-    ),
-    onTap: () {
-      Navigator.pushNamed(
-        context,
-        AppRoutes.books,
-      );
-    },
-  ),
-),
-
-const SizedBox(
-  height: 10,
-),
-
-// Conversar com IA
-
-Card(
-  child: ListTile(
-    leading: const Icon(
-      Icons.auto_awesome,
-    ),
-    title: Text(
-      AppStrings.aiChat,
-    ),
-    subtitle: Text(
-      AppStrings.aiChatSubtitle,
-    ),
-    trailing: const Icon(
-      Icons.arrow_forward_ios,
-    ),
-   onTap: () {
-  Navigator.pushNamed(
-    context,
-    AppRoutes.aiChat,
-  );
-            }
-  ),
-),
-
-const SizedBox(
-  height: 10,
-),
-
-//--------------------------------
-// Favoritos
-//--------------------------------
-
-Card(
-  child: ListTile(
-    leading: const Icon(
-      Icons.favorite,
-    ),
-    title: Text(
-      AppStrings.favorites,
-    ),
-    subtitle: Text(
-      AppStrings.favoritesSubtitle,
-    ),
-    trailing: const Icon(
-      Icons.arrow_forward_ios,
-    ),
-    onTap: () {},
-  ),
-),
-
-const SizedBox(
-  height: 10,
-),
-
-//--------------------------------
-// Versículo do Dia
-//--------------------------------
-
-Card(
-  child: ListTile(
-    leading: const Icon(
-      Icons.today,
-    ),
-    title: Text(
-      AppStrings.verseOfDay,
-    ),
-    subtitle: Text(
-      AppStrings.verseOfDaySubtitle,
-    ),
-    trailing: const Icon(
-      Icons.arrow_forward_ios,
-    ),
-    onTap: () {},
-  ),
-),
-
-const SizedBox(
-  height: 40,
-),
-            const SizedBox(
-              height: 40,
-            ),
-
-          ],
-
+        const SizedBox(
+          height: 10,
         ),
 
+        // Conversar com IA
+        Card(
+          child: ListTile(
+            leading: const Icon(
+              Icons.auto_awesome,
+            ),
+            title: Text(
+              AppStrings.aiChat,
+            ),
+            subtitle: Text(
+              AppStrings.aiChatSubtitle,
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+          onTap: () {
+          Navigator.pushNamed(
+            context,
+            AppRoutes.aiChat,
+          );
+                    }
+          ),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+
+      // Favoritos
+        Card(
+          child: ListTile(
+            leading: const Icon(
+              Icons.favorite,
+            ),
+            title: Text(
+              AppStrings.favorites,
+            ),
+            subtitle: Text(
+              AppStrings.favoritesSubtitle,
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const FavoritesPage(),
+                ),
+              );
+            },
+          ),
+        ),
+
+        const SizedBox(
+          height: 10,
+        ),
+
+      // Versículo do Dia
+      Card(
+        child: ListTile(
+          leading: const Icon(
+            Icons.today,
+          ),
+          title: Text(
+            AppStrings.verseOfDay,
+          ),
+          subtitle: Text(
+            AppStrings.verseOfDaySubtitle,
+          ),
+          trailing: const Icon(
+            Icons.arrow_forward_ios,
+          ),
+          onTap: () {
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+          builder: (_) => const FavoritesPage(),
+          ),
+          );
+},
+        ),
       ),
 
-    );
-  }
+      const SizedBox(
+        height: 40,
+      ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+
+                ],
+
+              ),
+
+            ),
+
+          );
+        }
 }

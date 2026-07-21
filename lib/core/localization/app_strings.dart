@@ -167,4 +167,44 @@ class AppStrings {
         english
             ? 'Start a conversation with Bible IA.'
         : 'Inicie uma conversa com o Bible IA.';
+
+    static String get noFavorites =>
+      english
+        ? 'No favorite verses.'
+        : 'Nenhum versículo favoritado.';
+
+    static String get languagePortuguese =>
+    english
+    ? 'Portuguese'
+    : 'Português';
+
+    static String get languageEnglish =>
+    english
+    ? 'English'
+        : 'Inglês';
+
+    static String get share =>
+    english
+    ? 'Share'
+    : 'Compartilhar';
+
+    static String get copy =>
+    english
+    ? 'Copy'
+    : 'Copiar';
+
+    static String get remove =>
+    english
+    ? 'Remove'
+    : 'Remover';
+
+    static String get favorite =>
+    english
+    ? 'Favorite'
+    : 'Favorito';
+
+    static String get favoritesEmptyDescription =>
+    english
+    ? 'Save verses you like to access them quickly.'
+    : 'Salve versículos para acessá-los rapidamente.';
     }

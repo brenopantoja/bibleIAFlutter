@@ -76,7 +76,7 @@ class _ChatHistoryPageState
 
           if (conversations.isEmpty) {
 
-            return const Center(
+            return Center(
 
               child: Column(
 
@@ -85,19 +85,19 @@ class _ChatHistoryPageState
 
                 children: [
 
-                  Icon(
+                  const Icon(
                     Icons.history,
                     size: 80,
                     color: Colors.grey,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
 
                   Text(
-                    'Nenhuma conversa encontrada.',
-                    style: TextStyle(
+                     AppStrings.noHistory,
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),

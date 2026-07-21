@@ -9,19 +9,13 @@ class DatabaseService {
 
   static Database? _database;
 
-  //--------------------------------------
   // Configuração do banco
-  //--------------------------------------
-
   static const String databaseName =
       'bible_ia.db';
 
   static const int databaseVersion = 1;
 
-  //--------------------------------------
   // Retorna a instância do banco
-  //--------------------------------------
-
   Future<Database> get database async {
     if (_database != null) {
       return _database!;
@@ -31,11 +25,7 @@ class DatabaseService {
 
     return _database!;
   }
-
-  //--------------------------------------
   // Abre o banco
-  //--------------------------------------
-
   Future<Database> _openDatabase() async {
     final path = join(
       await getDatabasesPath(),
@@ -51,10 +41,7 @@ class DatabaseService {
     );
   }
 
-  //--------------------------------------
   // Criação inicial do banco
-  //--------------------------------------
-
   Future<void> _onCreate(
     Database db,
     int version,
@@ -62,12 +49,12 @@ class DatabaseService {
     await _createConversationTable(db);
 
     await _createMessageTable(db);
+    
+    await _createFavoriteTable(db);
+
   }
 
-  //--------------------------------------
   // Migrações futuras
-  //--------------------------------------
-
   Future<void> _onUpgrade(
     Database db,
     int oldVersion,
@@ -81,10 +68,7 @@ class DatabaseService {
     }
   }
 
-  //--------------------------------------
   // Banco aberto
-  //--------------------------------------
-
   Future<void> _onOpen(
     Database db,
   ) async {
@@ -93,10 +77,7 @@ class DatabaseService {
     );
   }
 
-  //--------------------------------------
   // Fecha o banco
-  //--------------------------------------
-
   Future<void> close() async {
     if (_database == null) {
       return;
@@ -107,10 +88,7 @@ class DatabaseService {
     _database = null;
   }
 
-  //--------------------------------------
   // Remove o banco
-  //--------------------------------------
-
   Future<void> deleteDatabaseFile() async {
     await close();
 
@@ -122,10 +100,7 @@ class DatabaseService {
     await deleteDatabase(path);
   }
 
-  //--------------------------------------
   // Limpa uma tabela
-  //--------------------------------------
-
   Future<void> clearTable(
     String table,
   ) async {
@@ -134,10 +109,7 @@ class DatabaseService {
     await db.delete(table);
   }
 
-  //--------------------------------------
   // Conta registros
-  //--------------------------------------
-
   Future<int> count(
     String table,
   ) async {
@@ -150,20 +122,14 @@ class DatabaseService {
     return Sqflite.firstIntValue(result) ?? 0;
   }
 
-  //--------------------------------------
   // Existe registro?
-  //--------------------------------------
-
   Future<bool> exists(
     String table,
   ) async {
     return await count(table) > 0;
   }
 
-  //--------------------------------------
   // SQL Livre
-  //--------------------------------------
-
   Future<List<Map<String, Object?>>> rawQuery(
     String sql, [
     List<Object?>? arguments,
@@ -220,10 +186,7 @@ class DatabaseService {
     await db.execute(sql);
   }
 
-  //--------------------------------------
   // Conversation
-  //--------------------------------------
-
   Future<void> _createConversationTable(
     Database db,
   ) async {
@@ -242,10 +205,7 @@ CREATE TABLE conversation (
 ''');
   }
 
-  //--------------------------------------
   // Message
-  //--------------------------------------
-
   Future<void> _createMessageTable(
     Database db,
   ) async {
@@ -269,4 +229,30 @@ CREATE TABLE message (
 )
 ''');
   }
+  Future<void> _createFavoriteTable(
+  Database db,
+) async {
+
+  await db.execute('''
+CREATE TABLE favorite_verse (
+
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+  book TEXT NOT NULL,
+
+  chapter INTEGER NOT NULL,
+
+  verse INTEGER NOT NULL,
+
+  reference TEXT NOT NULL,
+
+  text TEXT NOT NULL,
+
+  language TEXT NOT NULL,
+
+  created_at TEXT NOT NULL
+
+)
+''');
+}
 }

@@ -191,7 +191,7 @@ class _SplashPageState
                 ),
 
                 Text(
-                  'Versão ${homeController.version} T',
+                  'Versão ${homeController.version}',
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 14,

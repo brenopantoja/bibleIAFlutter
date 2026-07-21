@@ -1,3 +1,5 @@
+import 'package:bibliaia/features/home/controllers/home_controller.dart';
+import 'package:bibliaia/features/home/repository/home_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/providers/bible_provider.dart';
@@ -14,7 +16,6 @@ import '../widgets/typing_indicator.dart';
 
 class AiChatPage extends StatefulWidget {
   final int? conversationId;
-
   const AiChatPage({
     super.key,
     this.conversationId,
@@ -28,6 +29,7 @@ class AiChatPage extends StatefulWidget {
 class _AiChatPageState
     extends State<AiChatPage> {
 
+  late final HomeController homeController;
   late final AiChatController controller;
 
   final TextEditingController
@@ -37,6 +39,10 @@ class _AiChatPageState
   @override
   void initState() {
     super.initState();
+    
+  homeController = HomeController(
+    HomeRepository(),
+  );
 
     controller = AiChatController(
       repository: AiRepository(
@@ -101,8 +107,8 @@ class _AiChatPageState
 
     return Scaffold(
 
-      drawer: const AppDrawer(
-        version: '1.0.0',
+      drawer: AppDrawer(
+          version: 'Versão ${homeController.version}',
       ),
 
       appBar: AppBar(

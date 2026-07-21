@@ -1,4 +1,5 @@
 import 'package:bibliaia/features/ai_chat/pages/ai_chat_page.dart';
+import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
 import 'package:bibliaia/features/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class AppPages {
     AppRoutes.books: (_) => const BooksPage(),
     AppRoutes.aiChat: (_) => const AiChatPage(),
     AppRoutes.home: (_) => const HomePage(),
+    AppRoutes.favorites: (_) => const FavoritesPage()
      
   };
 }

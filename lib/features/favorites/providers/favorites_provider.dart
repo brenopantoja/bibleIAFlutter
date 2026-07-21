@@ -1,7 +1,13 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
-final favoritesProvider = Provider((ref) {
+import '../controllers/favorite_controller.dart';
 
-  throw UnimplementedError();
+final favoritesProvider =
+    ChangeNotifierProvider<FavoriteController>((ref) {
+
+  return FavoriteController();
 
 });

@@ -31,7 +31,7 @@ class BackendStatusWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(applicationName),
                 const SizedBox(width: 8),
-                Text('v$version T'),
+                Text('v$version'),
               ],
             ),
           ],
