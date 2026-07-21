@@ -5,8 +5,8 @@ class AppProperties {
   static const String environment = 'homolog';//homolog or dev(localhost)
 
   /// Backend
-  //static const String baseUrl = 'http://192.168.100.6:8080/api';
-  static const String baseUrl = 'http://10.0.2.2:8080/api';
+static const String baseUrl = 'http://192.168.100.6:8080/api';
+  //static const String baseUrl = 'http://10.0.2.2:8080/api';
   /// Timeout
   static const Duration connectTimeout = Duration(seconds: 4);
 

@@ -56,17 +56,26 @@ class DatabaseService {
 
   // Migrações futuras
   Future<void> _onUpgrade(
-    Database db,
-    int oldVersion,
-    int newVersion,
-  ) async {
-    // Futuras versões do banco
+  Database db,
+  int oldVersion,
+  int newVersion,
+) async {
+  if (oldVersion < 2) {
+    final columns = await db.rawQuery(
+      "PRAGMA table_info(favorite)",
+    );
 
-    if (oldVersion < 2) {
-      // Exemplo:
-      // await db.execute('ALTER TABLE ...');
+    final hasBookIndex = columns.any(
+      (e) => e['name'] == 'book_index',
+    );
+
+    if (!hasBookIndex) {
+      await db.execute(
+        'ALTER TABLE favorite ADD COLUMN book_index INTEGER',
+      );
     }
   }
+}
 
   // Banco aberto
   Future<void> _onOpen(

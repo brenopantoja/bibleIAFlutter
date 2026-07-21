@@ -2,6 +2,8 @@ import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:bibliaia/features/bible/pages/verses_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../controllers/favorite_controller.dart';
 import '../models/favorite_item.dart';
@@ -124,42 +126,129 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             ),
                           ],
                         ),
-                        trailing: IconButton(
-                          icon: const Icon(
-                            Icons.delete_outline,
+                         trailing: PopupMenuButton<String>(
+                       onSelected: (value) async {
+                      switch (value) {
+                        case 'copy':
+                        final text = item.type == FavoriteType.verse
+                            ? '''
+                      ${item.book} ${item.chapter}:${item.verse}
+
+                      ${item.text ?? item.description}
+                      '''
+                            : '''
+                      ${item.title}
+
+                      ${item.text ?? item.description}
+                      ''';
+
+                        await Clipboard.setData(
+                          ClipboardData(text: text),
+                        );
+
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppStrings.copied),
+                            ),
+                          );
+                        }
+                        break;
+                        case 'share':
+                        final text = item.type == FavoriteType.verse
+                            ? '''
+                      ${item.book} ${item.chapter}:${item.verse}
+
+                      ${item.text ?? item.description}
+                      '''
+                            : '''
+                      ${item.title}
+
+                      ${item.text ?? item.description}
+                      ''';
+
+                        await Share.share(text);
+                        break;
+                      }
+                      },
+                        itemBuilder: (_) => [
+                          PopupMenuItem(
+                            value: 'copy',
+                            child: Row(
+                              children: [
+                                const Icon(Icons.copy),
+                                const SizedBox(width: 8),
+                                Text(AppStrings.copy),
+                              ],
+                            ),
                           ),
-                          onPressed: () async {
-                            await _controller.remove(item);
-                          },
-                        ),
-                         onTap: () {
+                          PopupMenuItem(
+                            value: 'share',
+                            child: Row(
+                              children: [
+                                const Icon(Icons.share),
+                                const SizedBox(width: 8),
+                                Text(AppStrings.share),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                const Icon(Icons.delete_outline),
+                                const SizedBox(width: 8),
+                                Text(AppStrings.delete),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                         onTap: () async {
                         if (item.type == FavoriteType.verse &&
                             item.book != null &&
                             item.chapter != null &&
                             item.verse != null) {
-                          final books = BibleProvider.instance.books;
-
-                          final bookIndex = books.indexWhere(
-                            (b) => b.name == item.book,
-                          );
-
-                          if (bookIndex != -1) {
+ 
+                          if (item.bookIndex != null) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => VersesPage(
-                                  bookIndex: bookIndex,
+                                  bookIndex: item.bookIndex!,
                                   chapterIndex: item.chapter! - 1,
                                   highlightedVerse: item.verse,
                                 ),
                               ),
                             );
+                            await _controller.loadFavorites();
 
                             return;
                           }
-                        }
 
-                      _showDetails(item);
+                          // Compatibilidade com favoritos antigos
+                          final books = BibleProvider.instance.books;
+
+                          final index = books.indexWhere(
+                            (b) => b.name == item.book,
+                          );
+
+                          if (index != -1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => VersesPage(
+                                  bookIndex: index,
+                                  chapterIndex: item.chapter! - 1,
+                                  highlightedVerse: item.verse,
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+
+                          _showDetails(item);
+                        }
                       },
                       ),
                     );

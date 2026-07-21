@@ -26,9 +26,10 @@ class FavoriteController extends ChangeNotifier {
   int get total => _total;
 
   Future<void> loadFavorites() async {
-    _loading = true;
-    notifyListeners();
+  _loading = true;
+  notifyListeners();
 
+  try {
     _favorites
       ..clear()
       ..addAll(
@@ -36,10 +37,14 @@ class FavoriteController extends ChangeNotifier {
       );
 
     _total = _favorites.length;
-
+  } catch (e, s) {
+    debugPrint('Erro ao carregar favoritos: $e');
+    debugPrint('$s');
+  } finally {
     _loading = false;
     notifyListeners();
   }
+}
 
   Future<void> save(
     FavoriteItem item,

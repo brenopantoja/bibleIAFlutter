@@ -217,4 +217,10 @@ class AppStrings {
     english
         ? 'Removed from favorites.'
         : 'Favorito removido.';
+    
+    static String get copied {
+       return english
+      ? 'Copied to clipboard.'
+      : 'Copiado para a área de transferência.';
+        }
     }
