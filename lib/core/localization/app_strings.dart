@@ -233,4 +233,20 @@ class AppStrings {
     english
         ? 'Remove favorite'
         : 'Remover dos favoritos';
+
+  static String get developedBy =>
+    english
+        ? 'Developed by'
+        : 'Desenvolvido por';
+
+    static String get company =>
+    english
+    ? 'P.Engineering Brazil'
+    : 'P.Engenharia Brasil';
+
+    static String get email =>
+    'p.engenhariabrasil@gmail.com';
+
+    static String get website =>
+    'www.p.engenhariabrasil.com';
     }

@@ -2,6 +2,7 @@ import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/ai_chat/pages/chat_history_page.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
+import 'package:bibliaia/features/home/pages/about_page.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
 import 'package:flutter/material.dart';
 
@@ -173,7 +174,15 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.info_outline),
                     title: Text(AppStrings.about),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AboutPage(version: version),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -187,7 +196,7 @@ class AppDrawer extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   Text(
-                    '${AppStrings.version} $version T',
+                    '${AppStrings.version} $version',
                     style: const TextStyle(
                       color: Colors.grey,
                     ),
