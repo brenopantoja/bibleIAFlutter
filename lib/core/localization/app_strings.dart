@@ -223,4 +223,14 @@ class AppStrings {
       ? 'Copied to clipboard.'
       : 'Copiado para a área de transferência.';
         }
+
+  static String get addFavorite =>
+    english
+        ? 'Add to favorites'
+        : 'Adicionar aos favoritos';
+
+  static String get removeFavorite =>
+    english
+        ? 'Remove favorite'
+        : 'Remover dos favoritos';
     }

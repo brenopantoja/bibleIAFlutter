@@ -154,6 +154,58 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           );
                         }
                         break;
+                        case 'delete':
+                    final confirmed = await showDialog<bool>(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text(
+                          AppStrings.english
+                              ? 'Remove favorite'
+                              : 'Excluir favorito',
+                        ),
+                        content: Text(
+                          AppStrings.english
+                              ? 'Are you sure you want to remove this favorite?'
+                              : 'Tem certeza que deseja excluir este favorito?',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: Text(
+                              AppStrings.english
+                                  ? 'Cancel'
+                                  : 'Cancelar',
+                            ),
+                          ),
+                          FilledButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: Text(
+                              AppStrings.english
+                                  ? 'Delete'
+                                  : 'Excluir',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (confirmed == true) {
+                      await _controller.remove(item);
+
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              AppStrings.english
+                                  ? 'Favorite removed.'
+                                  : 'Favorito removido.',
+                            ),
+                          ),
+                        );
+                      }
+                    }
+
+                    break;
                         case 'share':
                         final text = item.type == FavoriteType.verse
                             ? '''
@@ -170,6 +222,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         await Share.share(text);
                         break;
                       }
+                      
                       },
                         itemBuilder: (_) => [
                           PopupMenuItem(

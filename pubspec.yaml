@@ -60,6 +60,7 @@ flutter_launcher_icons:
   ios: true
   image_path: assets/icons/app_icon.png
   remove_alpha_ios: true
-  #git commit -m "" git push origin develop:main --force   s
+  #git commit -m "Final version of Favorites."
+  #git push origin develop:main --force   s
   # open ios/Runner.xcworkspace 
   #flutter build ipa 

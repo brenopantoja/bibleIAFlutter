@@ -4,6 +4,8 @@ import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
 import 'package:bibliaia/features/favorites/repository/favorite_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 class VersesPage extends StatefulWidget {
   final int bookIndex;
@@ -120,63 +122,115 @@ class _VersesPageState extends State<VersesPage> {
                 height: 1.5,
               ),
             ),
-            trailing: IconButton(
-              icon: Icon(
-                isFavorite
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                color: Colors.red,
-              ),
-              onPressed: () async {
-                final item = FavoriteItem(
-                  type: FavoriteType.verse,
-                  title:
-                      '${book.name} ${widget.chapterIndex + 1}:${index + 1}',
-                  description:
-                      verses[index].toString(),
-                  text: verses[index].toString(),
-                  language:
-                      BibleProvider.instance.english
-                          ? 'en'
-                          : 'pt',
-                  book: book.name,
-                  bookIndex: widget.bookIndex,
-                  chapter:
-                      widget.chapterIndex + 1,
-                  verse: index + 1,
-                  createdAt: DateTime.now(),
-                );
+            trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(
+                  isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: Colors.red,
+                ),
+                onPressed: () async {
+                  final verseText = verses[index].toString();
 
-                await _repository
-                    .toggleFavorite(item);
+                  final item = FavoriteItem(
+                    type: FavoriteType.verse,
+                    title:
+                        '${book.name} ${widget.chapterIndex + 1}:${index + 1}',
+                    description: verseText,
+                    text: verseText,
+                    language: BibleProvider.instance.english
+                        ? 'en'
+                        : 'pt',
+                    book: book.name,
+                    bookIndex: widget.bookIndex,
+                    chapter: widget.chapterIndex + 1,
+                    verse: index + 1,
+                    createdAt: DateTime.now(),
+                  );
 
-                setState(() {
-                  if (isFavorite) {
-                    _favorites.remove(key);
-                  } else {
-                    _favorites.add(key);
-                  }
-                });
+                  await _repository.toggleFavorite(item);
 
-                if (!context.mounted) {
-                  return;
-                }
+                  setState(() {
+                    if (isFavorite) {
+                      _favorites.remove(key);
+                    } else {
+                      _favorites.add(key);
+                    }
+                  });
 
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(
-                  SnackBar(
-                    duration: const Duration(
-                      seconds: 1,
+                  if (!context.mounted) return;
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: Text(
+                        isFavorite
+                            ? AppStrings.favoriteRemoved
+                            : AppStrings.favoriteAdded,
+                      ),
                     ),
-                    content: Text(
-                 isFavorite
-                  ? AppStrings.favoriteRemoved
-                  : AppStrings.favoriteAdded,
+                  );
+                },
+              ),
+              PopupMenuButton<String>(
+                onSelected: (value) async {
+                  final verseText = verses[index].toString();
+
+                  final text = '''
+          ${book.name} ${widget.chapterIndex + 1}:${index + 1}
+
+          $verseText
+          ''';
+
+                  switch (value) {
+                    case 'copy':
+                      await Clipboard.setData(
+                        ClipboardData(text: text),
+                      );
+
+                      if (!context.mounted) return;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: const Duration(seconds: 1),
+                          content: Text(AppStrings.copied),
+                        ),
+                      );
+                      break;
+
+                    case 'share':
+                      await Share.share(text);
+                      break;
+                  }
+                },
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'copy',
+                    child: Row(
+                      children: [
+                        const Icon(Icons.copy),
+                        const SizedBox(width: 8),
+                        Text(AppStrings.copy),
+                      ],
                     ),
                   ),
-                );
-              },
-            ),
+                  PopupMenuItem(
+                    value: 'share',
+                    child: Row(
+                      children: [
+                        const Icon(Icons.share),
+                        const SizedBox(width: 8),
+                        Text(AppStrings.share),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           );
         },
       ),
