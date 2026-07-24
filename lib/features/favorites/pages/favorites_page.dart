@@ -1,5 +1,7 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/features/ai_chat/pages/ai_chat_page.dart';
+import 'package:bibliaia/features/ai_chat/repository/chart_history/message_repository.dart';
 import 'package:bibliaia/features/bible/pages/verses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -257,52 +259,71 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           ),
                         ],
                       ),
-                         onTap: () async {
-                        if (item.type == FavoriteType.verse &&
-                            item.book != null &&
-                            item.chapter != null &&
-                            item.verse != null) {
- 
-                          if (item.bookIndex != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => VersesPage(
-                                  bookIndex: item.bookIndex!,
-                                  chapterIndex: item.chapter! - 1,
-                                  highlightedVerse: item.verse,
-                                ),
-                              ),
-                            );
-                            await _controller.loadFavorites();
+                   onTap: () async {
+                    switch (item.type) {
+                      case FavoriteType.verse:
+                        if (item.book == null ||
+                            item.chapter == null ||
+                            item.verse == null) {
+                          return;
+                        }
 
-                            return;
-                          }
+                        int? bookIndex = item.bookIndex;
 
-                          // Compatibilidade com favoritos antigos
+                        // Compatibilidade com favoritos antigos
+                        if (bookIndex == null) {
                           final books = BibleProvider.instance.books;
 
-                          final index = books.indexWhere(
+                          bookIndex = books.indexWhere(
                             (b) => b.name == item.book,
                           );
 
-                          if (index != -1) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => VersesPage(
-                                  bookIndex: index,
-                                  chapterIndex: item.chapter! - 1,
-                                  highlightedVerse: item.verse,
-                                ),
-                              ),
-                            );
+                          if (bookIndex == -1) {
                             return;
                           }
-
-                          _showDetails(item);
                         }
-                      },
+
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => VersesPage(
+                              bookIndex: bookIndex!,
+                              chapterIndex: item.chapter! - 1,
+                              highlightedVerse: item.verse,
+                            ),
+                          ),
+                        );
+
+                        await _controller.loadFavorites();
+                        break;
+
+                      case FavoriteType.ai:
+                       final repository = MessageRepository();
+
+                      final conversationId =
+                          await repository.findConversationIdByContent(
+                            item.text ?? item.description,
+                          );
+
+                      if (conversationId == null) {
+                        _showDetails(item);
+                        return;
+                      }
+
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AiChatPage(
+                            conversationId: conversationId,
+                          ),
+                        ),
+                      );
+                      break;
+                      default:
+                        _showDetails(item);
+                        break;
+                    }
+                  },
                       ),
                     );
                   },

@@ -62,11 +62,11 @@ class MessageRepository {
         await DatabaseService.instance.database;
 
     final result = await db.rawQuery(
-      '''
-SELECT COUNT(*)
-FROM message
-WHERE conversationId = ?
-''',
+            '''
+      SELECT COUNT(*)
+      FROM message
+      WHERE conversationId = ?
+      ''',
       [conversationId],
     );
 
@@ -111,5 +111,28 @@ WHERE conversationId = ?
     await db.delete(
       'message',
     );
+  }
+  Future<int?> findConversationIdByContent(
+  String content,
+) async {
+    final db =
+        await DatabaseService.instance.database;
+
+    final result = await db.query(
+      'message',
+      columns: ['conversationId'],
+      where: 'role = ? AND content = ?',
+      whereArgs: [
+        'assistant',
+        content,
+      ],
+      limit: 1,
+    );
+
+    if (result.isEmpty) {
+      return null;
+    }
+
+    return result.first['conversationId'] as int;
   }
 }

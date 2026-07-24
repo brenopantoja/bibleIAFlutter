@@ -112,16 +112,31 @@ class _VersesPageState extends State<VersesPage> {
     widget.highlightedVerse == index + 1;
 
           return ListTile(
-             tileColor: selected
-          ? Colors.amber.withOpacity(0.20)
-          : null,
-            title: Text(
-              verses[index].toString(),
+            tileColor: selected
+                ? Colors.amber.withOpacity(0.20)
+                : Colors.white,
+            title: RichText(
+            text: TextSpan(
               style: const TextStyle(
                 fontSize: 16,
                 height: 1.5,
+                color: Colors.black87,
               ),
+              children: [
+                TextSpan(
+                  text: '${index + 1} ',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E51A3), // Azul da AppBar
+                  ),
+                ),
+                TextSpan(
+                  text: verses[index].toString(),
+                ),
+              ],
             ),
+          ),
             trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
