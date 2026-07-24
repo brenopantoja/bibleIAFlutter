@@ -1,4 +1,5 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/features/ai_chat/controllers/bible_reference_controller.dart';
 import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
 import 'package:flutter/material.dart';
@@ -102,39 +103,48 @@ class _ChatBubbleState extends State<ChatBubble> {
                         ),
                       )
                     : MarkdownBody(
-                        selectable: true,
-                        data: message.text,
-                        styleSheet: MarkdownStyleSheet(
-                          p: const TextStyle(
-                            fontSize: 15,
-                            height: 1.55,
-                            color: Colors.black87,
-                          ),
-                          h1: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          h2: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          h3: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          strong: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          blockquote: const TextStyle(
-                            color: Colors.blueGrey,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          listBullet: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-
+                selectable: true,
+                data: BibleReferenceController.convertBibleReferences(
+                  message.text,
+                ),
+                onTapLink: (text, href, title) async {
+                  if (href != null && href.startsWith('verse://')) {
+                    await BibleReferenceController.openVerse(
+                      context,
+                      href,
+                    );
+                  }
+                },
+                styleSheet: MarkdownStyleSheet(
+                  p: const TextStyle(
+                    fontSize: 15,
+                    height: 1.55,
+                    color: Colors.black87,
+                  ),
+                  h1: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  h2: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  h3: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  strong: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  blockquote: const TextStyle(
+                    color: Colors.blueGrey,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  listBullet: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
                 if (!user) ...[
                   const SizedBox(height: 12),
 

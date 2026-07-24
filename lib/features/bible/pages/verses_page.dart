@@ -5,6 +5,7 @@ import 'package:bibliaia/features/favorites/models/favorite_type.dart';
 import 'package:bibliaia/features/favorites/repository/favorite_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share_plus/share_plus.dart';
 
 class VersesPage extends StatefulWidget {
@@ -27,6 +28,9 @@ const VersesPage({
 class _VersesPageState extends State<VersesPage> {
   final FavoriteRepository _repository =
       FavoriteRepository();
+  
+  final ScrollController _scrollController = ScrollController();
+  final ItemScrollController _itemScrollController = ItemScrollController();
 
   final Set<String> _favorites = {};
 
@@ -37,6 +41,16 @@ class _VersesPageState extends State<VersesPage> {
     BibleProvider.instance.addListener(_reload);
 
     _loadFavorites();
+   
+   WidgetsBinding.instance.addPostFrameCallback((_) {
+  if (widget.highlightedVerse != null) {
+    _itemScrollController.scrollTo(
+      index: widget.highlightedVerse! - 1,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
+});
+
   }
 
   @override
@@ -82,6 +96,7 @@ class _VersesPageState extends State<VersesPage> {
 
   @override
   Widget build(BuildContext context) {
+    const itemHeight = 88;
     final book = BibleProvider.instance.book(
       widget.bookIndex,
     );
@@ -95,7 +110,8 @@ class _VersesPageState extends State<VersesPage> {
           '${book.name} ${widget.chapterIndex + 1}',
         ),
       ),
-      body: ListView.separated(
+      body: ScrollablePositionedList.separated(
+  itemScrollController: _itemScrollController,
         itemCount: verses.length,
         separatorBuilder: (_, __) =>
             const Divider(height: 1),
@@ -251,4 +267,17 @@ class _VersesPageState extends State<VersesPage> {
       ),
     );
   }
+  void _scrollToHighlightedVerse() {
+  if (widget.highlightedVerse == null) {
+    return;
+  }
+
+  const double itemHeight = 88.0;
+
+  _scrollController.animateTo(
+    (widget.highlightedVerse! - 1) * itemHeight,
+    duration: const Duration(milliseconds: 400),
+    curve: Curves.easeInOut,
+  );
+}
 }
