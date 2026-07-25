@@ -234,6 +234,31 @@ class AppStrings {
         ? 'Remove favorite'
         : 'Remover dos favoritos';
 
+  static String get refreshVerse =>
+    english
+        ? 'New Verse'
+        : 'Novo Versículo';
+
+  static String get loadingVerse =>
+    english
+        ? 'Loading verse...'
+        : 'Carregando versículo...';
+
+  static String get failedLoadVerse =>
+    english
+        ? 'Unable to load verse.'
+        : 'Não foi possível carregar o versículo.';
+
+  static String get verseReference =>
+    english
+        ? 'Reference'
+        : 'Referência';
+
+  static String get todaysVerse =>
+    english
+        ? "Today's Verse"
+        : 'Versículo de Hoje';
+
   static String get developedBy =>
     english
         ? 'Developed by'

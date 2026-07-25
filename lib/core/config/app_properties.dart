@@ -21,7 +21,7 @@ class AppProperties {
 
   static const String search = '/search';
 
-  static const String verseOfDay = '/verse/daily';
+  static const String verseOfDay = '/verse';
 
   static const String health = '/health';
 }

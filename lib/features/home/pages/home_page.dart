@@ -2,6 +2,7 @@ import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/bible/controllers/language_controller.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
+import 'package:bibliaia/features/verses/page/verse_of_day_page.dart';
 import 'package:bibliaia/shared/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
@@ -457,10 +458,10 @@ class _HomePageState
           Navigator.push(
           context,
           MaterialPageRoute(
-          builder: (_) => const FavoritesPage(),
+            builder: (_) => const VerseOfDayPage(),
           ),
-          );
-},
+        );
+        },
         ),
       ),
 

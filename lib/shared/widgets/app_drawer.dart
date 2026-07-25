@@ -156,7 +156,13 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.today),
                     title: Text(AppStrings.verseOfDay),
-                    onTap: () {},
+                    onTap: () { 
+                  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const FavoritesPage(),
+                ),
+              );},
                   ),
 
                   ListTile(
