@@ -259,6 +259,11 @@ class AppStrings {
         ? "Today's Verse"
         : 'Versículo de Hoje';
 
+  static String get viewChapter =>
+    english
+        ? 'View chapter'
+        : 'Ver capítulo';
+
   static String get developedBy =>
     english
         ? 'Developed by'

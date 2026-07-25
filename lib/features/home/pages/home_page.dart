@@ -1,8 +1,12 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/bible/controllers/language_controller.dart';
+import 'package:bibliaia/features/home/widgets/verse_of_day_card.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
+import 'package:bibliaia/features/verses/controller/verse_controller.dart';
+import 'package:bibliaia/features/verses/datasource/verse_remote_datasource.dart';
 import 'package:bibliaia/features/verses/page/verse_of_day_page.dart';
+import 'package:bibliaia/features/verses/repository/verse_repository.dart';
 import 'package:bibliaia/shared/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
@@ -28,31 +32,50 @@ class _HomePageState
 
   final LanguageController languageController =
     LanguageController();
+  late final VerseController verseController;
 
   Set<String> selectedLanguage = {'pt'};
   
-  @override
-  void initState() {
-    super.initState();
+ @override
+void initState() {
+  super.initState();
 
-    controller = HomeController(
-      HomeRepository(),
-    );
+  controller = HomeController(
+    HomeRepository(),
+  );
 
-    _load();
+  verseController = VerseController(
+    repository: VerseRepository(
+      datasource: const VerseRemoteDatasource(),
+    ),
+  );
+
+  verseController.addListener(_refresh);
+
+  _load();
+
+}
+  
+void _refresh() {
+  if (mounted) {
+    setState(() {});
   }
+}
 
-  Future<void> _load() async {
-    await controller.loadHealth();
+Future<void> _load() async {
+  await Future.wait([
+    controller.loadHealth(),
+    verseController.load(),
+  ]);
 
-    if (mounted) {
-      setState(() {});
-    }
+  if (mounted) {
+    setState(() {});
   }
-
+}
   @override
   Widget build(BuildContext context) {
-
+  final verse = verseController.verse;
+  
     return Scaffold(
 
       drawer: AppDrawer(
@@ -83,7 +106,7 @@ class _HomePageState
             vertical: 16,
           ),
 
-          children: [
+          children: <Widget>[
             // Logo
             Center(
               child: Image.asset(
@@ -297,16 +320,18 @@ class _HomePageState
                   final english =
                       value.first == 'en';
 
-                  await languageController
-                      .changeLanguage(
-                    english,
-                  );
+                  await languageController.changeLanguage(
+                      english,
+                    );
 
-                  if (!mounted) {
-                    return;
-                  }
+                    // Recarrega o versículo no novo idioma
+                    await verseController.load();
 
-                  setState(() {});
+                    if (!mounted) {
+                      return;
+                    }
+
+                    setState(() {});
 
                   ScaffoldMessenger.of(
                           context)
@@ -333,9 +358,24 @@ class _HomePageState
               ),
 
             ),
- 
             // Acesso rápido
+            if (verse != null)
+            VerseOfDayCard(
+            reference: verse.reference,
+            text: verse.text,
+            onTap: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const VerseOfDayPage(),
+                ),
+              );
+ 
+              if (!mounted) return;
 
+              await verseController.load();
+            }
+            ),
           const SizedBox(
           height: 40,
         ),

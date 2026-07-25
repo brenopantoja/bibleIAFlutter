@@ -4,6 +4,7 @@ import 'package:bibliaia/features/ai_chat/pages/chat_history_page.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
 import 'package:bibliaia/features/home/pages/about_page.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
+import 'package:bibliaia/features/verses/page/verse_of_day_page.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -160,7 +161,7 @@ class AppDrawer extends StatelessWidget {
                   Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const FavoritesPage(),
+                  builder: (_) => const VerseOfDayPage(),
                 ),
               );},
                   ),

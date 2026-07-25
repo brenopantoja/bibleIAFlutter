@@ -1,5 +1,4 @@
-import 'package:bibliaia/features/bible/pages/verses_page.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 
 import '../../../core/providers/bible_provider.dart';
 import '../models/verse_of_day.dart';
@@ -31,4 +30,5 @@ class VerseController extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 }
