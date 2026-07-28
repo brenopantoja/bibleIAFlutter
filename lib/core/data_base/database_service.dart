@@ -1,3 +1,4 @@
+import 'package:bibliaia/features/notifications/database/notification_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -13,7 +14,7 @@ class DatabaseService {
   static const String databaseName =
       'bible_ia.db';
 
-  static const int databaseVersion = 2;
+  static const int databaseVersion = 4;
 
   // Retorna a instância do banco
   Future<Database> get database async {
@@ -52,17 +53,20 @@ class DatabaseService {
     
     await _createFavoriteTable(db);
 
+    await _createNotificationTable(db);
   }
 
   // Migrações futuras
-  Future<void> _onUpgrade(
+Future<void> _onUpgrade(
   Database db,
   int oldVersion,
   int newVersion,
 ) async {
+
+  // Migração da versão 1 -> 2
   if (oldVersion < 2) {
     final columns = await db.rawQuery(
-      "PRAGMA table_info(favorite)",
+      'PRAGMA table_info(favorite)',
     );
 
     final hasBookIndex = columns.any(
@@ -75,8 +79,21 @@ class DatabaseService {
       );
     }
   }
-}
 
+  // Migração da versão 2 -> 3
+  if (oldVersion < 3) {
+    await _createNotificationTable(db);
+  }
+
+  // Migração da versão 3 -> 4
+  if (oldVersion < 4) {
+    await db.execute(
+      'DROP TABLE IF EXISTS ${NotificationTable.table}',
+    );
+
+    await _createNotificationTable(db);
+  }
+}
   // Banco aberto
   Future<void> _onOpen(
     Database db,
@@ -272,5 +289,13 @@ CREATE TABLE favorite (
 
 )
 ''');
+}
+
+Future<void> _createNotificationTable(
+  Database db,
+) async {
+  await db.execute(
+    NotificationTable.createTable,
+  );
 }
 }

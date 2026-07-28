@@ -1,7 +1,9 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/core/notifications/notification_scheduler.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/bible/controllers/language_controller.dart';
 import 'package:bibliaia/features/home/widgets/verse_of_day_card.dart';
+import 'package:bibliaia/features/notifications/widgets/notification_badge.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
 import 'package:bibliaia/features/verses/controller/verse_controller.dart';
 import 'package:bibliaia/features/verses/datasource/verse_remote_datasource.dart';
@@ -53,7 +55,9 @@ void initState() {
   verseController.addListener(_refresh);
 
   _load();
-
+ Future.microtask(() async {
+    await NotificationScheduler.instance.showNow();
+  });
 }
   
 void _refresh() {
@@ -86,6 +90,13 @@ Future<void> _load() async {
         title: const Text(
           'Bible IA',
         ),
+        actions: const [
+
+        NotificationBadge(),
+
+        SizedBox(width: 8),
+
+  ],
       ),
 
       bottomNavigationBar:
@@ -258,12 +269,12 @@ Future<void> _load() async {
 
               child: ElevatedButton.icon(
 
-               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.aiChat,
-                );
-              },
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.aiChat,
+                  );
+                },
 
                 icon: const Icon(
                   Icons.auto_awesome,
@@ -279,7 +290,15 @@ Future<void> _load() async {
               ),
 
             ),
-
+             const SizedBox(
+              height: 25,
+            ),
+                    ElevatedButton(
+            onPressed: () async {
+              await NotificationScheduler.instance.showNow();
+            },
+            child: const Text('Testar Notificação'),
+          ),
             const SizedBox(
               height: 25,
             ),
@@ -308,51 +327,32 @@ Future<void> _load() async {
 
                 selected:
                     selectedLanguage,
-
-                onSelectionChanged:
-                    (value) async {
+                onSelectionChanged: (value) async {
+                  final english = value.first == 'en';
 
                   setState(() {
-                    selectedLanguage =
-                        value;
+                    selectedLanguage = value;
                   });
 
-                  final english =
-                      value.first == 'en';
-
                   await languageController.changeLanguage(
-                      english,
-                    );
-
-                    // Recarrega o versículo no novo idioma
-                    await verseController.load();
-
-                    if (!mounted) {
-                      return;
-                    }
-
-                    setState(() {});
-
-                  ScaffoldMessenger.of(
-                          context)
-                      .showSnackBar(
-
-                    SnackBar(
-
-                      content: Text(
-
-                        english
-
-                            ? 'Bible loaded in English.'
-
-                            : 'Bíblia carregada em Português.',
-
-                      ),
-
-                    ),
-
+                    english,
                   );
 
+                  await verseController.load();
+
+                  if (!mounted) return;
+
+                  setState(() {});
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        english
+                            ? 'Bible loaded in English.'
+                            : 'Bíblia carregada em Português.',
+                      ),
+                    ),
+                  );
                 },
 
               ),

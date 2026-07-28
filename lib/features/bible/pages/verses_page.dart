@@ -96,6 +96,7 @@ class _VersesPageState extends State<VersesPage> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     const itemHeight = 88;
     final book = BibleProvider.instance.book(
       widget.bookIndex,
@@ -129,6 +130,7 @@ class _VersesPageState extends State<VersesPage> {
 
           return ListTile(
             tileColor: selected
+                // ignore: deprecated_member_use
                 ? Colors.amber.withOpacity(0.20)
                 : Colors.white,
             title: RichText(
@@ -267,6 +269,7 @@ class _VersesPageState extends State<VersesPage> {
       ),
     );
   }
+  // ignore: unused_element
   void _scrollToHighlightedVerse() {
   if (widget.highlightedVerse == null) {
     return;

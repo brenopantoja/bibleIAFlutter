@@ -14,7 +14,6 @@ pluginManagement {
         require(flutterSdkPath != null)
 
         flutterSdkPath
-
     }
 
     includeBuild(
@@ -22,15 +21,10 @@ pluginManagement {
     )
 
     repositories {
-
         google()
-
         mavenCentral()
-
         gradlePluginPortal()
-
     }
-
 }
 
 plugins {

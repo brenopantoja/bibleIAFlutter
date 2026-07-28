@@ -1,3 +1,5 @@
+import 'package:bibliaia/core/notifications/notification_scheduler.dart';
+import 'package:bibliaia/core/notifications/notification_service.dart';
 import 'package:bibliaia/core/routes/app_pages.dart';
 import 'package:bibliaia/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,13 @@ Future<void> main() async {
     'pt_BR',
     null,
   );
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+   await NotificationService.instance.initialize();
+
+  await NotificationScheduler.instance.initialize();
+
   runApp(const BibleIAApp());
 }
 

@@ -264,6 +264,61 @@ class AppStrings {
         ? 'View chapter'
         : 'Ver capítulo';
 
+        static String get notifications =>
+    english
+        ? 'Notifications'
+        : 'Notificações';
+
+  static String get markAllAsRead =>
+      english
+          ? 'Mark all as read'
+          : 'Marcar todas como lidas';
+
+  static String get deleteAllNotifications =>
+      english
+          ? 'Delete all'
+          : 'Excluir todas';
+
+  static String get deleteNotifications =>
+      english
+          ? 'Delete notifications'
+          : 'Excluir notificações';
+
+  static String get deleteNotificationsMessage =>
+      english
+          ? 'Do you want to remove all notifications?'
+          : 'Deseja remover todas as notificações?';
+
+  static String get cancel =>
+      english
+          ? 'Cancel'
+          : 'Cancelar';
+
+  static String get markAsRead =>
+      english
+          ? 'Mark as read'
+          : 'Marcar como lida';
+
+  static String get notificationsEmpty =>
+      english
+          ? 'No notifications found.'
+          : 'Nenhuma notificação encontrada.';
+
+  static String get notificationsEmptyDescription =>
+      english
+          ? 'When you receive a verse, it will appear here.'
+          : 'Quando você receber um versículo, ele aparecerá aqui.';
+
+  static String get notification =>
+      english
+          ? 'Notification'
+          : 'Notificação';
+
+  static String get goToVerse =>
+    english
+        ? 'Go to verse'
+        : 'Ir para o versículo';
+
   static String get developedBy =>
     english
         ? 'Developed by'

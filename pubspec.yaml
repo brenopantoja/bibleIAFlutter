@@ -10,17 +10,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  url_launcher: ^6.3.1
-  
-  flutter_markdown: ^0.7.7
 
   cupertino_icons: ^1.0.8
+
+  url_launcher: ^6.3.1
+  flutter_markdown: ^0.7.7
 
   # Estado
   flutter_riverpod: ^3.0.3
 
   # HTTP
   dio: ^5.9.0
+  http: ^1.6.0
 
   # Logs
   logger: ^2.6.1
@@ -30,24 +31,26 @@ dependencies:
 
   # Banco local
   sqflite: ^2.4.2
-
-  # Caminhos do SQLite
   path: ^1.9.1
 
   # Preferências
   shared_preferences: ^2.5.3
+
   share_plus: ^12.0.2
 
   scrollable_positioned_list: ^0.3.8
-  http: ^1.6.0
+
+  # Notificações
+  flutter_local_notifications: ^19.4.0
+  timezone: ^0.10.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^5.0.0
-  
-  # Pacote adicionado para habilitar a geração automática de ícones
+
+  # Gerador de ícones
   flutter_launcher_icons: ^0.13.1
 
 flutter:
@@ -58,7 +61,6 @@ flutter:
     - assets/images/
     - assets/json/
 
-# Configuração do gerador de ícones
 flutter_launcher_icons:
   android: true
   ios: true
