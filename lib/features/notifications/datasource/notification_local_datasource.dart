@@ -112,11 +112,11 @@ class NotificationLocalDatasource {
 
     final result = await db.rawQuery(
       '''
-SELECT COUNT(*)
-FROM ${NotificationTable.table}
-WHERE ${NotificationTable.read} = 0
-''',
-    );
+  SELECT COUNT(*)
+  FROM ${NotificationTable.table}
+  WHERE ${NotificationTable.read} = 0
+  ''',
+      );
 
     return Sqflite.firstIntValue(result) ?? 0;
   }
@@ -127,10 +127,10 @@ WHERE ${NotificationTable.read} = 0
 
     final result = await db.rawQuery(
       '''
-SELECT COUNT(*)
-FROM ${NotificationTable.table}
-''',
-    );
+  SELECT COUNT(*)
+  FROM ${NotificationTable.table}
+  ''',
+      );
 
     return (Sqflite.firstIntValue(result) ?? 0) >
         0;
@@ -186,5 +186,21 @@ FROM ${NotificationTable.table}
     await db.delete(
       NotificationTable.table,
     );
+  }
+
+  /// Verifica se a última notificação é o mesmo versículo
+Future<bool> isLatestVerse(
+  NotificationItem item,
+) async {
+    final latestItem = await latest();
+
+    if (latestItem == null) {
+      return false;
+    }
+
+    return latestItem.language == item.language &&
+        latestItem.book == item.book &&
+        latestItem.chapter == item.chapter &&
+        latestItem.verse == item.verse;
   }
 }

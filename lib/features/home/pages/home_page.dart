@@ -289,8 +289,8 @@ Future<void> _load() async {
 
               ),
 
-            ),
-             const SizedBox(
+            ),//It must to remove in production
+             /*const SizedBox(
               height: 25,
             ),
                     ElevatedButton(
@@ -298,7 +298,7 @@ Future<void> _load() async {
               await NotificationScheduler.instance.showNow();
             },
             child: const Text('Testar Notificação'),
-          ),
+          ), */
             const SizedBox(
               height: 25,
             ),
