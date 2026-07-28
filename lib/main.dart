@@ -17,7 +17,7 @@ Future<void> main() async {
 
    await NotificationService.instance.initialize();
 
-  await NotificationScheduler.instance.initialize();
+ // await NotificationScheduler.instance.initialize();
 
   runApp(const BibleIAApp());
 }

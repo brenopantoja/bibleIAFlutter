@@ -70,3 +70,4 @@ flutter_launcher_icons:
   #git push origin develop:main --force   s
   # open ios/Runner.xcworkspace 
   #flutter build ipa 
+  # static const String baseUrl = 'http://192.168.100.6:8080/api';
