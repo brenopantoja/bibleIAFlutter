@@ -23,9 +23,6 @@ class BibleController extends ChangeNotifier {
     english: english,
   );
 
-  print('Livros carregados: ${books.length}');
-  print(books);
-
   loading = false;
   notifyListeners();
 }

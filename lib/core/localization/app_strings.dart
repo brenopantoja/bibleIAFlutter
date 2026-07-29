@@ -319,6 +319,66 @@ class AppStrings {
         ? 'Go to verse'
         : 'Ir para o versículo';
 
+      static String get searchReference =>
+      english
+      ? 'Search Reference'
+      : 'Pesquisar Referência';
+
+      static String get reference =>
+      english
+      ? 'Reference'
+      : 'Referência';
+
+      static String get referenceHint =>
+      english
+      ? 'Ex.: John 3:16'
+      : 'Ex.: João 3:16';
+
+      static String get searchButton =>
+      english
+      ? 'Search'
+      : 'Pesquisar';
+
+      static String get enterReference =>
+      english
+      ? 'Enter a Bible reference.'
+      : 'Informe uma referência bíblica.';
+
+      static String get invalidReference =>
+      english
+      ? 'Invalid reference.'
+      : 'Referência inválida.';
+
+      static String get bookNotFound =>
+      english
+          ? 'Book not found.'
+          : 'Livro não encontrado.';
+
+  static String get searchReferenceDescription =>
+      english
+          ? 'Search for a chapter or specific verse.'
+          : 'Pesquise um capítulo ou um versículo específico.';
+
+  static String get exampleReference =>
+      english
+          ? 'Examples: John 3 or John 3:16'
+          : 'Exemplos: João 3 ou João 3:16';
+
+  static String get noReferenceResults =>
+      english
+          ? 'No verses found.'
+          : 'Nenhum versículo encontrado.';
+
+  static String get openChapter =>
+      english
+          ? 'Open chapter'
+          : 'Abrir capítulo';
+
+  static String get loadingSearch =>
+      english
+          ? 'Searching...'
+          : 'Pesquisando...';
+
   static String get developedBy =>
     english
         ? 'Developed by'

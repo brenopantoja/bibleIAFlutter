@@ -3,6 +3,7 @@ import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/ai_chat/pages/chat_history_page.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
 import 'package:bibliaia/features/home/pages/about_page.dart';
+import 'package:bibliaia/features/search/pages/reference_search_page.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
 import 'package:bibliaia/features/verses/page/verse_of_day_page.dart';
 import 'package:flutter/material.dart';
@@ -165,6 +166,18 @@ class AppDrawer extends StatelessWidget {
                 ),
               );},
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.today),
+                    title: Text(AppStrings.searchReference),
+                    onTap: () { 
+                  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ReferenceSearchPage(),
+                ),
+              );},
+                  ),
+                  
 
                   ListTile(
                     leading: const Icon(Icons.settings),

@@ -1,4 +1,3 @@
-import 'package:bibliaia/core/notifications/notification_scheduler.dart';
 import 'package:bibliaia/core/notifications/notification_service.dart';
 import 'package:bibliaia/core/routes/app_pages.dart';
 import 'package:bibliaia/core/themes/app_theme.dart';
