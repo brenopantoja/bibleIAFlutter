@@ -354,44 +354,104 @@ class AppStrings {
           ? 'Book not found.'
           : 'Livro não encontrado.';
 
-  static String get searchReferenceDescription =>
+      static String get searchReferenceDescription =>
+          english
+              ? 'Search for a chapter or specific verse.'
+              : 'Pesquise um capítulo ou um versículo específico.';
+
+      static String get exampleReference =>
+          english
+              ? 'Examples: John 3 or John 3:16'
+              : 'Exemplos: João 3 ou João 3:16';
+
+      static String get noReferenceResults =>
+          english
+              ? 'No verses found.'
+              : 'Nenhum versículo encontrado.';
+
+      static String get openChapter =>
+          english
+              ? 'Open chapter'
+              : 'Abrir capítulo';
+
+      static String get loadingSearch =>
+          english
+              ? 'Searching...'
+              : 'Pesquisando...';
+
+              static String get theme =>
+        english
+            ? 'Theme'
+            : 'Tema';
+
+    static String get light =>
+        english
+            ? 'Light'
+            : 'Claro';
+
+    static String get dark =>
+        english
+            ? 'Dark'
+            : 'Escuro';
+
+    static String get system =>
+        english
+            ? 'System'
+            : 'Sistema';
+
+    static String get bibleVersion =>
+        english
+            ? 'Bible Version'
+              : 'Versão da Bíblia';
+
+    static String get fontSize =>
+        english
+            ? 'Font Size'
+            : 'Tamanho da fonte';
+
+    static String get restoreDefaults =>
+        english
+            ? 'Restore defaults'
+            : 'Restaurar padrões';
+
+    static String get settingsDescription =>
+        english
+            ? 'Customize the application.'
+            : 'Personalize o aplicativo.';
+
+    static String get themeDescription =>
+        english
+            ? 'Choose the application appearance.'
+            : 'Escolha a aparência do aplicativo.';
+
+    static String get languageDescription =>
+        english
+            ? 'Application language.'
+            : 'Idioma do aplicativo.';
+
+    static String get bibleVersionDescription =>
+        english
+            ? 'Select the Bible translation.'
+            : 'Selecione a tradução da Bíblia.';
+
+    static String get fontSizeDescription =>
+        english
+            ? 'Adjust the reading font size.'
+            : 'Ajuste o tamanho da fonte para leitura.';
+
+    static String get developedBy =>
       english
-          ? 'Search for a chapter or specific verse.'
-          : 'Pesquise um capítulo ou um versículo específico.';
+          ? 'Developed by'
+          : 'Desenvolvido por';
 
-  static String get exampleReference =>
+      static String get company =>
       english
-          ? 'Examples: John 3 or John 3:16'
-          : 'Exemplos: João 3 ou João 3:16';
+      ? 'P.Engineering Brazil'
+      : 'P.Engenharia Brasil';
 
-  static String get noReferenceResults =>
-      english
-          ? 'No verses found.'
-          : 'Nenhum versículo encontrado.';
+      static String get email =>
+      'p.engenhariabrasil@gmail.com';
 
-  static String get openChapter =>
-      english
-          ? 'Open chapter'
-          : 'Abrir capítulo';
-
-  static String get loadingSearch =>
-      english
-          ? 'Searching...'
-          : 'Pesquisando...';
-
-  static String get developedBy =>
-    english
-        ? 'Developed by'
-        : 'Desenvolvido por';
-
-    static String get company =>
-    english
-    ? 'P.Engineering Brazil'
-    : 'P.Engenharia Brasil';
-
-    static String get email =>
-    'p.engenhariabrasil@gmail.com';
-
-    static String get website =>
-    'www.p.engenhariabrasil.com';
+      static String get website =>
+      'www.p.engenhariabrasil.com';
     }

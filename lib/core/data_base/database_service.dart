@@ -14,7 +14,7 @@ class DatabaseService {
   static const String databaseName =
       'bible_ia.db';
 
-  static const int databaseVersion = 4;
+  static const int databaseVersion = 5;
 
   // Retorna a instância do banco
   Future<Database> get database async {
@@ -54,6 +54,8 @@ class DatabaseService {
     await _createFavoriteTable(db);
 
     await _createNotificationTable(db);
+
+    await _createSettingsTable(db);
   }
 
   // Migrações futuras
@@ -93,6 +95,10 @@ Future<void> _onUpgrade(
 
     await _createNotificationTable(db);
   }
+  // Migração versão 4 -> 5
+  if (oldVersion < 5) {
+      await _createSettingsTable(db);
+}
 }
   // Banco aberto
   Future<void> _onOpen(
@@ -297,5 +303,25 @@ Future<void> _createNotificationTable(
   await db.execute(
     NotificationTable.createTable,
   );
+}
+
+Future<void> _createSettingsTable(
+  Database db,
+) async {
+  await db.execute('''
+CREATE TABLE settings(
+
+  id INTEGER PRIMARY KEY,
+
+  themeMode TEXT NOT NULL,
+
+  language TEXT NOT NULL,
+
+  bibleVersion TEXT NOT NULL,
+
+  fontSize REAL NOT NULL
+
+)
+''');
 }
 }

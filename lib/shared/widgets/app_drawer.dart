@@ -5,6 +5,7 @@ import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
 import 'package:bibliaia/features/home/pages/about_page.dart';
 import 'package:bibliaia/features/search/pages/reference_search_page.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
+import 'package:bibliaia/features/settings/pages/settings_page.dart';
 import 'package:bibliaia/features/verses/page/verse_of_day_page.dart';
 import 'package:flutter/material.dart';
 
@@ -182,7 +183,12 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.settings),
                     title: Text(AppStrings.settings),
-                    onTap: () {},
+                    onTap: () {  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SettingsPage(),
+                ),
+              );},
                   ),
 
                   ListTile(

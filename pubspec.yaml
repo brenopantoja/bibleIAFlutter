@@ -68,6 +68,7 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   #git commit -m "Final version of Favorites."
   #git push origin develop:main --force   s
+  #dart run flutter_launcher_icons
   # open ios/Runner.xcworkspace 
   #flutter build ipa 
   # static const String baseUrl = 'http://192.168.100.6:8080/api';

@@ -1,4 +1,6 @@
 import 'package:bibliaia/core/notifications/notification_service.dart';
+import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/theme_provider.dart';
 import 'package:bibliaia/core/routes/app_pages.dart';
 import 'package:bibliaia/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -7,32 +9,89 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'features/splash/pages/splash_page.dart';
 
 Future<void> main() async {
-    await initializeDateFormatting(
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting(
     'pt_BR',
     null,
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.instance.initialize();
 
-   await NotificationService.instance.initialize();
+  // Inicializa os providers
+  await BibleProvider.instance.initialize();
+  await ThemeProvider.instance.initialize();
 
- // await NotificationScheduler.instance.initialize();
-
-  runApp(const BibleIAApp());
+  runApp(
+    const BibleIAApp(),
+  );
 }
 
-class BibleIAApp extends StatelessWidget {
-  const BibleIAApp({super.key});
+class BibleIAApp extends StatefulWidget {
+  const BibleIAApp({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  State<BibleIAApp> createState() =>
+      _BibleIAAppState();
+}
+
+class _BibleIAAppState
+    extends State<BibleIAApp> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    ThemeProvider.instance.addListener(
+      _refresh,
+    );
+
+    BibleProvider.instance.addListener(
+      _refresh,
+    );
+  }
+
+  void _refresh() {
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    ThemeProvider.instance.removeListener(
+      _refresh,
+    );
+
+    BibleProvider.instance.removeListener(
+      _refresh,
+    );
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'Bible IA',
+
       theme: AppTheme.light(),
+
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
+
+      themeMode:
+          ThemeProvider.instance.themeMode,
+
       routes: AppPages.routes,
+
       home: const SplashPage(),
     );
   }
