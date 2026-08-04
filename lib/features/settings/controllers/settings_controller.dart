@@ -1,4 +1,5 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/core/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,10 @@ Future<void> load() async {
 
   await BibleProvider.instance.changeLanguage(
     _settings.language == 'EN_US',
+  );
+  
+  FontProvider.instance.setFontSize(
+  _settings.fontSize,
   );
 
   _loading = false;
@@ -93,11 +98,16 @@ Future<void> setLanguage(
     );
   }
 
-  Future<void> setFontSize(
-    double fontSize,
-  ) async {
+ Future<void> setFontSize(
+  double fontSize,
+) async {
+
     _settings = _settings.copyWith(
       fontSize: fontSize,
+    );
+
+    FontProvider.instance.setFontSize(
+      fontSize,
     );
 
     notifyListeners();
@@ -105,7 +115,7 @@ Future<void> setLanguage(
     await _repository.save(
       _settings,
     );
-  }
+}
 
 Future<void> reset() async {
   await _repository.reset();
@@ -119,6 +129,8 @@ Future<void> reset() async {
   await BibleProvider.instance.changeLanguage(
     _settings.language == 'EN_US',
   );
+
+  FontProvider.instance.reset();
 
   notifyListeners();
 }

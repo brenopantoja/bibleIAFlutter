@@ -1,10 +1,12 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/notifications/notification_scheduler.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/bible/controllers/language_controller.dart';
 import 'package:bibliaia/features/home/widgets/verse_of_day_card.dart';
 import 'package:bibliaia/features/notifications/widgets/notification_badge.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
+import 'package:bibliaia/features/settings/pages/settings_page.dart';
 import 'package:bibliaia/features/verses/controller/verse_controller.dart';
 import 'package:bibliaia/features/verses/datasource/verse_remote_datasource.dart';
 import 'package:bibliaia/features/verses/page/verse_of_day_page.dart';
@@ -135,7 +137,7 @@ Future<void> _load() async {
               AppStrings.welcome,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30,
+                fontSize: FontProvider.instance.fontSize,
                 fontWeight:
                     FontWeight.bold,
               ),
@@ -148,8 +150,8 @@ Future<void> _load() async {
             Text(
               AppStrings.subtitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 17,
+              style: TextStyle(
+                fontSize: FontProvider.instance.fontSize,
                 color: Colors.black54,
               ),
             ),
@@ -289,16 +291,7 @@ Future<void> _load() async {
 
               ),
 
-            ),//It must to remove in production
-             /*const SizedBox(
-              height: 25,
-            ),
-                    ElevatedButton(
-            onPressed: () async {
-              await NotificationScheduler.instance.showNow();
-            },
-            child: const Text('Testar Notificação'),
-          ), */
+            ), 
             const SizedBox(
               height: 25,
             ),
@@ -504,7 +497,35 @@ Future<void> _load() async {
         },
         ),
       ),
+  const SizedBox(
+          height: 10,
+        ),
 
+      // Configuracoes
+      Card(
+        child: ListTile(
+          leading: const Icon(
+            Icons.settings,
+          ),
+          title: Text(
+            AppStrings.settings,
+          ),
+          subtitle: Text(
+            AppStrings.settingsDescription,
+          ),
+          trailing: const Icon(
+            Icons.arrow_forward_ios,
+          ),
+          onTap: () {
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const SettingsPage(),
+          ),
+        );
+        },
+        ),
+      ),
       const SizedBox(
         height: 40,
       ),

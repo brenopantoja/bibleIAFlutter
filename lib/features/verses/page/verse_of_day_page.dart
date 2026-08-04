@@ -1,5 +1,6 @@
  import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/features/bible/pages/verses_page.dart';
 import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
@@ -37,13 +38,14 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
     );
 
     controller.addListener(_refresh);
-
+    FontProvider.instance.addListener(_refresh);
     _reload();
   }
 
   @override
   void dispose() {
     controller.removeListener(_refresh);
+    FontProvider.instance.removeListener(_refresh);
     controller.dispose();
     super.dispose();
   }
@@ -170,7 +172,9 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
               : RefreshIndicator(
                   onRefresh: _reload,
                   child: ListView(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(
+                      FontProvider.instance.fontSize,
+                    ),
                     children: [
                       Card(
                         elevation: 2,
@@ -193,8 +197,8 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
                                     const SizedBox(width: 8),
                                     Text(
                                       verse.reference,
-                                      style: const TextStyle(
-                                        fontSize: 24,
+                                      style:  TextStyle(
+                                      fontSize: FontProvider.instance.fontSize +2,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.blue,
                                         decoration: TextDecoration.underline,
@@ -203,11 +207,13 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(
+                              height: FontProvider.instance.fontSize,
+                            ),
                               Text(
                                 verse.text,
-                                style: const TextStyle(
-                                  fontSize: 18,
+                                style:  TextStyle(
+                              fontSize: FontProvider.instance.fontSize + 8,
                                   height: 1.6,
                                 ),
                               ),

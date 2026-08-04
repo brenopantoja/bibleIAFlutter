@@ -1,5 +1,6 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
 import 'package:bibliaia/features/favorites/repository/favorite_repository.dart';
@@ -38,7 +39,12 @@ class _VersesPageState extends State<VersesPage> {
   void initState() {
     super.initState();
 
+      print('VersesPage initState');
+      print(FontProvider.instance.fontSize);
+
     BibleProvider.instance.addListener(_reload);
+    
+    FontProvider.instance.addListener(_refresh);
 
     _loadFavorites();
    
@@ -57,6 +63,8 @@ class _VersesPageState extends State<VersesPage> {
   void dispose() {
     BibleProvider.instance.removeListener(_reload);
 
+    FontProvider.instance.removeListener(_refresh);
+
     super.dispose();
   }
 
@@ -65,6 +73,18 @@ class _VersesPageState extends State<VersesPage> {
       setState(() {});
     }
   }
+
+  void _refresh() {
+      print('REFRESH VERSES');
+
+  print(
+    'Refresh: ${FontProvider.instance.fontSize}',
+  );
+
+  if (mounted) {
+    setState(() {});
+  }
+}
 
   String _favoriteKey(
     String book,
@@ -98,6 +118,7 @@ class _VersesPageState extends State<VersesPage> {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     const itemHeight = 88;
+    print(FontProvider.instance.fontSize);
     final book = BibleProvider.instance.book(
       widget.bookIndex,
     );
@@ -130,31 +151,16 @@ class _VersesPageState extends State<VersesPage> {
 
           return ListTile(
             tileColor: selected
-                // ignore: deprecated_member_use
-                ? Colors.amber.withOpacity(0.20)
-                : Colors.white,
-            title: RichText(
-            text: TextSpan(
-              style: const TextStyle(
-                fontSize: 16,
-                height: 1.5,
-                color: Colors.black87,
-              ),
-              children: [
-                TextSpan(
-                  text: '${index + 1} ',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E51A3), // Azul da AppBar
-                  ),
-                ),
-                TextSpan(
-                  text: verses[index].toString(),
-                ),
-              ],
+            ? Theme.of(context)
+                .colorScheme
+                .primaryContainer
+            : null,
+             title: Text(
+            verses[index].toString(),
+            style: TextStyle(
+              fontSize: FontProvider.instance.fontSize,
             ),
-          ),
+            ),
             trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

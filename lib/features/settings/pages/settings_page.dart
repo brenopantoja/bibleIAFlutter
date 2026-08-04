@@ -82,18 +82,17 @@ class _SettingsPageState
           : ListView(
 
               children: [
-            Text(
-              BibleProvider.instance.english.toString(),
-            ),
                 ListTile(
 
                   title: Text(
-                    AppStrings.theme,
+                    AppStrings.language,
                   ),
 
-                  subtitle: Text(
-                    settings.language,
-                  ),
+                 subtitle: Text(
+                  settings.language == 'EN_US'
+                      ? AppStrings.languageEnglish
+                      : AppStrings.languagePortuguese,
+                ),
 
                   trailing:
                       DropdownButton<String>(
@@ -138,8 +137,9 @@ class _SettingsPageState
 
                 ListTile(
 
-                  title: const Text(
-                    'Tema',
+                  title: Text(
+                        AppStrings.language,
+
                   ),
 
                   subtitle: Text(

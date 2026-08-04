@@ -1,5 +1,6 @@
 import 'package:bibliaia/core/notifications/notification_service.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/core/providers/theme_provider.dart';
 import 'package:bibliaia/core/routes/app_pages.dart';
 import 'package:bibliaia/core/themes/app_theme.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
   // Inicializa os providers
   await BibleProvider.instance.initialize();
   await ThemeProvider.instance.initialize();
+  await FontProvider.instance.initialize();
 
   runApp(
     const BibleIAApp(),
