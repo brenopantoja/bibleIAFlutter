@@ -1,4 +1,5 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/ai_chat/pages/chat_history_page.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
@@ -37,11 +38,11 @@ class AppDrawer extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  const Text(
+                  Text(
                     'Bible IA',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 24,
+                      fontSize: FontProvider.instance.fontSize + 6,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -51,8 +52,9 @@ class AppDrawer extends StatelessWidget {
                   Text(
                     AppStrings.drawerSubtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: Colors.white70,
+                    fontSize: FontProvider.instance.fontSize - 2,
                     ),
                   ),
                 ],
@@ -64,7 +66,12 @@ class AppDrawer extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.home),
-                    title: Text(AppStrings.home),
+                    title: Text(
+                      AppStrings.home,
+                      style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                    ),
                     onTap: () {
                       Navigator.pop(context);
 
@@ -78,7 +85,11 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.menu_book),
-                    title: Text(AppStrings.readBible),
+                    title: Text(AppStrings.readBible, 
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () {
                       Navigator.pop(context);
 
@@ -91,7 +102,11 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.search),
-                    title: Text(AppStrings.search),
+                    title: Text(AppStrings.search, 
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () {
                       Navigator.pop(context);
 
@@ -107,7 +122,11 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.auto_awesome),
-                    title: Text(AppStrings.aiChat),
+                    title: Text(AppStrings.aiChat,
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.pushNamed(
@@ -124,28 +143,25 @@ class AppDrawer extends StatelessWidget {
 
                 title: Text(
                 AppStrings.history,
-                ),
-
-                onTap: (){
-
-                  Navigator.push(
-
-                      context,
-
-                      MaterialPageRoute(
-
-                        builder: (_)=>const ChatHistoryPage(),
-
+                style: TextStyle(
+                fontSize: FontProvider.instance.fontSize,
                       ),
-
+                ),
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_)=>const ChatHistoryPage(),
+                      ),
                   );
-
                 },
-
                 ),
                   ListTile(
                     leading: const Icon(Icons.favorite),
-                    title: Text(AppStrings.favorites),
+                    title: Text(AppStrings.favorites, 
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),),
                     onTap: () {
                   Navigator.push(
                     context,
@@ -158,7 +174,10 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.today),
-                    title: Text(AppStrings.verseOfDay),
+                    title: Text(AppStrings.verseOfDay,
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),),
                     onTap: () { 
                   Navigator.push(
                 context,
@@ -169,7 +188,11 @@ class AppDrawer extends StatelessWidget {
                   ),
                   ListTile(
                     leading: const Icon(Icons.today),
-                    title: Text(AppStrings.searchReference),
+                    title: Text(AppStrings.searchReference,
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () { 
                   Navigator.push(
                 context,
@@ -177,12 +200,15 @@ class AppDrawer extends StatelessWidget {
                   builder: (_) => const ReferenceSearchPage(),
                 ),
               );},
-                  ),
-                  
+                  ),  
 
                   ListTile(
                     leading: const Icon(Icons.settings),
-                    title: Text(AppStrings.settings),
+                    title: Text(AppStrings.settings,
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () {  Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -193,13 +219,21 @@ class AppDrawer extends StatelessWidget {
 
                   ListTile(
                     leading: const Icon(Icons.language),
-                    title: Text(AppStrings.language),
+                    title: Text(AppStrings.language,
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () {},
                   ),
 
                   ListTile(
                     leading: const Icon(Icons.info_outline),
-                    title: Text(AppStrings.about),
+                    title: Text(AppStrings.about,
+                    style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize,
+                      ),
+                      ),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
@@ -223,8 +257,9 @@ class AppDrawer extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     '${AppStrings.version} $version',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.grey,
+                      fontSize: FontProvider.instance.fontSize - 2,
                     ),
                   ),
                 ],

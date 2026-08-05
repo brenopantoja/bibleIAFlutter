@@ -1,4 +1,7 @@
+import 'package:bibliaia/core/help/app_font.dart';
+import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/features/ai_chat/controllers/bible_reference_controller.dart';
 import 'package:bibliaia/features/favorites/models/favorite_item.dart';
 import 'package:bibliaia/features/favorites/models/favorite_type.dart';
@@ -81,7 +84,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                             ? (english ? 'You' : 'Você')
                             : 'Bible IA',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontSize: AppFont.body,
                           color: user
                               ? Colors.white
                               : Colors.black87,
@@ -96,8 +99,8 @@ class _ChatBubbleState extends State<ChatBubble> {
                 user
                     ? SelectableText(
                         message.text,
-                        style: const TextStyle(
-                          fontSize: 15,
+                        style: TextStyle(
+                          fontSize: AppFont.body,
                           height: 1.5,
                           color: Colors.white,
                         ),
@@ -116,32 +119,33 @@ class _ChatBubbleState extends State<ChatBubble> {
                   }
                 },
                 styleSheet: MarkdownStyleSheet(
-                  p: const TextStyle(
-                    fontSize: 15,
+                  p: TextStyle(
+                    fontSize: AppFont.body,
                     height: 1.55,
                     color: Colors.black87,
                   ),
-                  h1: const TextStyle(
-                    fontSize: 24,
+                  h1:  TextStyle(
+                  fontSize: AppFont.h1,
                     fontWeight: FontWeight.bold,
                   ),
-                  h2: const TextStyle(
-                    fontSize: 20,
+                  h2: TextStyle(
+                    fontSize: AppFont.h2,
                     fontWeight: FontWeight.bold,
                   ),
-                  h3: const TextStyle(
-                    fontSize: 18,
+                  h3: TextStyle(
+                    fontSize: AppFont.h3,
                     fontWeight: FontWeight.bold,
                   ),
                   strong: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
-                  blockquote: const TextStyle(
+                  blockquote: TextStyle(
+                    fontSize: AppFont.body,
                     color: Colors.blueGrey,
                     fontStyle: FontStyle.italic,
                   ),
-                  listBullet: const TextStyle(
-                    fontSize: 16,
+                  listBullet: TextStyle(
+                  fontSize: AppFont.body,
                   ),
                 ),
               ),
@@ -187,7 +191,19 @@ class _ChatBubbleState extends State<ChatBubble> {
                   if (mounted) {
                     setState(() {
                       favorite = isFavorite;
-                    });
+                     ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: Text(
+                        isFavorite
+                            ? AppStrings.favoriteAdded
+                            : AppStrings.favoriteRemoved,
+                          ),
+                        ),
+                      );
+                    }
+                    
+                    );
                   }
                 } catch (e, s) {
                   debugPrint(e.toString());
@@ -252,7 +268,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                       message.createdAt,
                     ),
                     style: TextStyle(
-                      fontSize: 11,
+                    fontSize: FontProvider.instance.fontSize - 5,
                       color: user
                           ? Colors.white70
                           : Colors.grey,

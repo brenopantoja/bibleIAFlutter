@@ -1,3 +1,4 @@
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/features/home/controllers/home_controller.dart';
 import 'package:bibliaia/features/home/repository/home_repository.dart';
 import 'package:flutter/material.dart';
@@ -51,9 +52,9 @@ class _AiChatPageState
     );
 
     controller.addListener(_refresh);
-
     BibleProvider.instance
         .addListener(_refresh);
+    FontProvider.instance.addListener(_refresh);
 
     WidgetsBinding.instance
         .addPostFrameCallback((_) async {
@@ -90,7 +91,7 @@ class _AiChatPageState
         .removeListener(
       _refresh,
     );
-
+    FontProvider.instance.removeListener(_refresh);
     controller.dispose();
 
     messageController.dispose();
@@ -120,6 +121,10 @@ class _AiChatPageState
               ? 'Bible IA'
 
               : 'Conversa',
+          style: TextStyle(
+          fontSize: FontProvider.instance.fontSize + 2,
+          fontWeight: FontWeight.bold,
+          ),
 
         ),
 

@@ -1,4 +1,5 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:flutter/material.dart';
 
 class SuggestionCard extends StatelessWidget {
@@ -56,8 +57,8 @@ class SuggestionCard extends StatelessWidget {
                   english
                       ? 'Ask Bible IA'
                       : 'Pergunte à Bible IA',
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: FontProvider.instance.fontSize + 2,
                     fontWeight:
                         FontWeight.bold,
                   ),
@@ -114,8 +115,8 @@ class SuggestionCard extends StatelessWidget {
                             child: Text(
                               question,
                               style:
-                                  const TextStyle(
-                                fontSize: 15,
+                                   TextStyle(
+                                 fontSize: FontProvider.instance.fontSize,
                               ),
                             ),
                           ),

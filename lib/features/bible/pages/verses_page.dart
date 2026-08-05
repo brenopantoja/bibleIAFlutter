@@ -158,7 +158,7 @@ class _VersesPageState extends State<VersesPage> {
              title: Text(
             verses[index].toString(),
             style: TextStyle(
-              fontSize: FontProvider.instance.fontSize,
+              fontSize: FontProvider.instance.fontSize
             ),
             ),
             trailing: Row(
