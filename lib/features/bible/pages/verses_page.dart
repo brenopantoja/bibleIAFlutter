@@ -155,12 +155,28 @@ class _VersesPageState extends State<VersesPage> {
                 .colorScheme
                 .primaryContainer
             : null,
-             title: Text(
-            verses[index].toString(),
-            style: TextStyle(
-              fontSize: FontProvider.instance.fontSize
-            ),
-            ),
+             title: RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: FontProvider.instance.fontSize,
+                    height: 1.5,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: '${index + 1} ',
+                      style: TextStyle(
+                        fontSize: FontProvider.instance.fontSize - 3,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    TextSpan(
+                      text: verses[index].toString(),
+                    ),
+                  ],
+                ),
+              ),
             trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
