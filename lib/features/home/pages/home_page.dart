@@ -1,5 +1,7 @@
+import 'package:bibliaia/core/help/app_font.dart';
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/notifications/notification_scheduler.dart';
+import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/bible/controllers/language_controller.dart';
@@ -235,9 +237,9 @@ Future<void> _load() async {
 
                         child: Text(
                           AppStrings.search,
-                          style: const TextStyle(
+                          style:  TextStyle(
                             color: Colors.grey,
-                            fontSize: 16,
+                            fontSize: FontProvider.instance.fontSize,
                           ),
                         ),
 
@@ -284,8 +286,8 @@ Future<void> _load() async {
 
                 label: Text(
                   AppStrings.askAI,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: FontProvider.instance.fontSize,
                   ),
                 ),
 
@@ -327,7 +329,7 @@ Future<void> _load() async {
                     selectedLanguage = value;
                   });
 
-                  await languageController.changeLanguage(
+                  await BibleProvider.instance.changeLanguage(
                     english,
                   );
 
@@ -374,41 +376,48 @@ Future<void> _load() async {
         ),
 
  
-          Text(
+                Text(
           AppStrings.quickAccess,
-          style: const TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+          style: TextStyle(
+            fontSize: AppFont.h2,
+            fontWeight: FontWeight.bold,
           ),
-          ),
+        ),
 
-          const SizedBox(
+        const SizedBox(
           height: 18,
-          ),
+        ),
 
         // Ler Bíblia
-          Card(
+        Card(
           child: ListTile(
-          leading: const Icon(
-          Icons.menu_book,
+            leading: const Icon(
+              Icons.menu_book,
+            ),
+            title: Text(
+              AppStrings.readBible,
+              style: TextStyle(
+                fontSize: AppFont.title,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: Text(
+              AppStrings.readBibleSubtitle,
+              style: TextStyle(
+                fontSize: AppFont.subtitle,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.books,
+              );
+            },
           ),
-          title: Text(
-          AppStrings.readBible,
-          ),
-          subtitle: Text(
-          AppStrings.readBibleSubtitle,
-          ),
-          trailing: const Icon(
-          Icons.arrow_forward_ios,
-          ),
-          onTap: () {
-          Navigator.pushNamed(
-            context,
-            AppRoutes.books,
-          );
-          },
-          ),
-          ),
+        ),
 
         const SizedBox(
           height: 10,
@@ -422,19 +431,26 @@ Future<void> _load() async {
             ),
             title: Text(
               AppStrings.aiChat,
+              style: TextStyle(
+                fontSize: AppFont.title,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             subtitle: Text(
               AppStrings.aiChatSubtitle,
+              style: TextStyle(
+                fontSize: AppFont.subtitle,
+              ),
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
             ),
-          onTap: () {
-          Navigator.pushNamed(
-            context,
-            AppRoutes.aiChat,
-          );
-                    }
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.aiChat,
+              );
+            },
           ),
         ),
 
@@ -442,7 +458,7 @@ Future<void> _load() async {
           height: 10,
         ),
 
-      // Favoritos
+        // Favoritos
         Card(
           child: ListTile(
             leading: const Icon(
@@ -450,9 +466,16 @@ Future<void> _load() async {
             ),
             title: Text(
               AppStrings.favorites,
+              style: TextStyle(
+                fontSize: AppFont.title,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             subtitle: Text(
               AppStrings.favoritesSubtitle,
+              style: TextStyle(
+                fontSize: AppFont.subtitle,
+              ),
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
@@ -472,60 +495,75 @@ Future<void> _load() async {
           height: 10,
         ),
 
-      // Versículo do Dia
-      Card(
-        child: ListTile(
-          leading: const Icon(
-            Icons.today,
+        // Versículo do Dia
+        Card(
+          child: ListTile(
+            leading: const Icon(
+              Icons.today,
+            ),
+            title: Text(
+              AppStrings.verseOfDay,
+              style: TextStyle(
+                fontSize: AppFont.title,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: Text(
+              AppStrings.verseOfDaySubtitle,
+              style: TextStyle(
+                fontSize: AppFont.subtitle,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const VerseOfDayPage(),
+                ),
+              );
+            },
           ),
-          title: Text(
-            AppStrings.verseOfDay,
-          ),
-          subtitle: Text(
-            AppStrings.verseOfDaySubtitle,
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios,
-          ),
-          onTap: () {
-          Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const VerseOfDayPage(),
-          ),
-        );
-        },
         ),
-      ),
-  const SizedBox(
+
+        const SizedBox(
           height: 10,
         ),
 
-      // Configuracoes
-      Card(
-        child: ListTile(
-          leading: const Icon(
-            Icons.settings,
+        // Configurações
+        Card(
+          child: ListTile(
+            leading: const Icon(
+              Icons.settings,
+            ),
+            title: Text(
+              AppStrings.settings,
+              style: TextStyle(
+                fontSize: AppFont.title,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: Text(
+              AppStrings.settingsDescription,
+              style: TextStyle(
+                fontSize: AppFont.subtitle,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SettingsPage(),
+                ),
+              );
+            },
           ),
-          title: Text(
-            AppStrings.settings,
-          ),
-          subtitle: Text(
-            AppStrings.settingsDescription,
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios,
-          ),
-          onTap: () {
-          Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const SettingsPage(),
-          ),
-        );
-        },
         ),
-      ),
       const SizedBox(
         height: 40,
       ),

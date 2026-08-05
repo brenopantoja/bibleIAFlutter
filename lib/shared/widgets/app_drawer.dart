@@ -4,6 +4,7 @@ import 'package:bibliaia/core/routes/app_routes.dart';
 import 'package:bibliaia/features/ai_chat/pages/chat_history_page.dart';
 import 'package:bibliaia/features/favorites/pages/favorites_page.dart';
 import 'package:bibliaia/features/home/pages/about_page.dart';
+import 'package:bibliaia/features/language/pages/language_page.dart';
 import 'package:bibliaia/features/search/pages/reference_search_page.dart';
 import 'package:bibliaia/features/search/pages/search_page.dart';
 import 'package:bibliaia/features/settings/pages/settings_page.dart';
@@ -224,7 +225,15 @@ class AppDrawer extends StatelessWidget {
                         fontSize: FontProvider.instance.fontSize,
                       ),
                       ),
-                    onTap: () {},
+                    onTap: () {
+                        Navigator.pop(context);
+                         Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const LanguagePage(),
+                        ),
+                      );
+                    },
                   ),
 
                   ListTile(

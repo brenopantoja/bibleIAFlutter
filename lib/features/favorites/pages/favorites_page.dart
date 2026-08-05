@@ -1,3 +1,4 @@
+import 'package:bibliaia/core/help/app_font.dart';
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:bibliaia/features/ai_chat/pages/ai_chat_page.dart';
@@ -82,8 +83,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                     Text(
                       '${_controller.total} '
                       '${_controller.total == 1 ? (AppStrings.english ? "favorite" : "favorito") : (AppStrings.english ? "favorites" : "favoritos")}',
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                      fontSize: AppFont.title,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -105,7 +106,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         ),
                         title: Text(
                           item.title,
-                          style: const TextStyle(
+                          style:  TextStyle(
+                            fontSize: AppFont.title,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -116,16 +118,20 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             const SizedBox(height: 4),
                             Text(
                               item.description,
+                              style: TextStyle(
+                              fontSize: AppFont.body,
+                            ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 8),
                             Text(
                               _subtitle(item),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall,
-                            ),
+                             style: TextStyle(
+                            fontSize: AppFont.subtitle,
+                            color: Colors.grey,
+                              ),
+                          )
                           ],
                         ),
                          trailing: PopupMenuButton<String>(
@@ -164,11 +170,18 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           AppStrings.english
                               ? 'Remove favorite'
                               : 'Excluir favorito',
+                               style: TextStyle(
+                            fontSize: AppFont.title,
+                            fontWeight: FontWeight.bold,
+                          ), 
                         ),
                         content: Text(
                           AppStrings.english
                               ? 'Are you sure you want to remove this favorite?'
                               : 'Tem certeza que deseja excluir este favorito?',
+                               style: TextStyle(
+                            fontSize: AppFont.body,
+                          ),
                         ),
                         actions: [
                           TextButton(
@@ -233,7 +246,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               children: [
                                 const Icon(Icons.copy),
                                 const SizedBox(width: 8),
-                                Text(AppStrings.copy),
+                                Text(AppStrings.copy,
+                                style: TextStyle(
+                                fontSize: AppFont.body,
+                                 ),
+                              ),
                               ],
                             ),
                           ),
@@ -243,7 +260,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               children: [
                                 const Icon(Icons.share),
                                 const SizedBox(width: 8),
-                                Text(AppStrings.share),
+                                Text(AppStrings.share,  style: TextStyle(
+                                  fontSize: AppFont.body,
+                                ),
+                                ),
                               ],
                             ),
                           ),
@@ -253,7 +273,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               children: [
                                 const Icon(Icons.delete_outline),
                                 const SizedBox(width: 8),
-                                Text(AppStrings.delete),
+                                Text(AppStrings.delete,  style: TextStyle(
+                                  fontSize: AppFont.body,
+                                ),
+                                ),
                               ],
                             ),
                           ),
