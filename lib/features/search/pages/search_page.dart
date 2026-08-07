@@ -1,3 +1,4 @@
+import 'package:bibliaia/core/help/app_font.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:bibliaia/features/bible/controllers/bible_search_controller.dart';
 import 'package:bibliaia/features/bible/pages/verses_page.dart';
@@ -86,7 +87,10 @@ final Set<String> _favorites = {};
           english
               ? 'Search Bible'
               : 'Pesquisar Bíblia',
-
+        style: TextStyle(
+            fontSize: AppFont.h2,
+            fontWeight: FontWeight.bold,
+          ),
         ),
 
       ),
@@ -117,7 +121,9 @@ final Set<String> _favorites = {};
                     ? 'Type a word...'
 
                     : 'Digite uma palavra...',
-
+                  hintStyle: TextStyle(
+                  fontSize: AppFont.body,
+                      ),
                 prefixIcon:
                     const Icon(
                   Icons.search,
@@ -127,12 +133,9 @@ final Set<String> _favorites = {};
                     const OutlineInputBorder(),
 
               ),
-
               onChanged:
                   controller.search,
-
             ),
-
           ),
 
           Expanded(
@@ -148,7 +151,9 @@ final Set<String> _favorites = {};
                           ? (english ? 'Type a word...' : 'Digite uma palavra...')
 
                           : (english ? 'No results found.' : 'Nenhum resultado encontrado.'),
-
+                    style: TextStyle(
+                    fontSize: AppFont.body,
+                      ),
                     ),
 
                   )
@@ -178,10 +183,18 @@ final Set<String> _favorites = {};
 
                           title: Text(
                             '${item.book} ${item.chapter}:${item.verse}',
+                              style: TextStyle(
+                              fontSize: AppFont.title,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
 
                           subtitle: Text(
                             item.text,
+                              style: TextStyle(
+                              fontSize: AppFont.body,
+                              height: 1.5,
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(
@@ -237,6 +250,9 @@ final Set<String> _favorites = {};
                                     isFavorite
                                         ? (english ? 'Removed from favorites.' : 'Favorito removido.')
                                         : (english ? 'Added to favorites.' : 'Favorito adicionado.'),
+                                         style: TextStyle(
+                                      fontSize: AppFont.body,
+                                    ),
                                   ),
                                 ),
                               );
