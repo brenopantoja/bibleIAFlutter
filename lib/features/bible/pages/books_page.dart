@@ -1,5 +1,7 @@
+import 'package:bibliaia/core/help/app_font.dart';
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/features/bible/pages/chapter_page.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,10 @@ class _BooksPageState
     BibleProvider.instance.addListener(
       _reload,
     );
+
+    FontProvider.instance.addListener(
+      _reload,
+    );
   }
 
   void _reload() {
@@ -37,6 +43,9 @@ class _BooksPageState
       _reload,
     );
 
+  FontProvider.instance.removeListener(
+    _reload,
+  );
     super.dispose();
   }
 
@@ -49,8 +58,12 @@ class _BooksPageState
     return Scaffold(
 
       appBar: AppBar(
-        title: Text(
-          AppStrings.books,
+      title: Text(
+      AppStrings.books,
+      style: TextStyle(
+      fontSize: FontProvider.instance.fontSize + 2,
+      fontWeight: FontWeight.bold,
+          ),
         ),
       ),
 
@@ -69,11 +82,18 @@ class _BooksPageState
             ),
 
             title: Text(
-              book.name,
+            book.name,
+            style: TextStyle(
+            fontSize: AppFont.body,
+            fontWeight: FontWeight.w600,
+              ),
             ),
 
             subtitle: Text(
-              '${book.chapters.length} ${AppStrings.chapters}',
+            '${book.chapters.length} ${AppStrings.chapters}',
+            style: TextStyle(
+            fontSize: AppFont.subtitle,
+              ),
             ),
 
             trailing: const Icon(

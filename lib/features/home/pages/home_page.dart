@@ -39,26 +39,35 @@ class _HomePageState
   final LanguageController languageController =
     LanguageController();
   late final VerseController verseController;
+ 
+  late Set<String> selectedLanguage;
 
-  Set<String> selectedLanguage = {'pt'};
-  
- @override
-void initState() {
-  super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  controller = HomeController(
-    HomeRepository(),
-  );
+    controller = HomeController(
+      HomeRepository(),
+    );
 
-  verseController = VerseController(
-    repository: VerseRepository(
-      datasource: const VerseRemoteDatasource(),
-    ),
-  );
+    selectedLanguage = {
+      BibleProvider.instance.english ? 'en' : 'pt',
+    };
 
-  verseController.addListener(_refresh);
+    verseController = VerseController(
+      repository: VerseRepository(
+        datasource: const VerseRemoteDatasource(),
+      ),
+    );
 
-  _load();
+    verseController.addListener(_refresh);
+
+    _load();
+
+    BibleProvider.instance.addListener(
+      _refresh,
+    );
+
  Future.microtask(() async {
     await NotificationScheduler.instance.showNow();
   });
@@ -68,6 +77,20 @@ void _refresh() {
   if (mounted) {
     setState(() {});
   }
+}
+
+@override
+void dispose() {
+
+  verseController.removeListener(
+    _refresh,
+  );
+
+  BibleProvider.instance.removeListener(
+    _refresh,
+  );
+
+  super.dispose();
 }
 
 Future<void> _load() async {
@@ -85,498 +108,341 @@ Future<void> _load() async {
   final verse = verseController.verse;
   
     return Scaffold(
-
       drawer: AppDrawer(
         version: controller.version,
       ),
-
       appBar: AppBar(
         title: const Text(
           'Bible IA',
         ),
         actions: const [
-
-        NotificationBadge(),
-
-        SizedBox(width: 8),
-
-  ],
+          NotificationBadge(),
+          SizedBox(width: 8),
+        ],
       ),
-
-      bottomNavigationBar:
-          BackendStatusWidget(
-        online: controller.backendOnline,
-        applicationName:
-            controller.applicationName,
-        version: controller.version,
-      ),
-
       body: SafeArea(
-
-        child: ListView(
-
-          padding:
-              const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 16,
-          ),
-
-          children: <Widget>[
-            // Logo
-            Center(
-              child: Image.asset(
-                'assets/icons/app_icon.png',
-                width: 140,
-                height: 140,
-              ),
-            ),
-
-            const SizedBox(
-              height: 24,
-            ),
-
-            Text(
-              AppStrings.welcome,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: FontProvider.instance.fontSize,
-                fontWeight:
-                    FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(
-              height: 12,
-            ),
-
-            Text(
-              AppStrings.subtitle,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: FontProvider.instance.fontSize,
-                color: Colors.black54,
-              ),
-            ),
-
-            const SizedBox(
-              height: 30,
-            ),
-
-            // Pesquisa
-             Material(
-              color: Colors.transparent,
-
-              child: InkWell(
-
-                borderRadius:
-                    BorderRadius.circular(
-                  18,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/icons/app_icon.png',
+                  width: 110,
+                  height: 110,
                 ),
-
-                onTap: () {
-                  Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const SearchPage(),
               ),
-                );
-                },
-
-                child: Container(
-
-                  padding:
-                      const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
-
-                  decoration:
-                      BoxDecoration(
-
-                    color: Colors.white,
-
-                    borderRadius:
-                        BorderRadius.circular(
-                      18,
-                    ),
-
-                    border: Border.all(
-                      color:
-                          Colors.grey.shade300,
-                    ),
-
-                    boxShadow: const [
-
-                      BoxShadow(
-
-                        color:
-                            Colors.black12,
-
-                        blurRadius: 8,
-
-                        offset:
-                            Offset(0, 2),
-
+              const SizedBox(height: 12),
+              Text(
+                AppStrings.welcome,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: FontProvider.instance.fontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                AppStrings.subtitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: FontProvider.instance.fontSize,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(height: 18),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(18),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SearchPage(),
                       ),
-
-                    ],
-
-                  ),
-
-                  child: Row(
-
-                    children: [
-
-                      Icon(Icons.search),
-
-                      SizedBox(
-                        width: 12,
-                      ),
-
-                      Expanded(
-
-                        child: Text(
-                          AppStrings.search,
-                          style:  TextStyle(
-                            color: Colors.grey,
-                            fontSize: FontProvider.instance.fontSize,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Colors.grey.shade300),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 8,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.search),
+                        const SizedBox(width: 22),
+                        Expanded(
+                          child: Text(
+                            AppStrings.search,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: FontProvider.instance.fontSize,
+                            ),
                           ),
                         ),
-
-                      ),
-
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                        color:
-                            Colors.grey,
-                      ),
-
-                    ],
-
-                  ),
-
-                ),
-
-              ),
-
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-
-            // IA
-            SizedBox(
-
-              height: 55,
-
-              child: ElevatedButton.icon(
-
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.aiChat,
-                  );
-                },
-
-                icon: const Icon(
-                  Icons.auto_awesome,
-                ),
-
-                label: Text(
-                  AppStrings.askAI,
-                  style: TextStyle(
-                    fontSize: FontProvider.instance.fontSize,
-                  ),
-                ),
-
-              ),
-
-            ), 
-            const SizedBox(
-              height: 25,
-            ),
-
-            // Idioma
-            Center(
-
-              child: SegmentedButton<
-                  String>(
-
-                segments: const [
-
-                  ButtonSegment(
-                    value: 'pt',
-                    label:
-                        Text('Português'),
-                  ),
-
-                  ButtonSegment(
-                    value: 'en',
-                    label:
-                        Text('English'),
-                  ),
-
-                ],
-
-                selected:
-                    selectedLanguage,
-                onSelectionChanged: (value) async {
-                  final english = value.first == 'en';
-
-                  setState(() {
-                    selectedLanguage = value;
-                  });
-
-                  await BibleProvider.instance.changeLanguage(
-                    english,
-                  );
-
-                  await verseController.load();
-
-                  if (!mounted) return;
-
-                  setState(() {});
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        english
-                            ? 'Bible loaded in English.'
-                            : 'Bíblia carregada em Português.',
-                      ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 22,
+                          color: Colors.grey,
+                        ),
+                      ],
                     ),
-                  );
-                },
-
-              ),
-
-            ),
-            // Acesso rápido
-            if (verse != null)
-            VerseOfDayCard(
-            reference: verse.reference,
-            text: verse.text,
-            onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VerseOfDayPage(),
-                ),
-              );
- 
-              if (!mounted) return;
-
-              await verseController.load();
-            }
-            ),
-          const SizedBox(
-          height: 40,
-        ),
-
- 
-                Text(
-          AppStrings.quickAccess,
-          style: TextStyle(
-            fontSize: AppFont.h2,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        const SizedBox(
-          height: 18,
-        ),
-
-        // Ler Bíblia
-        Card(
-          child: ListTile(
-            leading: const Icon(
-              Icons.menu_book,
-            ),
-            title: Text(
-              AppStrings.readBible,
-              style: TextStyle(
-                fontSize: AppFont.title,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: Text(
-              AppStrings.readBibleSubtitle,
-              style: TextStyle(
-                fontSize: AppFont.subtitle,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.books,
-              );
-            },
-          ),
-        ),
-
-        const SizedBox(
-          height: 10,
-        ),
-
-        // Conversar com IA
-        Card(
-          child: ListTile(
-            leading: const Icon(
-              Icons.auto_awesome,
-            ),
-            title: Text(
-              AppStrings.aiChat,
-              style: TextStyle(
-                fontSize: AppFont.title,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: Text(
-              AppStrings.aiChatSubtitle,
-              style: TextStyle(
-                fontSize: AppFont.subtitle,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.aiChat,
-              );
-            },
-          ),
-        ),
-
-        const SizedBox(
-          height: 10,
-        ),
-
-        // Favoritos
-        Card(
-          child: ListTile(
-            leading: const Icon(
-              Icons.favorite,
-            ),
-            title: Text(
-              AppStrings.favorites,
-              style: TextStyle(
-                fontSize: AppFont.title,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: Text(
-              AppStrings.favoritesSubtitle,
-              style: TextStyle(
-                fontSize: AppFont.subtitle,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const FavoritesPage(),
-                ),
-              );
-            },
-          ),
-        ),
-
-        const SizedBox(
-          height: 10,
-        ),
-
-        // Versículo do Dia
-        Card(
-          child: ListTile(
-            leading: const Icon(
-              Icons.today,
-            ),
-            title: Text(
-              AppStrings.verseOfDay,
-              style: TextStyle(
-                fontSize: AppFont.title,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: Text(
-              AppStrings.verseOfDaySubtitle,
-              style: TextStyle(
-                fontSize: AppFont.subtitle,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VerseOfDayPage(),
-                ),
-              );
-            },
-          ),
-        ),
-
-        const SizedBox(
-          height: 10,
-        ),
-
-        // Configurações
-        Card(
-          child: ListTile(
-            leading: const Icon(
-              Icons.settings,
-            ),
-            title: Text(
-              AppStrings.settings,
-              style: TextStyle(
-                fontSize: AppFont.title,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: Text(
-              AppStrings.settingsDescription,
-              style: TextStyle(
-                fontSize: AppFont.subtitle,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SettingsPage(),
-                ),
-              );
-            },
-          ),
-        ),
-      const SizedBox(
-        height: 40,
-      ),
-                  const SizedBox(
-                    height: 40,
                   ),
-
-                ],
-
+                ),
               ),
+              const SizedBox(height: 18),
+              SizedBox(
+                height: 55,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.aiChat,
+                    );
+                  },
+                  icon: const Icon(Icons.auto_awesome),
+                  label: Text(
+                    AppStrings.askAI,
+                    style: TextStyle(
+                      fontSize: FontProvider.instance.fontSize,
+                    ),
+                  ),
+                ),
+              ),
+            const SizedBox(height: 18),
+              Center(
+                child: SegmentedButton<String>(
+                  segments: const [
+                    ButtonSegment(
+                      value: 'pt',
+                      label: Text('Português'),
+                    ),
+                    ButtonSegment(
+                      value: 'en',
+                      label: Text('English'),
+                    ),
+                  ],
+                  selected: selectedLanguage,
+                  onSelectionChanged: (value) async {
+                    final english = value.first == 'en';
 
-            ),
+                    setState(() {
+                      selectedLanguage = value;
+                    });
 
-          );
-        }
+                    await BibleProvider.instance.changeLanguage(english);
+
+                    await verseController.load();
+
+                    if (!mounted) return;
+
+                    setState(() {});
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          english
+                              ? 'Bible loaded in English.'
+                              : 'Bíblia carregada em Português.',
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              if (verse != null) ...[
+                const SizedBox(height: 12),
+                VerseOfDayCard(
+                  reference: verse.reference,
+                  text: verse.text,
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => VerseOfDayPage(),
+                      ),
+                    );
+
+                    if (!mounted) return;
+
+                    await verseController.load();
+                  },
+                ),
+              ],
+              const SizedBox(height: 30),
+              Text(
+                AppStrings.quickAccess,
+                style: TextStyle(
+                  fontSize: AppFont.h2,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.menu_book),
+                  title: Text(
+                    AppStrings.readBible,
+                    style: TextStyle(
+                      fontSize: AppFont.title,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(
+                    AppStrings.readBibleSubtitle,
+                    style: TextStyle(
+                      fontSize: AppFont.subtitle,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.books,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.auto_awesome),
+                  title: Text(
+                    AppStrings.aiChat,
+                    style: TextStyle(
+                      fontSize: AppFont.title,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(
+                    AppStrings.aiChatSubtitle,
+                    style: TextStyle(
+                      fontSize: AppFont.subtitle,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.aiChat,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.favorite),
+                  title: Text(
+                    AppStrings.favorites,
+                    style: TextStyle(
+                      fontSize: AppFont.title,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(
+                    AppStrings.favoritesSubtitle,
+                    style: TextStyle(
+                      fontSize: AppFont.subtitle,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FavoritesPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.today),
+                  title: Text(
+                    AppStrings.verseOfDay,
+                    style: TextStyle(
+                      fontSize: AppFont.title,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(
+                    AppStrings.verseOfDaySubtitle,
+                    style: TextStyle(
+                      fontSize: AppFont.subtitle,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => VerseOfDayPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.settings),
+                      title: Text(
+                        AppStrings.settings,
+                        style: TextStyle(
+                          fontSize: AppFont.title,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: Text(
+                        AppStrings.settingsDescription,
+                        style: TextStyle(
+                          fontSize: AppFont.subtitle,
+                        ),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SettingsPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    BackendStatusWidget(
+                      online: controller.backendOnline,
+                      applicationName: controller.applicationName,
+                      version: controller.version,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -195,9 +195,9 @@ class _SettingsPageState
 
                 const Divider(),
 
-                ListTile(
+                /* ListTile(
 
-                  title: Text(
+             title: Text(
                       AppStrings.bibleVersion,
 
                   ),
@@ -244,7 +244,7 @@ class _SettingsPageState
                 ),
 
                 const Divider(),
-
+*/
                 Padding(
 
                   padding:

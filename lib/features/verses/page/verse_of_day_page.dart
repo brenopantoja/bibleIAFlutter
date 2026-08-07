@@ -143,21 +143,21 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
           : verse == null
               ? Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(18),
                     child: Column(
                       mainAxisAlignment:
                           MainAxisAlignment.center,
                       children: [
                         const Icon(
                           Icons.error_outline,
-                          size: 48,
+                          size: 24,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         Text(
                           AppStrings.failedLoadVerse,
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 18),
                         ElevatedButton.icon(
                           onPressed: _reload,
                           icon: const Icon(Icons.refresh),
@@ -179,7 +179,7 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
                       Card(
                         elevation: 2,
                         child: Padding(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(18),
                           child: Column(
                             crossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -213,8 +213,8 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
                               Text(
                                 verse.text,
                                 style:  TextStyle(
-                              fontSize: FontProvider.instance.fontSize + 8,
-                                  height: 1.6,
+                              fontSize: FontProvider.instance.fontSize + 2,
+                                  height: 1.4,
                                 ),
                               ),
                             ],

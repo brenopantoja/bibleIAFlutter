@@ -6,7 +6,7 @@ class FontProvider extends ChangeNotifier {
   static final FontProvider instance =
       FontProvider._();
 
-  double _fontSize = 18;
+  double _fontSize = 15;
 
   double get fontSize => _fontSize;
 
@@ -27,7 +27,7 @@ void setFontSize(double value) {
 }
 
   void reset() {
-    _fontSize = 18;
+    _fontSize = 15;
 
     notifyListeners();
   }

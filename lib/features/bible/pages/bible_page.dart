@@ -1,4 +1,4 @@
-import 'package:bibliaia/core/providers/bible_provider.dart';
+/*ßimport 'package:bibliaia/core/providers/bible_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'chapter_page.dart';
@@ -116,4 +116,4 @@ class _BooksPageState
 
   }
 
-}
+}*/

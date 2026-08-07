@@ -1,5 +1,7 @@
+import 'package:bibliaia/core/help/app_font.dart';
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'verses_page.dart';
@@ -27,6 +29,9 @@ class _ChapterPageState
     BibleProvider.instance.addListener(
       _reload,
     );
+    FontProvider.instance.addListener(
+    _reload,
+    );
   }
 
   void _reload() {
@@ -40,7 +45,9 @@ class _ChapterPageState
     BibleProvider.instance.removeListener(
       _reload,
     );
-
+  FontProvider.instance.removeListener(
+  _reload,
+  );
     super.dispose();
   }
 
@@ -54,7 +61,13 @@ class _ChapterPageState
     return Scaffold(
 
       appBar: AppBar(
-        title: Text(book.name),
+      title: Text(
+      book.name,
+      style: TextStyle(
+      fontSize: AppFont.title,
+      fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
 
       body: ListView.separated(
@@ -69,21 +82,32 @@ class _ChapterPageState
           return ListTile(
 
             leading: CircleAvatar(
-              child: Text(
-                '${index + 1}',
+            child: Text(
+              '${index + 1}',
+              style: TextStyle(
+                fontSize: AppFont.subtitle,
+                fontWeight: FontWeight.bold,
               ),
             ),
-
+          ),
             title: Text(
-            '${AppStrings.chapter} ${index + 1}',
+        '${AppStrings.chapter} ${index + 1}',
+            style: TextStyle(
+              fontSize: AppFont.body,
+              fontWeight: FontWeight.w600,
+            ),
           ),
 
         subtitle: Text(
-        '${book.chapters[index].length} ${AppStrings.verses}',
-      ),
+            '${book.chapters[index].length} ${AppStrings.verses}',
+            style: TextStyle(
+              fontSize: AppFont.subtitle,
+            ),
+          ),
 
-            trailing: const Icon(
+            trailing: Icon(
               Icons.arrow_forward_ios,
+              size: AppFont.subtitle + 2,
             ),
 
             onTap: () {
