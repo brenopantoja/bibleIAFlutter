@@ -86,6 +86,7 @@ class _LanguagePageState
 
                 RadioListTile<String>(
                   value: 'PT_BR',
+                  // ignore: deprecated_member_use
                   groupValue:
                       settings.language,
                   title: const Text(
@@ -100,6 +101,7 @@ class _LanguagePageState
                       fontSize: 26,
                     ),
                   ),
+                  // ignore: deprecated_member_use
                   onChanged: (value) {
                     if (value == null) return;
 
@@ -111,6 +113,7 @@ class _LanguagePageState
 
                 RadioListTile<String>(
                   value: 'EN_US',
+                  // ignore: deprecated_member_use
                   groupValue:
                       settings.language,
                   title: const Text(
@@ -125,6 +128,7 @@ class _LanguagePageState
                       fontSize: 26,
                     ),
                   ),
+                  // ignore: deprecated_member_use
                   onChanged: (value) {
                     if (value == null) return;
 

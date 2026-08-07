@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'cli/models/cli_arguments.dart';
  
 import 'cli/models/cli_command.dart';
@@ -27,15 +29,15 @@ Future<void> main(List<String> args) async {
         break;
     }
   } catch (e) {
-    print('');
-    print('Erro: $e');
-    print('');
+    debugPrint('');
+    debugPrint('Erro: $e');
+    debugPrint('');
     _showHelp();
   }
 }
 
 void _showHelp() {
-  print(r'''
+  debugPrint(r'''
 
 ===========================================================
                 Bible IA CLI v1.0

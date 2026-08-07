@@ -220,6 +220,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                           Icons.share,
                         ),
                         onPressed: () async {
+                          // ignore: deprecated_member_use
                           await Share.share(
                             message.text,
                           );

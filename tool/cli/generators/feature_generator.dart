@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../config/cli_config.dart' as CliConfig;
 import '../templates/page_template.dart';
 import '../templates/provider_template.dart';
@@ -30,7 +32,7 @@ class FeatureGenerator extends Generator {
       ProviderTemplate.build(name),
     );
 
-    print('');
-    print(' Feature "$name" criada com sucesso.');
+    debugPrint('');
+    debugPrint(' Feature "$name" criada com sucesso.');
   }
 }

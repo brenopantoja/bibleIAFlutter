@@ -253,6 +253,7 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
 
                               if (!mounted) return;
 
+                              // ignore: use_build_context_synchronously
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(
                                 SnackBar(
@@ -272,6 +273,7 @@ class _VerseOfDayPageState extends State<VerseOfDayPage> {
                               Icons.share,
                             ),
                             onPressed: () async {
+                              // ignore: deprecated_member_use
                               await Share.share(
                                 '${verse.reference}\n\n${verse.text}',
                               );

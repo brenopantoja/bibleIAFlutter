@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'page_template.dart';
 import '../generators/generator.dart';
 
@@ -16,7 +18,7 @@ class PageGenerator extends Generator {
       PageTemplate.build(name),
     );
 
-    print('✅ Página criada.');
+    debugPrint('✅ Página criada.');
 
   }
 

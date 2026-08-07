@@ -1,14 +1,16 @@
 import 'dart:io';
 
- import '../cli/models/cli_arguments.dart';
+ import 'package:flutter/material.dart';
+
+import '../cli/models/cli_arguments.dart';
 import 'command.dart';
 
 class DoctorCommand implements Command {
   @override
   Future<void> execute(CliArguments arguments) async {
-    print('');
-    print('🩺 Bible IA Doctor');
-    print('');
+    debugPrint('');
+    debugPrint('🩺 Bible IA Doctor');
+    debugPrint('');
 
     _checkDirectory('lib');
     _checkDirectory('assets');
@@ -16,23 +18,23 @@ class DoctorCommand implements Command {
 
     _checkFile('pubspec.yaml');
 
-    print('');
-    print(' Verificação concluída.');
+    debugPrint('');
+    debugPrint(' Verificação concluída.');
   }
 
   void _checkDirectory(String path) {
     if (Directory(path).existsSync()) {
-      print(' Diretório encontrado: $path');
+      debugPrint(' Diretório encontrado: $path');
     } else {
-      print('Diretório não encontrado: $path');
+      debugPrint('Diretório não encontrado: $path');
     }
   }
 
   void _checkFile(String path) {
     if (File(path).existsSync()) {
-      print('Arquivo encontrado: $path');
+      debugPrint('Arquivo encontrado: $path');
     } else {
-      print('Arquivo não encontrado: $path');
+      debugPrint('Arquivo não encontrado: $path');
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'generator.dart';
 
 class PageGenerator extends Generator {
@@ -29,7 +31,7 @@ class ${_className(name)}Page extends StatelessWidget {
 ''',
     );
 
-    print('Página criada.');
+    debugPrint('Página criada.');
   }
 
   String _className(String value) {

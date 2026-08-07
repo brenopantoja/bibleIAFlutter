@@ -234,6 +234,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       ${item.text ?? item.description}
                       ''';
 
+                        // ignore: deprecated_member_use
                         await Share.share(text);
                         break;
                       }
@@ -334,6 +335,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       }
 
                       await Navigator.push(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (_) => AiChatPage(

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../templates/provider_template.dart';
 import 'generator.dart';
 
@@ -14,6 +16,6 @@ class ProviderGenerator extends Generator {
       ProviderTemplate.build(name),
     );
 
-    print('Provider criado.');
+    debugPrint('Provider criado.');
   }
 }

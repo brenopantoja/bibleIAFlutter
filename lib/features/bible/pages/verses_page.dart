@@ -39,8 +39,8 @@ class _VersesPageState extends State<VersesPage> {
   void initState() {
     super.initState();
 
-      print('VersesPage initState');
-      print(FontProvider.instance.fontSize);
+      debugPrint('VersesPage initState');
+      debugPrint(FontProvider.instance.fontSize.toString());
 
     BibleProvider.instance.addListener(_reload);
     
@@ -75,9 +75,9 @@ class _VersesPageState extends State<VersesPage> {
   }
 
   void _refresh() {
-      print('REFRESH VERSES');
+      debugPrint('REFRESH VERSES');
 
-  print(
+  debugPrint(
     'Refresh: ${FontProvider.instance.fontSize}',
   );
 
@@ -118,7 +118,7 @@ class _VersesPageState extends State<VersesPage> {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     const itemHeight = 88;
-    print(FontProvider.instance.fontSize);
+    debugPrint(FontProvider.instance.fontSize.toString());
     final book = BibleProvider.instance.book(
       widget.bookIndex,
     );
@@ -257,6 +257,7 @@ class _VersesPageState extends State<VersesPage> {
                       break;
 
                     case 'share':
+                      // ignore: deprecated_member_use
                       await Share.share(text);
                       break;
                   }

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+
 abstract class Generator {
   final String name;
 
@@ -12,7 +14,7 @@ abstract class Generator {
 
     if (!directory.existsSync()) {
       await directory.create(recursive: true);
-      print('📁 Diretório criado: $path');
+      debugPrint('📁 Diretório criado: $path');
     }
   }
 
@@ -28,6 +30,6 @@ abstract class Generator {
 
     await file.writeAsString(content);
 
-    print('📄 Arquivo criado: $path');
+    debugPrint('📄 Arquivo criado: $path');
   }
 }

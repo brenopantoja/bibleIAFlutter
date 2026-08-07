@@ -15,7 +15,7 @@ class FontProvider extends ChangeNotifier {
   }
 
 void setFontSize(double value) {
-  print('Novo tamanho: $value');
+  debugPrint('Novo tamanho: $value');
 
   if (_fontSize == value) {
     return;

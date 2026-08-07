@@ -23,10 +23,10 @@ class VerseController extends ChangeNotifier {
       final language = BibleProvider.instance.english
           ? 'EN_US'
           : 'PT_BR';
-    print('========================');
-    print('BibleProvider.english: ${BibleProvider.instance.english}');
-    print('Idioma enviado: $language');
-    print('========================');
+    debugPrint('========================');
+    debugPrint('BibleProvider.english: ${BibleProvider.instance.english}');
+    debugPrint('Idioma enviado: $language');
+    debugPrint('========================');
       verse = await repository.getVerse(language);
     } finally {
       loading = false;

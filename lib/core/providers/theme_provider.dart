@@ -11,28 +11,16 @@ class ThemeProvider extends ChangeNotifier {
   final SettingsRepository _repository =
       const SettingsRepository();
 
-  ThemeMode _themeMode =
-      ThemeMode.system;
+  ThemeMode _themeMode = ThemeMode.system;
 
-  ThemeMode get themeMode =>
-      _themeMode;
+  ThemeMode get themeMode => _themeMode;
 
   Future<void> initialize() async {
+
     final settings =
         await _repository.getSettings();
 
-    switch (settings.themeMode) {
-      case 'light':
-        _themeMode = ThemeMode.light;
-        break;
-
-      case 'dark':
-        _themeMode = ThemeMode.dark;
-        break;
-
-      default:
-        _themeMode = ThemeMode.system;
-    }
+    _themeMode = settings.themeMode;
 
     notifyListeners();
   }
@@ -40,6 +28,7 @@ class ThemeProvider extends ChangeNotifier {
   void setThemeMode(
     ThemeMode mode,
   ) {
+
     if (_themeMode == mode) {
       return;
     }

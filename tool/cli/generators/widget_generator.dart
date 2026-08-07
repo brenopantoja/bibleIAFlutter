@@ -24,8 +24,6 @@ class ${_className(name)}Widget extends StatelessWidget {
 }
 ''',
     );
-
-    print('Widget criado.');
   }
 
   String _className(String value) {
