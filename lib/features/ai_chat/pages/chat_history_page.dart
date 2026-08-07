@@ -1,3 +1,4 @@
+import 'package:bibliaia/core/help/app_font.dart';
 import 'package:bibliaia/core/localization/app_strings.dart';
 import 'package:bibliaia/features/ai_chat/pages/ai_chat_page.dart';
 import 'package:bibliaia/features/ai_chat/repository/chart_history/conversation_repository.dart';
@@ -43,6 +44,10 @@ class _ChatHistoryPageState
       appBar: AppBar(
         title: Text(
           AppStrings.history,
+             style: TextStyle(
+            fontSize: AppFont.h2,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
 
@@ -66,6 +71,9 @@ class _ChatHistoryPageState
             return Center(
               child: Text(
                 snapshot.error.toString(),
+                style: TextStyle(
+                fontSize: AppFont.body,
+                ),
               ),
             );
 
@@ -85,9 +93,9 @@ class _ChatHistoryPageState
 
                 children: [
 
-                  const Icon(
+                  Icon(
                     Icons.history,
-                    size: 80,
+                    size: AppFont.h1 + 40,
                     color: Colors.grey,
                   ),
 
@@ -97,8 +105,9 @@ class _ChatHistoryPageState
 
                   Text(
                      AppStrings.noHistory,
-                    style: const TextStyle(
-                      fontSize: 18,
+                    style: TextStyle(
+                    fontSize: AppFont.title,
+                    fontWeight: FontWeight.bold,
                     ),
                   ),
 
@@ -147,7 +156,8 @@ class _ChatHistoryPageState
                   overflow:
                       TextOverflow.ellipsis,
 
-                  style: const TextStyle(
+                  style: TextStyle(
+                    fontSize: AppFont.title,
                     fontWeight:
                         FontWeight.w600,
                   ),
@@ -160,7 +170,9 @@ class _ChatHistoryPageState
                       .formatFromString(
                     item['createdAt'],
                   ),
-
+                   style: TextStyle(
+                  fontSize: AppFont.subtitle,
+                  ),
                 ),
 
                 trailing:
@@ -172,7 +184,9 @@ class _ChatHistoryPageState
                       value: 1,
                       child: Text(
                         AppStrings.delete,
-
+                      style: TextStyle(
+                      fontSize: AppFont.body,
+                        ),
                       ),
                     ),
 
