@@ -437,7 +437,37 @@ class AppStrings {
     static String get fontSizeDescription =>
         english
             ? 'Adjust the reading font size.'
-            : 'Ajuste o tamanho da fonte para leitura.';
+              : 'Ajuste o tamanho da fonte para leitura.';
+              
+    static String get oldTestament =>
+          english
+              ? 'Old Testament'
+              : 'Antigo Testamento';
+
+    static String get newTestament =>
+        english
+            ? 'New Testament'
+            : 'Novo Testamento';
+
+    static String get booksCount =>
+        english
+            ? 'books'
+            : 'livros';
+
+    static String get chaptersCount =>
+        english
+            ? 'chapters'
+            : 'capítulos';
+
+    static String get versesCount =>
+        english
+            ? 'verses'
+            : 'versículos';
+
+    static String get verse =>
+        english
+            ? 'verse'
+            : 'versículo';
 
     static String get developedBy =>
       english

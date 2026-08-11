@@ -92,7 +92,10 @@ class _SettingsPageState
             )
           : ListView(
               children: [
+                // ============================
                 // IDIOMA
+                // ============================
+
                 ListTile(
                   title: Text(
                     AppStrings.language,
@@ -157,7 +160,11 @@ class _SettingsPageState
                 ),
 
                 const Divider(),
+
+                // ============================
                 // TEMA
+                // ============================
+
                 ListTile(
                   title: Text(
                     'Tema',
@@ -258,7 +265,10 @@ class _SettingsPageState
 
                 const Divider(),
 
+                // ============================
                 // TAMANHO DA FONTE
+                // ============================
+
                 Padding(
                   padding:
                       const EdgeInsets.all(
@@ -319,7 +329,10 @@ class _SettingsPageState
                   ),
                 ),
 
+                // ============================
                 // RESTAURAR PADRÕES
+                // ============================
+
                 Padding(
                   padding:
                       const EdgeInsets.all(
