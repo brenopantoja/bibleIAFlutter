@@ -1,4 +1,5 @@
 import 'package:bibliaia/core/providers/bible_provider.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/localization/app_strings.dart';
@@ -18,7 +19,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState
     extends State<SettingsPage> {
-
   late final SettingsController controller;
 
   @override
@@ -26,15 +26,19 @@ class _SettingsPageState
     super.initState();
 
     controller = SettingsController(
-      repository:
-          const SettingsRepository(),
+      repository: const SettingsRepository(),
     );
 
     controller.addListener(_refresh);
-  
+
     BibleProvider.instance.addListener(
-    _refresh,
-  );
+      _refresh,
+    );
+
+    FontProvider.instance.addListener(
+      _refresh,
+    );
+
     controller.load();
   }
 
@@ -50,9 +54,14 @@ class _SettingsPageState
       _refresh,
     );
 
-  BibleProvider.instance.removeListener(
-    _refresh,
-  );
+    BibleProvider.instance.removeListener(
+      _refresh,
+    );
+
+    FontProvider.instance.removeListener(
+      _refresh,
+    );
+
     controller.dispose();
 
     super.dispose();
@@ -60,65 +69,82 @@ class _SettingsPageState
 
   @override
   Widget build(BuildContext context) {
-
     final settings =
         controller.settings;
 
-    return Scaffold(
+    final fontSize =
+        FontProvider.instance.fontSize;
 
+    return Scaffold(
       appBar: AppBar(
         title: Text(
           AppStrings.settings,
+          style: TextStyle(
+            fontSize: fontSize + 2,
+          ),
         ),
       ),
 
       body: controller.loading
-
           ? const Center(
               child:
                   CircularProgressIndicator(),
             )
-
           : ListView(
-
               children: [
+                // IDIOMA
                 ListTile(
-
                   title: Text(
                     AppStrings.language,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontWeight:
+                          FontWeight.w600,
+                    ),
                   ),
 
-                 subtitle: Text(
-                  settings.language == 'EN_US'
-                      ? AppStrings.languageEnglish
-                      : AppStrings.languagePortuguese,
-                ),
+                  subtitle: Text(
+                    settings.language == 'EN_US'
+                        ? AppStrings
+                            .languageEnglish
+                        : AppStrings
+                            .languagePortuguese,
+                    style: TextStyle(
+                      fontSize:
+                          fontSize - 2,
+                    ),
+                  ),
 
                   trailing:
                       DropdownButton<String>(
+                    value:
+                        settings.language,
 
-                    value: settings.language,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      color: Theme.of(
+                        context,
+                      )
+                          .colorScheme
+                          .onSurface,
+                    ),
 
                     items: const [
-
                       DropdownMenuItem(
                         value: 'PT_BR',
                         child: Text(
                           'Português',
                         ),
                       ),
-
                       DropdownMenuItem(
                         value: 'EN_US',
                         child: Text(
                           'English',
                         ),
                       ),
-
                     ],
 
                     onChanged: (value) {
-
                       if (value == null) {
                         return;
                       }
@@ -126,202 +152,213 @@ class _SettingsPageState
                       controller.setLanguage(
                         value,
                       );
-
                     },
-
                   ),
-
                 ),
 
                 const Divider(),
-
+                // TEMA
                 ListTile(
-
                   title: Text(
-                        AppStrings.language,
-
+                    'Tema',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontWeight:
+                          FontWeight.w600,
+                    ),
                   ),
 
                   subtitle: Text(
-                    settings.themeMode.toString().split('.').last,
+                    settings.themeMode
+                        .toString()
+                        .split('.')
+                        .last,
+                    style: TextStyle(
+                      fontSize:
+                          fontSize - 2,
+                    ),
                   ),
 
                   trailing:
                       DropdownButton<String>(
+                    value: settings.themeMode
+                        .toString()
+                        .split('.')
+                        .last,
 
-                    value: settings.themeMode.toString().split('.').last,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      color: Theme.of(
+                        context,
+                      )
+                          .colorScheme
+                          .onSurface,
+                    ),
 
                     items: [
-                    DropdownMenuItem(
-                      value: 'system',
-                      child: Text(
-                        AppStrings.system,
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: 'light',
-                      child: Text(
-                        AppStrings.light,
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: 'dark',
-                      child: Text(
-                        AppStrings.dark,
-                      ),
-                    ),
-                  ],
-
-                    onChanged: (value) {
-
-                      if (value == null) {
-                        return;
-                      }
-
-                      final themeMode = ThemeMode.values.firstWhere(
-                        (mode) => mode.toString().split('.').last == value,
-                        orElse: () => ThemeMode.system,
-                      );
-
-                      controller.setThemeMode(
-                        themeMode,
-                      );
-
-                    },
-
-                  ),
-
-                ),
-
-                const Divider(),
-
-                /* ListTile(
-
-             title: Text(
-                      AppStrings.bibleVersion,
-
-                  ),
-
-                  subtitle: Text(
-                    settings.bibleVersion,
-                  ),
-
-                  trailing:
-                      DropdownButton<String>(
-
-                    value:
-                        settings.bibleVersion,
-
-                    items: const [
-
                       DropdownMenuItem(
-                        value: 'ACF',
-                        child: Text('ACF'),
+                        value: 'system',
+                        child: Text(
+                          AppStrings.system,
+                          style: TextStyle(
+                            fontSize:
+                                fontSize,
+                          ),
+                        ),
                       ),
 
                       DropdownMenuItem(
-                        value: 'KJV',
-                        child: Text('KJV'),
+                        value: 'light',
+                        child: Text(
+                          AppStrings.light,
+                          style: TextStyle(
+                            fontSize:
+                                fontSize,
+                          ),
+                        ),
                       ),
 
+                      DropdownMenuItem(
+                        value: 'dark',
+                        child: Text(
+                          AppStrings.dark,
+                          style: TextStyle(
+                            fontSize:
+                                fontSize,
+                          ),
+                        ),
+                      ),
                     ],
 
                     onChanged: (value) {
-
                       if (value == null) {
                         return;
                       }
 
-                      controller
-                          .setBibleVersion(
-                        value,
+                      final themeMode =
+                          ThemeMode.values
+                              .firstWhere(
+                        (mode) =>
+                            mode
+                                .toString()
+                                .split('.')
+                                .last ==
+                            value,
+                        orElse: () =>
+                            ThemeMode.system,
                       );
 
+                      controller
+                          .setThemeMode(
+                        themeMode,
+                      );
                     },
-
                   ),
-
                 ),
 
                 const Divider(),
-*/
-                Padding(
 
+                // TAMANHO DA FONTE
+                Padding(
                   padding:
-                      const EdgeInsets.all(16),
+                      const EdgeInsets.all(
+                    16,
+                  ),
 
                   child: Column(
-
                     crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        CrossAxisAlignment
+                            .start,
 
                     children: [
-
                       Text(
-                          AppStrings.fontSize,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium,
+                        AppStrings.fontSize,
+                        style: TextStyle(
+                          fontSize:
+                              fontSize,
+                          fontWeight:
+                              FontWeight.w600,
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 8,
                       ),
 
                       Slider(
-
                         min: 12,
-
                         max: 30,
-
                         divisions: 9,
-
                         value:
                             settings.fontSize,
-
                         label: settings.fontSize
-                            .toStringAsFixed(0),
-
+                            .toStringAsFixed(
+                          0,
+                        ),
                         onChanged: (value) {
-
                           controller
                               .setFontSize(
                             value,
                           );
-
                         },
-
                       ),
 
+                      Center(
+                        child: Text(
+                          settings.fontSize
+                              .toStringAsFixed(
+                            0,
+                          ),
+                          style: TextStyle(
+                            fontSize:
+                                fontSize,
+                          ),
+                        ),
+                      ),
                     ],
-
                   ),
-
                 ),
 
+                // RESTAURAR PADRÕES
                 Padding(
-
                   padding:
-                      const EdgeInsets.all(16),
-
-                  child: FilledButton.icon(
-
-                    onPressed:
-                        controller.reset,
-
-                    icon: const Icon(
-                      Icons.refresh,
-                    ),
-
-                    label: Text(
-                       AppStrings.restoreDefaults,
-
-                    ),
-
+                      const EdgeInsets.all(
+                    16,
                   ),
 
+                  child:
+                      SizedBox(
+                    width:
+                        double.infinity,
+                    height:
+                        fontSize + 32,
+
+                    child:
+                        FilledButton.icon(
+                      onPressed:
+                          controller.reset,
+
+                      icon: Icon(
+                        Icons.refresh,
+                        size:
+                            fontSize + 4,
+                      ),
+
+                      label: Text(
+                        AppStrings
+                            .restoreDefaults,
+                        style: TextStyle(
+                          fontSize:
+                              fontSize,
+                          fontWeight:
+                              FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-
               ],
-
             ),
-
     );
   }
 }

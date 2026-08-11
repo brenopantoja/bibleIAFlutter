@@ -1,4 +1,5 @@
 import 'package:bibliaia/core/localization/app_strings.dart';
+import 'package:bibliaia/core/providers/font_provider.dart';
 import 'package:bibliaia/features/settings/controllers/settings_controller.dart';
 import 'package:bibliaia/features/settings/repository/settings_repository.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ class LanguagePage extends StatefulWidget {
 
 class _LanguagePageState
     extends State<LanguagePage> {
-
   late final SettingsController controller;
 
   @override
@@ -28,12 +28,20 @@ class _LanguagePageState
 
     controller.addListener(_refresh);
 
+    FontProvider.instance.addListener(
+      _refresh,
+    );
+
     controller.load();
   }
 
   @override
   void dispose() {
     controller.removeListener(
+      _refresh,
+    );
+
+    FontProvider.instance.removeListener(
       _refresh,
     );
 
@@ -50,15 +58,22 @@ class _LanguagePageState
 
   @override
   Widget build(BuildContext context) {
+    final settings =
+        controller.settings;
 
-    final settings = controller.settings;
+    final fontSize =
+        FontProvider.instance.fontSize;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           AppStrings.language,
+          style: TextStyle(
+            fontSize: fontSize + 2,
+          ),
         ),
       ),
+
       body: controller.loading
           ? const Center(
               child:
@@ -66,8 +81,9 @@ class _LanguagePageState
             )
           : ListView(
               children: [
-
-                const SizedBox(height: 12),
+                const SizedBox(
+                  height: 12,
+                ),
 
                 Padding(
                   padding:
@@ -76,34 +92,55 @@ class _LanguagePageState
                   ),
                   child: Text(
                     'Selecione o idioma utilizado em toda a aplicação.',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      height: 1.4,
+                    ),
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(
+                  height: 16,
+                ),
 
+                // PORTUGUÊS
                 RadioListTile<String>(
                   value: 'PT_BR',
+
                   // ignore: deprecated_member_use
                   groupValue:
                       settings.language,
-                  title: const Text(
+
+                  title: Text(
                     'Português (Brasil)',
-                  ),
-                  subtitle: const Text(
-                    'Interface e Bíblia em português',
-                  ),
-                  secondary: const Text(
-                    '🇧🇷',
                     style: TextStyle(
-                      fontSize: 26,
+                      fontSize: fontSize,
+                      fontWeight:
+                          FontWeight.w600,
                     ),
                   ),
+
+                  subtitle: Text(
+                    'Interface e Bíblia em português',
+                    style: TextStyle(
+                      fontSize:
+                          fontSize - 2,
+                    ),
+                  ),
+
+                  secondary: Text(
+                    '🇧🇷',
+                    style: TextStyle(
+                      fontSize:
+                          fontSize + 10,
+                    ),
+                  ),
+
                   // ignore: deprecated_member_use
                   onChanged: (value) {
-                    if (value == null) return;
+                    if (value == null) {
+                      return;
+                    }
 
                     controller.setLanguage(
                       value,
@@ -111,26 +148,44 @@ class _LanguagePageState
                   },
                 ),
 
+                // ENGLISH
                 RadioListTile<String>(
                   value: 'EN_US',
+
                   // ignore: deprecated_member_use
                   groupValue:
                       settings.language,
-                  title: const Text(
+
+                  title: Text(
                     'English',
-                  ),
-                  subtitle: const Text(
-                    'Application and Bible in English',
-                  ),
-                  secondary: const Text(
-                    '🇺🇸',
                     style: TextStyle(
-                      fontSize: 26,
+                      fontSize: fontSize,
+                      fontWeight:
+                          FontWeight.w600,
                     ),
                   ),
+
+                  subtitle: Text(
+                    'Application and Bible in English',
+                    style: TextStyle(
+                      fontSize:
+                          fontSize - 2,
+                    ),
+                  ),
+
+                  secondary: Text(
+                    '🇺🇸',
+                    style: TextStyle(
+                      fontSize:
+                          fontSize + 10,
+                    ),
+                  ),
+
                   // ignore: deprecated_member_use
                   onChanged: (value) {
-                    if (value == null) return;
+                    if (value == null) {
+                      return;
+                    }
 
                     controller.setLanguage(
                       value,
